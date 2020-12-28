@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "allowSyntheticDefaultImports": false,
+    "experimentalDecorators": true,
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules", "dist"],
+  "eslint.options": {
+    "configFile": ".eslintrc.js"
+  },
+  "tslint.enable": false
+}
