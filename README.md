@@ -44,7 +44,7 @@ After that we can write the component's code.
 **HelloWorld.js**
 
 
-```
+```js
 
 const voltran = require('@voltran/core');
 
@@ -76,7 +76,7 @@ If you want to fetch data from server side, you should add 'getInitialState'.
 **./conf/local.config.js**
 
 
-```
+```js
 
 const port = 3578;
 
@@ -104,7 +104,7 @@ module.exports = {
 **HelloWorld.js**
 
 
-```
+```js
 
 const voltran = require('@voltran/core');
 
@@ -189,7 +189,7 @@ Voltran requires following configurations:
 ### appConfigFile
 
 It should contains environment specific configurations (test, production ...).
-```
+```js
 appConfigFile: {
   entry: path.resolve(__dirname, './yourConfigFolder/'),
   output: {
@@ -222,14 +222,14 @@ Passes this config to Babel Loader where it reads all js files under this folder
 
 ### monitoring
 For now, only prometheus is supported.
-```
+```js
 monitoring: {
   prometheus: false
 }
 ```
 > or you can set your custom js file.
 
-```
+```js
 monitoring: {
     prometheus: path.resolve(__dirname, './src/tools/prometheus.js')
 }
@@ -255,7 +255,7 @@ Applications that need 'SEO' features needs to set this parameter to `true`.
 ### styles
 This field's value should be array of strings. Array values should be the paths to the global CSS files.
 
-```
+```js
 styles: [
     path.resolve(__dirname, './some-css-file.scss'),
     path.resolve(__dirname, './node_modules/carousel/carousel.css')
@@ -263,7 +263,7 @@ styles: [
 ```
 
 ### output
-```
+```js
 output: {
   client: {
     path: path.resolve(__dirname, './build/public/project/assets'),
@@ -281,7 +281,7 @@ output: {
 ### staticProps
 You can pass static props to all components at the same time.
 
-```
+```js
 staticProps: [
   {'key': value}
 ]
@@ -290,7 +290,7 @@ staticProps: [
 ### routing
 Voltran need two files to set routing.
 
-```
+```js
 routing: {
   components: path.resolve(__dirname, './src/appRoute/components.js'),
   dictionary: path.resolve(__dirname, './src/appRoute/dictionary.js')
