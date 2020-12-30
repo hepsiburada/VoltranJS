@@ -44,7 +44,7 @@ After that we can write the component's code.
 **HelloWorld.js**
 
 
-```
+```jsx
 
 const voltran = require('@voltran/core');
 
@@ -67,7 +67,6 @@ const component = voltran.default.withBaseComponent(HelloWorld, ROUTE_PATHS.HELL
 
 export default component;
 
-
 ```
 
 If you want to fetch data from server side, you should add `getInitialState`.
@@ -76,7 +75,7 @@ If you want to fetch data from server side, you should add `getInitialState`.
 **./conf/local.config.js**
 
 
-```
+```js
 
 const port = 3578;
 
@@ -96,14 +95,13 @@ module.exports = {
   }
 };
 
-
 ```
 
 
 **HelloWorld.js**
 
 
-```
+```jsx
 
 const voltran = require('@voltran/core');
 
@@ -135,7 +133,6 @@ const component = voltran.default.withBaseComponent(HelloWorld, ROUTE_PATHS.HELL
 
 export default component;
 
-
 ```
 
 
@@ -143,7 +140,6 @@ export default component;
 
 ```
 Hello World. My Name is Volkan!
-
 ```
 
 **Output For Api**
