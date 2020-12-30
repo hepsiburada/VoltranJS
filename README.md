@@ -11,7 +11,7 @@ You can use Voltran if you need a micro frontend framework that provides followi
 
   - Ligthweight and fast API
   - Serves single and multiple components
-  - Preview (to visaulize components)
+  - Preview (to visualize components)
   - SEO friendly (if needed)
   - CSS & SCSS support
   - Supports only React (for now)
@@ -24,7 +24,7 @@ Install the Voltran.
 
 #### Yarn
 ```sh
-$ yarn add voltranjs 
+$ yarn add voltranjs
 ```
 
 #### Npm
@@ -36,7 +36,7 @@ $ npm install voltranjs
 
 This is an example component.
 
-First of all, you should import 'require('@voltran/core');'.
+First of all, you should import `@voltran/core`.
 
 After that we can write the component's code.
 
@@ -70,7 +70,7 @@ export default component;
 
 ```
 
-If you want to fetch data from server side, you should add 'getInitialState'.
+If you want to fetch data from server side, you should add `getInitialState`.
 
 
 **./conf/local.config.js**
@@ -84,16 +84,15 @@ module.exports = {
   port: port,
   baseUrl: `http://localhost:${port}`,
   mediaUrl: '',
-  baseUrl: `http://localhost:${port}`,
   services: {
     'voltranapi': {
       'clientUrl': 'http://voltran-api.qa.hepsiburada.com',
-      'serverUrl': 'http://voltran-api.qa.hepsiburada.com' 
+      'serverUrl': 'http://voltran-api.qa.hepsiburada.com'
     }
   },
   timeouts: {
     clientApiManager: 20 * 1000,
-    serverApiManager: 20 * 1000  
+    serverApiManager: 20 * 1000
   }
 };
 
@@ -117,14 +116,14 @@ const ROUTE_PATHS = {
 
 const HelloWorld = ({initialState}) => {
     HelloWorld.services = [appConfig.services.voltranApi];
-    
+
     HelloWorld.getInitialState = (voltranApiClientManager, context) => {
       const config = { headers: context.headers };
       const params = {...};
-      
+
       return getName({ params }, voltranApiClientManager, config);
     };
-    
+
     return (
         <>
             Hello World. My name is {initialState.name}!
@@ -299,8 +298,8 @@ routing: {
 
 Example files can be found here:
    - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
-   - [directory.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js) 
-   
+   - [directory.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
+
 ### webpackConfiguration
 
 You can add your webpack configuration. They will be merged with the voltran configs.
