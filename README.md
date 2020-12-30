@@ -11,7 +11,7 @@ You can use Voltran if you need a micro frontend framework that provides followi
 
   - Ligthweight and fast API
   - Serves single and multiple components
-  - Preview (to visaulize components)
+  - Preview (to visualize components)
   - SEO friendly (if needed)
   - CSS & SCSS support
   - Supports only React (for now)
