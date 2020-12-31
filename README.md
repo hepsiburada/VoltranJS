@@ -9,7 +9,7 @@ Voltran is a micro frontend framework which is developed by Hepsiburada Technolo
 
 You can use Voltran if you need a micro frontend framework that provides following features:
 
-  - Ligthweight and fast API
+  - Lightweight and fast API
   - Serves single and multiple components
   - Preview (to visualize components)
   - SEO friendly (if needed)
@@ -155,7 +155,6 @@ Hello World. My Name is Volkan!
         url: "/HelloWorld"
     },
 }
-
 ```
 
 
@@ -183,7 +182,7 @@ Voltran requires following configurations:
 
 ### appConfigFile
 
-It should contains environment specific configurations (test, production ...).
+It should contain environment specific configurations (test, production ...).
 ```
 appConfigFile: {
   entry: path.resolve(__dirname, './yourConfigFolder/'),
@@ -248,7 +247,7 @@ Voltran supports server side rendering.
 Applications that need 'SEO' features needs to set this parameter to `true`.
 
 ### styles
-This field's value should be array of strings. Array values should be the paths to the global CSS files.
+This field's value should be an array of strings. Array values should be the paths to the global CSS files.
 
 ```
 styles: [
@@ -294,7 +293,7 @@ routing: {
 
 Example files can be found here:
    - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
-   - [directory.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
+   - [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
 
 ### webpackConfiguration
 
