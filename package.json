@@ -30,7 +30,6 @@
     "@babel/preset-react": "7.10.4",
     "@babel/runtime": "^7.11.2",
     "@researchgate/react-intersection-observer": "1.0.3",
-    "@voltran/common": "^1.0.13",
     "arg": "^4.1.3",
     "assets-webpack-plugin": "3.8.4",
     "async": "^3.2.0",
