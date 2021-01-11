@@ -12,18 +12,21 @@ export default class Request {
     if (this.response?.cacheResponse) {
       promise = Promise.resolve(this.response.cacheResponse);
     } else {
-      promise = this.client.request(this.payload).then(response => {
-        if (this.response?.onSuccess) {
-          return this.response.onSuccess(response);
-        }
-        return response;
-      }).catch(error => {
-        if (this.response?.onError) {
-          return this.response.onError(error);
-        }
-        return error;
-      });
+      promise = this.client
+        .request(this.payload)
+        .then(response => {
+          if (this.response?.onSuccess) {
+            return this.response.onSuccess(response);
+          }
+          return response;
+        })
+        .catch(error => {
+          if (this.response?.onError) {
+            return this.response.onError(error);
+          }
+          return error;
+        });
     }
-    return promise
+    return promise;
   }
 }

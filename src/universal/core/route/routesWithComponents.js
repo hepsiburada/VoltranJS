@@ -1,5 +1,3 @@
-import withBaseComponent from '../../partials/withBaseComponent';
-
 const components = require('__V_COMPONENTS__');
 
 const routesWithComponents = {};

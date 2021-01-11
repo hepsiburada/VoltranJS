@@ -22,7 +22,15 @@ function componentClassName(componentName, context) {
   return context.query && context.query.id ? `${componentName}_${context.query.id}` : componentName;
 }
 
-function Html({ componentName, children, styleTags, initialState, fullWidth, isMobileFragment, context }) {
+function Html({
+  componentName,
+  children,
+  styleTags,
+  initialState,
+  fullWidth,
+  isMobileFragment,
+  context
+}) {
   return `
     <div>
       ${styleTags}
@@ -30,7 +38,9 @@ function Html({ componentName, children, styleTags, initialState, fullWidth, isM
       <div
         id='${componentName.replace(/['"']+/g, '')}_${initialState.id}'
         style="pointer-events: none;"
-        class="${voltranConfig.prefix}-voltran-body voltran-body ${isMobileFragment ? 'mobile' : ''}${fullWidth ? 'full' : ''} ${componentClassName(componentName, context)}">
+        class="${voltranConfig.prefix}-voltran-body voltran-body ${
+    isMobileFragment ? 'mobile' : ''
+  }${fullWidth ? 'full' : ''} ${componentClassName(componentName, context)}">
         ${children}
       </div>
       <div>REPLACE_WITH_LINKS</div>

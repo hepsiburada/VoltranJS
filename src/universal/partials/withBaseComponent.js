@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import queryString from 'query-string';
 
 import ClientApp from '../components/ClientApp';
 import { WINDOW_GLOBAL_PARAMS } from '../utils/constants';
@@ -11,18 +10,12 @@ const getStaticProps = () => {
   const staticProps = {};
 
   if (voltranConfig.staticProps) {
-    voltranConfig.staticProps.map((property) => {
+    voltranConfig.staticProps.map(property => {
       staticProps[property.name] = property.value;
     });
   }
 
   return staticProps;
-};
-
-const getComponentId = (location) => {
-  const params = queryString.parse(location.search);
-
-  return params ? params.id : false;
 };
 
 const withBaseComponent = (PageComponent, pathName) => {
@@ -44,10 +37,7 @@ const withBaseComponent = (PageComponent, pathName) => {
 
       ReactDOM.hydrate(
         <ClientApp>
-          <PageComponent
-            {...staticProps}
-            initialState={initialState}
-            history={history}/>
+          <PageComponent {...staticProps} initialState={initialState} history={history} />
         </ClientApp>,
         componentEl,
         () => {

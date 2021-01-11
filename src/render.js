@@ -13,8 +13,11 @@ import {
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
 
+// eslint-disable-next-line consistent-return
 export default async (req, res) => {
-  const pathParts = xss(req.path).split('/').filter(part => part);
+  const pathParts = xss(req.path)
+    .split('/')
+    .filter(part => part);
   const componentPath = `/${pathParts.join('/')}`;
 
   const routeInfo = matchUrlInRouteConfigs(componentPath);
@@ -26,8 +29,10 @@ export default async (req, res) => {
       path: xss(path),
       query: JSON.parse(xss(JSON.stringify(req.query))),
       cookies: xss(JSON.stringify(req.cookies)),
-      url: xss(req.url).replace(componentPath, '/').replace('//', '/'),
-      userAgent: xss(req.headers['user-agent']),
+      url: xss(req.url)
+        .replace(componentPath, '/')
+        .replace('//', '/'),
+      userAgent: xss(req.headers['user-agent'])
     };
 
     const component = new Component(routeInfo.path);
@@ -62,7 +67,7 @@ export default async (req, res) => {
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
         .observe(Date.now() - res.locals.startEpoch);
     } else {
-      res.html(Preview([fullHtml].join('\n'), [componentName]));
+      res.html(Preview([fullHtml].join('\n')));
     }
   } else {
     res.status(HTTP_STATUS_CODES.NOT_FOUND).json({

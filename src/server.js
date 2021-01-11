@@ -18,7 +18,7 @@ import render from './render';
 import registerControllers from './api/controllers';
 import renderMultiple from './renderMultiple';
 
- import { HTTP_STATUS_CODES } from './universal/utils/constants';
+import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
 import voltranConfig from '../voltran.config';
 
@@ -26,10 +26,11 @@ const enablePrometheus = voltranConfig.monitoring.prometheus;
 let Prometheus;
 
 if (enablePrometheus) {
-  Prometheus = require("__V_PROMETHEUS__");
+  // eslint-disable-next-line global-require
+  Prometheus = require('__V_PROMETHEUS__');
 }
 
-const fragmentManifest = require("__V_DICTIONARY__");
+const fragmentManifest = require('__V_DICTIONARY__');
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -115,10 +116,7 @@ if (process.env.NODE_ENV === 'production') {
   hiddie.use(locals);
   hiddie.use(helmet());
   hiddie.use(cors);
-  hiddie.use(
-    '/',
-    serveStatic(voltranConfig.distFolder + '/public')
-  );
+  hiddie.use('/', serveStatic(`${voltranConfig.distFolder}/public`));
   hiddie.use(cookieParser());
   hiddie.use(utils);
   hiddie.use(handleUrls);
@@ -140,7 +138,7 @@ export default () => {
     compression(),
     locals,
     helmet(),
-    serveStatic(voltranConfig.distFolder + '/public'),
+    serveStatic(`${voltranConfig.distFolder}/public`),
     cookieParser(),
     utils,
     handleUrls,

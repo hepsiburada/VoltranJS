@@ -1,7 +1,8 @@
 /* istanbul ignore file */
-const { services, timeouts } = require('__APP_CONFIG__');
 import ClientApiManager from './ClientApiManager';
 import { SERVICES } from '../../utils/constants';
+
+const { services, timeouts } = require('__APP_CONFIG__');
 
 const cache = {};
 

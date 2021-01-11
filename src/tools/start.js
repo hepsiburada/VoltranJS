@@ -36,10 +36,12 @@ async function start() {
   );
 
   hiddie.use(webpackHotMiddleware(clientCompiler));
-  hiddie.use(webpackHotServerMiddleware(compiler, {
-    chunkName: 'server',
-    serverRendererOptions: { hiddie }
-  }));
+  hiddie.use(
+    webpackHotServerMiddleware(compiler, {
+      chunkName: 'server',
+      serverRendererOptions: { hiddie }
+    })
+  );
 
   http.createServer(hiddie.run).listen(voltranConfig.port);
 

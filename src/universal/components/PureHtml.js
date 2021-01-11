@@ -9,7 +9,10 @@ function generateInitialState(initialState, componentName) {
     ${include} = {
       ...(${include} || {}),
       '${initialState.id}': {
-        'STATE': ${JSON.stringify(initialState).replace(new RegExp('</script>', 'g'), '<\\/script>')}
+        'STATE': ${JSON.stringify(initialState).replace(
+          new RegExp('</script>', 'g'),
+          '<\\/script>'
+        )}
       }
     }`;
 }
@@ -32,7 +35,9 @@ export default (resultPath, componentName, initialState) => {
   return `
     <div>
       <script type="text/javascript">${generateInitialState(initialState, componentName)}</script>
-      <div id='${componentName.replace(/['"']+/g, '')}_${initialState.id}' style="pointer-events: none;"></div>
+      <div id='${componentName.replace(/['"']+/g, '')}_${
+    initialState.id
+  }' style="pointer-events: none;"></div>
       <div>REPLACE_WITH_LINKS</div>
       <div>REPLACE_WITH_SCRIPTS</div>
     </div>

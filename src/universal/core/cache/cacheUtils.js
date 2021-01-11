@@ -9,6 +9,5 @@ function createCacheManagerInstance() {
   return cacheManagerInstance;
 }
 
-export {
-  createCacheManagerInstance,
-}
+// eslint-disable-next-line import/prefer-default-export
+export { createCacheManagerInstance };

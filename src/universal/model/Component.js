@@ -4,13 +4,19 @@ import { createComponentName } from '../utils/helper';
 const COMPONENTS = require('__V_COMPONENTS__').default;
 
 export default class Component {
-  static getComponentName = (path) => { return createComponentName(path) };
+  static getComponentName = path => {
+    return createComponentName(path);
+  };
 
   static getComponentPath = name => `/${name}`;
 
-  static getComponentIsMobileFragment = (path) => { return COMPONENTS[path].isMobileFragment ? COMPONENTS[path].isMobileFragment : false };
+  static getComponentIsMobileFragment = path => {
+    return COMPONENTS[path].isMobileFragment ? COMPONENTS[path].isMobileFragment : false;
+  };
 
-  static getComponentIsFullWidth = (path) => { return COMPONENTS[path].fullWidth ? COMPONENTS[path].fullWidth : false };
+  static getComponentIsFullWidth = path => {
+    return COMPONENTS[path].fullWidth ? COMPONENTS[path].fullWidth : false;
+  };
 
   static getComponentObjectWithPath = path => routesWithComponents[path];
 

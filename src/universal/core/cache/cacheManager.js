@@ -8,40 +8,30 @@ class CacheManager {
   }
 
   get(options) {
-    const {
-      cacheKey,
-      expireTime,
-    } = options;
+    const { cacheKey, expireTime } = options;
 
     const cache = this.store.get(cacheKey);
     if (!cache) {
       return null;
     }
 
-    const {
-      createdDate,
-      cacheValue,
-    } = cache;
+    const { createdDate, cacheValue } = cache;
     const cacheCreatedDate = cache && new Date(createdDate);
-    const cacheExpireDate = new Date(
-      new Date() - (expireTime || DEFAULT_EXPIRE_TIME),
-    );
+    const cacheExpireDate = new Date(new Date() - (expireTime || DEFAULT_EXPIRE_TIME));
 
     return {
       createdDate,
       cacheValue,
-      isExpired: cacheExpireDate > cacheCreatedDate,
+      isExpired: cacheExpireDate > cacheCreatedDate
     };
   }
 
   put(options, val) {
-    const {
-      cacheKey,
-    } = options;
+    const { cacheKey } = options;
 
     this.store.set(cacheKey, {
       createdDate: new Date(),
-      cacheValue: val,
+      cacheValue: val
     });
   }
 
@@ -54,7 +44,7 @@ class CacheManager {
   }
 
   delete() {
-    //no op here because this is standalone, not a part of $cacheFactory
+    // no op here because this is standalone, not a part of $cacheFactory
   }
 }
 
