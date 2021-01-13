@@ -104,6 +104,11 @@
     "xss": "^1.0.8"
   },
   "devDependencies": {
+    "babel-jest": "^26.6.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-to-json": "^3.6.1",
+    "jest": "^26.6.3",
     "response-time": "^2.3.2"
   },
   "scripts": {
@@ -111,6 +116,10 @@
     "eslint": "eslint 'src/**/*.js' --fix",
     "prettier": "prettier --write 'src/**/*.{js,scss}' --config .prettierrc.json",
     "start": "voltran --config ./demo/voltran-app.config.js --dev",
-    "serve": "voltran --config ./demo/voltran-app.config.js"
+    "serve": "voltran --config ./demo/voltran-app.config.js",
+    "test": "jest",
+    "test:watchAll": "jest --watchAll",
+    "test:coverage": "jest --coverage",
+    "test:updateSnapshot": "jest --updateSnapshot"
   }
 }

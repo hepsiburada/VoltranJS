@@ -6,7 +6,8 @@ module.exports = {
     document: true,
     window: true,
     hepsiBus: true,
-    global: true
+    global: true,
+    jest: true
   },
   parserOptions: {
     ecmaFeatures: {
