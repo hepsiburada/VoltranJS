@@ -36,7 +36,7 @@ const logger = {
     }
 
     console.error(this.formatter('ERROR', message, requestPath));
-  },
+  }
 };
 
 export default logger;

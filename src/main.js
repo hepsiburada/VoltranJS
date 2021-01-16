@@ -20,7 +20,7 @@ if (cluster.isMaster) {
     cluster.fork();
   });
 
-  if (enablePrometheus){
+  if (enablePrometheus) {
     const aggregatorRegistry = new prom.AggregatorRegistry();
     const metricsPort = voltranConfig.port + 1;
 

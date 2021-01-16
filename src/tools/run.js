@@ -5,14 +5,18 @@ function run(fn, options) {
   const start = new Date();
 
   console.log(
-    'src/tools/run.js', 'run', `Starting '${task.name}${options ? ` (${options})` : ''}'...`
+    'src/tools/run.js',
+    'run',
+    `Starting '${task.name}${options ? ` (${options})` : ''}'...`
   );
 
   return task(options).then(resolution => {
     const end = new Date();
     const time = end.getTime() - start.getTime();
     console.log(
-      'src/tools/run.js', 'run', `Finished '${task.name}${options ? ` (${options})` : ''}' after ${time} ms`
+      'src/tools/run.js',
+      'run',
+      `Finished '${task.name}${options ? ` (${options})` : ''}' after ${time} ms`
     );
     return resolution;
   });

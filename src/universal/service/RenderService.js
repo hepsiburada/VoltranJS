@@ -49,7 +49,7 @@ const renderHtml = (component, initialState, context) => {
   const children = ReactDOMServer.renderToString(
     sheet.collectStyles(
       <StaticRouter location={component.path} context={context}>
-        <ConnectedApp initialState={initialStateWithLocation} location={context}/>
+        <ConnectedApp initialState={initialStateWithLocation} location={context} />
       </StaticRouter>
     )
   );
@@ -65,7 +65,7 @@ const renderHtml = (component, initialState, context) => {
     initialState: initialStateWithLocation,
     fullWidth: component.fullWidth,
     isMobileFragment: component.isMobileFragment,
-    context,
+    context
   });
 };
 
@@ -84,7 +84,10 @@ const renderComponent = async (component, context, predefinedInitialState = null
     predefinedInitialState
   );
 
-  const { links, scripts, activeComponent } = await createBaseRenderHtmlProps(component.name, subComponentFiles);
+  const { links, scripts, activeComponent } = await createBaseRenderHtmlProps(
+    component.name,
+    subComponentFiles
+  );
 
   const output = renderHtml(component, initialState, context);
   const fullHtml = renderLinksAndScripts(output, generateLinks(links), generateScripts(scripts));
@@ -98,7 +101,7 @@ const renderComponent = async (component, context, predefinedInitialState = null
     componentName: component.name,
     seoState,
     fullWidth: component.fullWidth,
-    isMobileComponent: component.isMobileComponent,
+    isMobileComponent: component.isMobileComponent
   };
 };
 

@@ -1,5 +1,5 @@
 import Request from '../../model/Request';
-import {createCacheManagerInstance} from '../../core/cache/cacheUtils';
+import { createCacheManagerInstance } from '../../core/cache/cacheUtils';
 
 function createApiClient(apiManager) {
   const cacheManager = createCacheManagerInstance();
@@ -23,9 +23,9 @@ function createApiClient(apiManager) {
   function getPayload(url, method, params, configArgument) {
     let payload;
     if (configArgument) {
-      payload = {url, method, params, ...configArgument};
+      payload = { url, method, params, ...configArgument };
     } else {
-      payload = {url, method, params};
+      payload = { url, method, params };
     }
     return payload;
   }
@@ -48,7 +48,7 @@ function createApiClient(apiManager) {
       if (cacheResponse && !cacheResponse.isExpired) {
         // console.log('Came from cache', cacheSettings.cacheKey);
         request = getRequest(method, url, paramsArgument, configArgument, {
-          cacheResponse: cacheResponse.cacheValue,
+          cacheResponse: cacheResponse.cacheValue
         });
       } else {
         // console.log('Not exist cache, request sent', cacheSettings.cacheKey);
@@ -97,9 +97,9 @@ function createApiClient(apiManager) {
 
     options(url, config, cacheSettings) {
       return makeRequest('options', url, config, null, cacheSettings);
-    },
+    }
   };
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export {createApiClient};
+export { createApiClient };

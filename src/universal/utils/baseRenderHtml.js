@@ -18,7 +18,10 @@ if (process.env.NODE_ENV === 'production') {
   Object.keys(assets).forEach(name => {
     if (assets[name].css) {
       cssContentCache[name] = fs.readFileSync(
-        path.resolve(process.cwd(), `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`),
+        path.resolve(
+          process.cwd(),
+          `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`
+        ),
         'utf8'
       );
     }
@@ -37,9 +40,10 @@ const getScripts = (name, subComponentFiles) => {
       isAsync: false
     }
   ];
-  const mergedScripts = subComponentFilesScripts && subComponentFilesScripts.length > 0 ?
-    scripts.concat(subComponentFiles.scripts) :
-    scripts;
+  const mergedScripts =
+    subComponentFilesScripts && subComponentFilesScripts.length > 0
+      ? scripts.concat(subComponentFiles.scripts)
+      : scripts;
 
   return mergedScripts;
 };
@@ -53,7 +57,9 @@ const getStyles = async (name, subComponentFiles) => {
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets[name].css}`,
       criticalStyleComponent:
-        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled ? cssContentCache[name] : undefined
+        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
+          ? cssContentCache[name]
+          : undefined
     });
   }
 
@@ -62,13 +68,16 @@ const getStyles = async (name, subComponentFiles) => {
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets.client.css}`,
       criticalStyleComponent:
-        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled ? cssContentCache.client : undefined
+        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
+          ? cssContentCache.client
+          : undefined
     });
   }
 
-  const mergedLinks = subComponentFilesStyles && subComponentFilesStyles.length > 0 ?
-    links.concat(subComponentFiles.styles) :
-    links;
+  const mergedLinks =
+    subComponentFilesStyles && subComponentFilesStyles.length > 0
+      ? links.concat(subComponentFiles.styles)
+      : links;
 
   return mergedLinks;
 };

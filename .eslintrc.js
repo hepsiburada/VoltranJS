@@ -43,7 +43,9 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-unused-expressions': 'off',
     'no-nested-ternary': 'off',
-    'no-underscore-dangle': 'off'
+    'no-underscore-dangle': 'off',
+    'consistent-return': 'off',
+    'array-callback-return': 'off'
   },
   env: {
     jest: true,

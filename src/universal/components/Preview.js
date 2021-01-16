@@ -1,6 +1,6 @@
 const appConfig = require('__APP_CONFIG__');
 
-export default (body, componentNames = [], title = null) => {
+export default (body, title = null) => {
   const additionalTitle = title ? ` - ${title}` : '';
 
   function cr(condition, ok, cancel) {
@@ -14,7 +14,8 @@ export default (body, componentNames = [], title = null) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>window.HBUS_LAZY = true;</script>
         <script src="${appConfig.voltranCommonUrl}"></script>
-        ${cr(appConfig.showPreviewFrame,
+        ${cr(
+          appConfig.showPreviewFrame,
           `<style>
             .voltran-body {
               color: #484848;

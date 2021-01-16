@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
 import Component from './universal/model/Component';
 import Renderer from './universal/model/Renderer';
@@ -20,7 +21,7 @@ function getRenderer(name, query, cookies, url, path, userAgent) {
       query,
       cookies,
       url: urlWithPath,
-      userAgent,
+      userAgent
     };
 
     if (Component.isExist(componentPath)) {
@@ -173,7 +174,6 @@ async function getResponses(renderers) {
 async function getPreview(responses, requestCount) {
   return Preview(
     [...Object.keys(responses).map(name => responses[name].fullHtml)].join('\n'),
-    Object.keys(responses),
     `${requestCount} request!`
   );
 }
@@ -183,7 +183,16 @@ export default async (req, res) => {
   const renderers = req.params.components
     .split(',')
     .filter((value, index, self) => self.indexOf(value) === index)
-    .map(name => getRenderer(name, req.query, req.cookies, req.url, `/${req.params.path || ''}`, req.headers['user-agent']))
+    .map(name =>
+      getRenderer(
+        name,
+        req.query,
+        req.cookies,
+        req.url,
+        `/${req.params.path || ''}`,
+        req.headers['user-agent']
+      )
+    )
     .filter(renderer => renderer != null);
 
   if (!renderers.length) {
