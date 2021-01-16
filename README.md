@@ -9,9 +9,9 @@ Voltran is a micro frontend framework which is developed by Hepsiburada Technolo
 
 You can use Voltran if you need a micro frontend framework that provides following features:
 
-  - Ligthweight and fast API
+  - Lightweight and fast API
   - Serves single and multiple components
-  - Preview (to visaulize components)
+  - Preview (to visualize components)
   - SEO friendly (if needed)
   - CSS & SCSS support
   - Supports only React (for now)
@@ -24,7 +24,7 @@ Install the Voltran.
 
 #### Yarn
 ```sh
-$ yarn add voltranjs 
+$ yarn add voltranjs
 ```
 
 #### Npm
@@ -36,7 +36,7 @@ $ npm install voltranjs
 
 This is an example component.
 
-First of all, you should import 'require('@voltran/core');'.
+First of all, you should import `@voltran/core`.
 
 After that we can write the component's code.
 
@@ -44,7 +44,7 @@ After that we can write the component's code.
 **HelloWorld.js**
 
 
-```
+```jsx
 
 const voltran = require('@voltran/core');
 
@@ -67,16 +67,15 @@ const component = voltran.default.withBaseComponent(HelloWorld, ROUTE_PATHS.HELL
 
 export default component;
 
-
 ```
 
-If you want to fetch data from server side, you should add 'getInitialState'.
+If you want to fetch data from server side, you should add `getInitialState`.
 
 
 **./conf/local.config.js**
 
 
-```
+```js
 
 const port = 3578;
 
@@ -84,19 +83,17 @@ module.exports = {
   port: port,
   baseUrl: `http://localhost:${port}`,
   mediaUrl: '',
-  baseUrl: `http://localhost:${port}`,
   services: {
     'voltranapi': {
       'clientUrl': 'http://voltran-api.qa.hepsiburada.com',
-      'serverUrl': 'http://voltran-api.qa.hepsiburada.com' 
+      'serverUrl': 'http://voltran-api.qa.hepsiburada.com'
     }
   },
   timeouts: {
     clientApiManager: 20 * 1000,
-    serverApiManager: 20 * 1000  
+    serverApiManager: 20 * 1000
   }
 };
-
 
 ```
 
@@ -104,7 +101,7 @@ module.exports = {
 **HelloWorld.js**
 
 
-```
+```jsx
 
 const voltran = require('@voltran/core');
 
@@ -117,14 +114,14 @@ const ROUTE_PATHS = {
 
 const HelloWorld = ({initialState}) => {
     HelloWorld.services = [appConfig.services.voltranApi];
-    
+
     HelloWorld.getInitialState = (voltranApiClientManager, context) => {
       const config = { headers: context.headers };
       const params = {...};
-      
+
       return getName({ params }, voltranApiClientManager, config);
     };
-    
+
     return (
         <>
             Hello World. My name is {initialState.name}!
@@ -136,7 +133,6 @@ const component = voltran.default.withBaseComponent(HelloWorld, ROUTE_PATHS.HELL
 
 export default component;
 
-
 ```
 
 
@@ -144,7 +140,6 @@ export default component;
 
 ```
 Hello World. My Name is Volkan!
-
 ```
 
 **Output For Api**
@@ -160,7 +155,6 @@ Hello World. My Name is Volkan!
         url: "/HelloWorld"
     },
 }
-
 ```
 
 
@@ -188,7 +182,7 @@ Voltran requires following configurations:
 
 ### appConfigFile
 
-It should contains environment specific configurations (test, production ...).
+It should contain environment specific configurations (test, production ...).
 ```
 appConfigFile: {
   entry: path.resolve(__dirname, './yourConfigFolder/'),
@@ -253,7 +247,7 @@ Voltran supports server side rendering.
 Applications that need 'SEO' features needs to set this parameter to `true`.
 
 ### styles
-This field's value should be array of strings. Array values should be the paths to the global CSS files.
+This field's value should be an array of strings. Array values should be the paths to the global CSS files.
 
 ```
 styles: [
@@ -299,8 +293,8 @@ routing: {
 
 Example files can be found here:
    - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
-   - [directory.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js) 
-   
+   - [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
+
 ### webpackConfiguration
 
 You can add your webpack configuration. They will be merged with the voltran configs.
