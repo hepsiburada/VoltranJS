@@ -48,7 +48,7 @@ function Html({
 
       ${cr(
         process.env.NODE_ENV !== 'production',
-        `<meta httpEquiv="X-UA-Compatible" content="IE=edge" />`
+        `<meta http-equiv='X-UA-Compatible' content='IE=edge' />`
       )}
       ${cr(
         process.env.NODE_ENV !== 'production',
