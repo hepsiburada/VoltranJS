@@ -8,7 +8,7 @@ const voltranConfig = require('./voltran.config');
 module.exports = {
   plugins() {
     return [
-      postCssInlineSvg({path: voltranConfig.svgFolder}),
+      postCssInlineSvg({ path: voltranConfig.svgFolder }),
       postCssPixrem(),
       postCssFilters(),
       autoprefixer

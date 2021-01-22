@@ -9,11 +9,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 require('intersection-observer');
 
-const {createComponentName} = require('./src/universal/utils/helper.js');
+const { createComponentName } = require('./src/universal/utils/helper.js');
 
 const packageJson = require('./package.json');
 
@@ -128,9 +128,7 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [
-            ...replaceString()
-          ]
+          multiple: [...replaceString()]
         }
       },
       {
@@ -138,13 +136,13 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -166,13 +164,13 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -213,10 +211,10 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
     ...(isBuildingForCDN
       ? []
       : [
-        new CleanWebpackPlugin([distFolderPath], {
-          verbose: true
-        })
-      ]),
+          new CleanWebpackPlugin([distFolderPath], {
+            verbose: true
+          })
+        ]),
 
     ...(appConfig.voltranCommonUrl
       ? [
@@ -225,8 +223,7 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
             manifest: voltranCommon
           })
         ]
-      : []
-      ),
+      : []),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
@@ -244,11 +241,11 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
-        new MiniCssExtractPlugin({
-          filename: '[name].css',
-          chunkFilename: '[id]-[contenthash].css'
-        })
-      ]),
+          new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id]-[contenthash].css'
+          })
+        ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,
@@ -256,13 +253,7 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
       prettyPrint: true
     }),
 
-    ...(
-      isAnalyze ?
-        [
-          new BundleAnalyzerPlugin()
-        ] :
-        []
-    ),
+    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
   ]
 });
 

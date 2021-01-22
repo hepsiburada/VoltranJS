@@ -56,9 +56,7 @@ const serverConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [
-            ...replaceString()
-          ]
+          multiple: [...replaceString()]
         }
       },
       {
