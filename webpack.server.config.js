@@ -19,7 +19,7 @@ const isDebug = voltranConfig.dev;
 
 let styles = '';
 
-for(var i = 0; i < voltranConfig.styles.length; i++) {
+for (let i = 0; i < voltranConfig.styles.length; i += 1) {
   styles += `require('${voltranConfig.styles[i]}');`;
 }
 
