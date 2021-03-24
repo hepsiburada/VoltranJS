@@ -67,7 +67,7 @@ export default async (req, res) => {
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
         .observe(Date.now() - res.locals.startEpoch);
     } else {
-      res.html(Preview([fullHtml].join('\n')));
+      res.html(Preview([fullHtml].join('\n'), [componentName]));
     }
   } else {
     res.status(HTTP_STATUS_CODES.NOT_FOUND).json({

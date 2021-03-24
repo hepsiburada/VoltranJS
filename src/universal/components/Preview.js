@@ -31,7 +31,7 @@ export default (body, title = null) => {
               -moz-osx-font-smoothing: grayscale;
             }
 
-            
+
             .voltran-body.full {
               width: auto;
               padding: 0;

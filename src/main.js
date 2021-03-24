@@ -1,14 +1,14 @@
 import os from 'os';
 import cluster from 'cluster';
+import Hiddie from 'hiddie';
 
 import logger from './universal/utils/logger';
-import Hiddie from 'hiddie';
 import http from 'http';
 import voltranConfig from '../voltran.config';
 import prom from 'prom-client';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
-const enablePrometheus = voltranConfig.monitoring.prometheus;
+const enablePrometheus = voltranConfig?.monitoring?.prometheus || false;
 
 if (cluster.isMaster) {
   for (let i = 0; i < os.cpus().length; i += 1) {

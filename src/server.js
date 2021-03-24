@@ -22,7 +22,7 @@ import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
 import voltranConfig from '../voltran.config';
 
-const enablePrometheus = voltranConfig.monitoring.prometheus;
+const enablePrometheus = voltranConfig?.monitoring?.prometheus || false;
 let Prometheus;
 
 if (enablePrometheus) {
