@@ -15,6 +15,11 @@ const postCssConfig = require('./postcss.config');
 const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
 
+const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
+const voltranServerConfig = voltranServerConfigPath ?
+  require(voltranConfig.webpackConfiguration.server) :
+  '';
+
 const isDebug = voltranConfig.dev;
 
 let styles = '';
@@ -23,7 +28,7 @@ for(var i = 0; i < voltranConfig.styles.length; i++) {
   styles += `require('${voltranConfig.styles[i]}');`;
 }
 
-const serverConfig = webpackMerge(commonConfig, voltranConfig.webpackConfiguration.server, {
+const serverConfig = webpackMerge(commonConfig,voltranServerConfig, {
   name: 'server',
 
   target: 'node',

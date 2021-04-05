@@ -27,6 +27,11 @@ const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
 const babelConfig = require('./babel.server.config');
+ 
+const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
+const voltranClientConfig = voltranClientConfigPath ?
+  require(voltranConfig.webpackConfiguration.client) :
+  '';
 
 const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
@@ -37,12 +42,6 @@ const isDebug = voltranConfig.dev;
 const reScript = /\.(js|jsx|mjs)$/;
 const distFolderPath = voltranConfig.distFolder;
 const prometheusFile = voltranConfig.monitoring.prometheus;
-
-let voltranCommon;
-
-if (appConfig.voltranCommonUrl) {
-  voltranCommon = require('@voltran/common');
-}
 
 const chunks = {};
 
@@ -95,7 +94,7 @@ if (isDebug) {
 
 const outputPath = voltranConfig.output.client.path;
 
-const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfiguration.client, {
+const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
   name: 'client',
 
   target: 'web',
@@ -217,16 +216,6 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
           verbose: true
         })
       ]),
-
-    ...(appConfig.voltranCommonUrl
-      ? [
-          new webpack.DllReferencePlugin({
-            context: process.cwd(),
-            manifest: voltranCommon
-          })
-        ]
-      : []
-      ),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
