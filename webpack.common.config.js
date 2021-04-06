@@ -10,7 +10,12 @@ const staticAssetName = '[name]-[hash].[ext]';
 const voltranConfig = require('./voltran.config');
 const isDebug = voltranConfig.dev;
 
-const commonConfig = webpackMerge(voltranConfig.webpackConfiguration.common, {
+const voltranCommonConfigPath = voltranConfig.webpackConfiguration.common;
+const voltranCommonConfig = voltranCommonConfigPath ?
+  require(voltranConfig.webpackConfiguration.common) :
+  '';
+
+const commonConfig = webpackMerge(voltranCommonConfig, {
   mode: isDebug ? 'development' : 'production',
 
   module: {
