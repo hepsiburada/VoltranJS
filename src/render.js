@@ -13,6 +13,8 @@ import {
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
 
+const appConfig = require('__APP_CONFIG__');
+
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
   const pathParts = xss(req.path)
@@ -67,7 +69,11 @@ export default async (req, res) => {
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
         .observe(Date.now() - res.locals.startEpoch);
     } else {
-      res.html(Preview([fullHtml].join('\n')));
+      if (appConfig.voltranEnv !== 'prod') {
+        res.html(Preview([fullHtml].join('\n')));
+      } else {
+        res.html('<h1>Aradığınız sayfa bulunamadı...</h1>');
+      }
     }
   } else {
     res.status(HTTP_STATUS_CODES.NOT_FOUND).json({
