@@ -57,7 +57,8 @@ export default async (req, res) => {
       scripts,
       activeComponent,
       componentName,
-      seoState
+      seoState,
+      isPreviewQuery
     } = renderResponse;
 
     if (!isPreview(context.query)) {
@@ -69,7 +70,9 @@ export default async (req, res) => {
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
         .observe(Date.now() - res.locals.startEpoch);
     } else {
-      if (appConfig.voltranEnv !== 'prod') {
+      const voltranEnv = appConfig.voltranEnv || 'local';
+
+      if (voltranEnv !== 'prod' && isPreviewQuery) {
         res.html(Preview([fullHtml].join('\n')));
       } else {
         res.html('<h1>Aradığınız sayfa bulunamadı...</h1>');
