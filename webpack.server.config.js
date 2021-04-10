@@ -6,29 +6,23 @@ const nodeExternals = require('webpack-node-externals');
 const env = process.env.VOLTRAN_ENV || 'local';
 
 const voltranConfig = require('./voltran.config');
+
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
-const appConfig = require(appConfigFilePath);
-
+const appConfig = require(appConfigFilePath); // eslint-disable-line import/no-dynamic-require
+g;
 const commonConfig = require('./webpack.common.config');
-const babelConfig = require('./babel.server.config');
 const postCssConfig = require('./postcss.config');
-const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
-
-const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
-const voltranServerConfig = voltranServerConfigPath ?
-  require(voltranConfig.webpackConfiguration.server) :
-  '';
 
 const isDebug = voltranConfig.dev;
 
 let styles = '';
 
-for(var i = 0; i < voltranConfig.styles.length; i++) {
+for (let i = 0; i < voltranConfig.styles.length; i++) {
   styles += `require('${voltranConfig.styles[i]}');`;
 }
 
-const serverConfig = webpackMerge(commonConfig,voltranServerConfig, {
+const serverConfig = webpackMerge(commonConfig, voltranConfig.webpackConfiguration.server, {
   name: 'server',
 
   target: 'node',
@@ -49,21 +43,18 @@ const serverConfig = webpackMerge(commonConfig,voltranServerConfig, {
     rules: [
       {
         test: /\.(js|jsx|mjs)$/,
-        loader: 'babel-loader',
+        loader: 'esbuild-loader',
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
-          cacheDirectory: true,
-          babelrc: false,
-          ...babelConfig()
+          loader: 'jsx',
+          target: 'es2015'
         }
       },
       {
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [
-            ...replaceString()
-          ]
+          multiple: [...replaceString()]
         }
       },
       {
