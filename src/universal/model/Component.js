@@ -18,6 +18,10 @@ export default class Component {
     return COMPONENTS[path].fullWidth ? COMPONENTS[path].fullWidth : false;
   };
 
+  static getComponentIsPreviewQuery = path => {
+    return COMPONENTS[path].isPreviewQuery || true;
+  };
+
   static getComponentObjectWithPath = path => routesWithComponents[path];
 
   static getComponentWithName = name => new Component(Component.getComponentPath(name));
@@ -32,5 +36,6 @@ export default class Component {
     this.isMobileFragment = Component.getComponentIsMobileFragment(path);
     this.fullWidth = Component.getComponentIsFullWidth(path);
     this.object = Component.getComponentObjectWithPath(path);
+    this.isPreviewQuery = Component.getComponentIsPreviewQuery(path);
   }
 }
