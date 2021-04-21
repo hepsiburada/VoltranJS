@@ -101,7 +101,8 @@ const renderComponent = async (component, context, predefinedInitialState = null
     componentName: component.name,
     seoState,
     fullWidth: component.fullWidth,
-    isMobileComponent: component.isMobileComponent
+    isMobileComponent: component.isMobileComponent,
+    isPreviewQuery: component.isPreviewQuery
   };
 };
 
