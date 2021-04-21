@@ -11,7 +11,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { ESBuildMinifyPlugin } = require('esbuild-loader');
-const voltranCommon = require('@voltran/common');
 
 require('intersection-observer');
 
@@ -29,6 +28,11 @@ const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
 const babelConfig = require('./babel.server.config');
+
+const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
+const voltranClientConfig = voltranClientConfigPath
+  ? require(voltranConfig.webpackConfiguration.client)
+  : '';
 
 const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
@@ -91,7 +95,7 @@ if (isDebug) {
 
 const outputPath = voltranConfig.output.client.path;
 
-const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfiguration.client, {
+const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
   name: 'client',
 
   target: 'web',
@@ -214,11 +218,6 @@ const clientConfig = webpackMerge(commonConfig, voltranConfig.webpackConfigurati
             verbose: true
           })
         ]),
-
-    new webpack.DllReferencePlugin({
-      context: process.cwd(),
-      manifest: voltranCommon
-    }),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
