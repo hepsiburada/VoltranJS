@@ -9,11 +9,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 
 require('intersection-observer');
 
-const {createComponentName} = require('./src/universal/utils/helper.js');
+const { createComponentName } = require('./src/universal/utils/helper.js');
 
 const packageJson = require('./package.json');
 
@@ -27,11 +28,11 @@ const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
 const babelConfig = require('./babel.server.config');
- 
+
 const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
-const voltranClientConfig = voltranClientConfigPath ?
-  require(voltranConfig.webpackConfiguration.client) :
-  '';
+const voltranClientConfig = voltranClientConfigPath
+  ? require(voltranConfig.webpackConfiguration.client)
+  : '';
 
 const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
@@ -115,21 +116,18 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     rules: [
       {
         test: reScript,
+        loader: 'esbuild-loader',
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
-        loader: 'babel-loader',
         options: {
-          cacheDirectory: isDebug,
-          babelrc: false,
-          ...babelConfig()
+          loader: 'jsx',
+          target: 'es2015'
         }
       },
       {
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [
-            ...replaceString()
-          ]
+          multiple: [...replaceString()]
         }
       },
       {
@@ -137,13 +135,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -165,13 +163,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -199,6 +197,10 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
 
   optimization: {
     minimizer: [
+      new ESBuildMinifyPlugin({
+        target: 'es2015',
+        css: true
+      }),
       new TerserWebpackPlugin({
         sourceMap: isDebug,
         parallel: true,
@@ -212,10 +214,10 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isBuildingForCDN
       ? []
       : [
-        new CleanWebpackPlugin([distFolderPath], {
-          verbose: true
-        })
-      ]),
+          new CleanWebpackPlugin([distFolderPath], {
+            verbose: true
+          })
+        ]),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
@@ -233,11 +235,11 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
-        new MiniCssExtractPlugin({
-          filename: '[name].css',
-          chunkFilename: '[id]-[contenthash].css'
-        })
-      ]),
+          new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id]-[contenthash].css'
+          })
+        ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,
@@ -245,13 +247,7 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
       prettyPrint: true
     }),
 
-    ...(
-      isAnalyze ?
-        [
-          new BundleAnalyzerPlugin()
-        ] :
-        []
-    ),
+    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
   ]
 });
 
