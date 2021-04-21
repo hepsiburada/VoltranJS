@@ -9,7 +9,7 @@ const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath); // eslint-disable-line import/no-dynamic-require
-g;
+
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
 const replaceString = require('./config/string.js');
