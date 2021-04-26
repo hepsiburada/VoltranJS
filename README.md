@@ -1,11 +1,33 @@
-# VoltranJS
+<h1 align="center">
+  <br>
+  <a href="http://www.hepsiburada.com"><img src="./src/assets/voltran-logo.png" alt="voltran.js" width="220"></a>
+  <br>
+  Micro Frontends Framework
+  <br>
+</h1>
 
-[![Hepsiburada](./src/assets/hepsiburada.png)](https://www.hepsiburada.com)
-[![Hepsitech](./src/assets/hepsitech.png)](https://medium.com/hepsiburadatech)
+<h4 align="center">Voltran is a micro frontends framework which is developed by Hepsiburada Technology Team. Micro frontends help cross functional teams to make end-to-end and independent developments and deployments.</h4>
+ 
+ <br>
 
-### What is Voltran and why you should use it?
+<p align="center">
+ <a href="https://badge.fury.io/js/voltranjs"><img src="https://badge.fury.io/js/voltranjs.svg" alt="npm version"></a>
+ <a href="https://www.npmjs.com/package/voltranjs"><img alt="npm" src="https://img.shields.io/npm/dy/voltranjs"></a>
+ <a href="https://www.npmjs.com/package/voltranjs"><img alt="npm" src="https://img.shields.io/npm/v/voltranjs"></a>
+ <a href="https://twitter.com/hepsiburadatech"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/hepsiburadatech"></a>
+</p>
 
-Voltran is a micro frontend framework which is developed by Hepsiburada Technology Team. [Micro frontends](https://micro-frontends.org/) help cross functional teams to make end-to-end and independent developments and deployments.
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#configs">Configs</a> •
+  <a href="#tech">Technology</a> •
+  <a href="#contributing">Contributing</a>
+</p>
+
+
+### Key Features
 
 You can use Voltran if you need a micro frontend framework that provides following features:
 
@@ -16,7 +38,7 @@ You can use Voltran if you need a micro frontend framework that provides followi
   - CSS & SCSS support
   - Supports only React (for now)
 
-### Installation
+## Installation
 
 Voltran requires [Node.js](https://nodejs.org/) v10.15.0+ to run.
 
@@ -32,7 +54,7 @@ $ yarn add voltranjs
 $ npm install voltranjs
 ```
 
-### Usage
+## Usage
 
 This is an example component.
 
@@ -158,7 +180,7 @@ Hello World. My Name is Volkan!
 ```
 
 
-### Configs
+## Configs
 
 Voltran requires following configurations:
 
@@ -180,7 +202,7 @@ Voltran requires following configurations:
 | [webpackConfiguration](#webpackConfiguration) | Object |
 
 
-### appConfigFile
+#### appConfigFile
 
 It should contain environment specific configurations (test, production ...).
 ```
@@ -192,29 +214,29 @@ appConfigFile: {
   }
 }
 ```
-### dev
+#### dev
 Development mode. Set to `true` if you need to debug.
 
 `Default`: `false`
 
-### distFolder
+#### distFolder
 The path to the folder where bundled scripts will be placed after the build.
 
 `Default`: `./dist`
 
-### publicDistFolder
+#### publicDistFolder
 The path to the folder where asset files will be placed after the build.
 
 `Default`: `./dist/assets`
 
-### inputFolder
+#### inputFolder
 The path to the folder that contains script files. It's required.
 
 Passes this config to Babel Loader where it reads all js files under this folder.
 
 'Voltran' converts your files to the appropriate format and optimizes them.
 
-### monitoring
+#### monitoring
 For now, only prometheus is supported.
 ```
 monitoring: {
@@ -229,24 +251,24 @@ monitoring: {
 }
 ```
 
-### port
+#### port
 `Default`: `3578`
 > If you want to change the port
 > you may need to change the port in appConfigFiles
 
-### prefix
+#### prefix
 `It is required.`
 
 There may be different components owned by different teams using voltrans on the same page. Voltran needs to use a prefix in order to avoid conflicts issues.
 This prefix is prepended to initial states and CSS class names.
 > We recommend that each team use their own acronyms/prefixes.
 
-### ssr
+#### ssr
 `Default`: `true`
 Voltran supports server side rendering.
 Applications that need 'SEO' features needs to set this parameter to `true`.
 
-### styles
+#### styles
 This field's value should be an array of strings. Array values should be the paths to the global CSS files.
 
 ```
@@ -272,7 +294,7 @@ output: {
 },
 ```
 
-### staticProps
+#### staticProps
 You can pass static props to all components at the same time.
 
 ```
@@ -281,7 +303,7 @@ staticProps: [
 ]
 ```
 
-### routing
+#### routing
 Voltran need two files to set routing.
 
 ```
@@ -295,13 +317,13 @@ Example files can be found here:
    - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
    - [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
 
-### webpackConfiguration
+#### webpackConfiguration
 
 You can add your webpack configuration. They will be merged with the voltran configs.
 
 You can access the starter kit we created from the [link](https://github.com/hepsiburada/VoltranJS-Starter-Kit).
 
-### Tech
+## Tech
 
 Voltran uses a number of open source projects to work properly:
 
@@ -313,10 +335,16 @@ Voltran uses a number of open source projects to work properly:
 * [Yarn] - the streaming build system
 
 
-## contributing
+## Contributing
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
+
+
+<p align="center">
+   <a href="https://medium.com/hepsiburadatech"><img src="./src/assets/hepsitech.png" alt="hepsitech"></a>  
+</p>
+
