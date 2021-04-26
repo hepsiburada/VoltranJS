@@ -2,14 +2,19 @@
   <br>
   <a href="http://www.hepsiburada.com"><img src="./src/assets/voltran-logo.png" alt="voltran.js" width="220"></a>
   <br>
-  VoltranJS
+  Micro Frontends Framework
   <br>
 </h1>
 
-<h4 align="center">Voltran is a micro frontend framework which is developed by Hepsiburada Technology Team. <a href="https://micro-frontends.org" target="_blank>Micro frontends</a> help cross functional teams to make end-to-end and independent developments and deployments. <br> </h4>
+<h4 align="center">Voltran is a micro frontends framework which is developed by Hepsiburada Technology Team. Micro frontends help cross functional teams to make end-to-end and independent developments and deployments.</h4>
+ 
+ <br>
 
 <p align="center">
- <a href="https://badge.fury.io/js/voltranjs"><img src="https://badge.fury.io/js/voltranjs.svg" alt="npm version" height="18"></a>
+ <a href="https://badge.fury.io/js/voltranjs"><img src="https://badge.fury.io/js/voltranjs.svg" alt="npm version"></a>
+ <a href="https://www.npmjs.com/package/voltranjs"><img alt="npm" src="https://img.shields.io/npm/dy/voltranjs"></a>
+ <a href="https://www.npmjs.com/package/voltranjs"><img alt="npm" src="https://img.shields.io/npm/v/voltranjs"></a>
+ <a href="https://twitter.com/hepsiburadatech"><img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/hepsiburadatech"></a>
 </p>
 
 <p align="center">
@@ -339,5 +344,7 @@ Voltran uses a number of open source projects to work properly:
 5. Submit a pull request :D
 
 
-[![Hepsiburada](./src/assets/hepsiburada.png)](https://www.hepsiburada.com)
-[![Hepsitech](./src/assets/hepsitech.png)](https://medium.com/hepsiburadatech)
+<p align="center">
+   <a href="https://medium.com/hepsiburadatech"><img src="./src/assets/hepsitech.png" alt="hepsitech"></a>  
+</p>
+
