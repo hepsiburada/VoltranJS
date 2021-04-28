@@ -58,13 +58,18 @@ export default async (req, res) => {
       activeComponent,
       componentName,
       seoState,
-      isPreviewQuery
+      isPreviewQuery,
+      responseOptions,
     } = renderResponse;
+
+    const statusCode = responseOptions?.isPartialContent
+      ? HTTP_STATUS_CODES.PARTIAL_CONTENT
+      : HTTP_STATUS_CODES.OK;
 
     if (!isPreview(context.query)) {
       const html = renderLinksAndScripts(output, '', '');
 
-      res.json({ html, scripts, style: links, activeComponent, seoState });
+      res.status(statusCode).json({ html, scripts, style: links, activeComponent, seoState });
 
       metrics.fragmentRequestDurationMicroseconds
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
@@ -73,9 +78,9 @@ export default async (req, res) => {
       const voltranEnv = appConfig.voltranEnv || 'local';
 
       if (voltranEnv !== 'prod' && isPreviewQuery) {
-        res.html(Preview([fullHtml].join('\n')));
+        res.status(statusCode).html(Preview([fullHtml].join('\n')));
       } else {
-        res.html('<h1>Aradığınız sayfa bulunamadı...</h1>');
+        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).html('<h1>Aradığınız sayfa bulunamadı...</h1>');
       }
     }
   } else {

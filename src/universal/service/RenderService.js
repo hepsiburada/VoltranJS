@@ -13,6 +13,7 @@ const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
   let subComponentFiles = [];
   let seoState = {};
+  let responseOptions = {};
 
   if (!predefinedInitialState && component.getInitialState) {
     const services = component.services.map(serviceName => ServerApiManagerCache[serviceName]);
@@ -27,7 +28,11 @@ const getStates = async (component, context, predefinedInitialState) => {
     subComponentFiles = initialState.data.subComponentFiles;
   }
 
-  return { initialState, seoState, subComponentFiles };
+  if (initialState.data.responseOptions) {
+    responseOptions = initialState.data.responseOptions;
+  }
+
+  return { initialState, seoState, subComponentFiles, responseOptions };
 };
 
 const renderLinksAndScripts = (html, links, scripts) => {
@@ -78,7 +83,7 @@ const isPreview = query => {
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {
-  const { initialState, seoState, subComponentFiles } = await getStates(
+  const { initialState, seoState, subComponentFiles, responseOptions } = await getStates(
     component.object,
     context,
     predefinedInitialState
@@ -102,7 +107,8 @@ const renderComponent = async (component, context, predefinedInitialState = null
     seoState,
     fullWidth: component.fullWidth,
     isMobileComponent: component.isMobileComponent,
-    isPreviewQuery: component.isPreviewQuery
+    isPreviewQuery: component.isPreviewQuery,
+    responseOptions,
   };
 };
 
