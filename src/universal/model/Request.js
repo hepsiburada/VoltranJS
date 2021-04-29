@@ -24,7 +24,7 @@ export default class Request {
           if (this.response?.onError) {
             return this.response.onError(error);
           }
-          return error;
+          throw error;
         });
     }
     return promise;
