@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { loadableReady } from '@loadable/component';
 
 import ClientApp from '../components/ClientApp';
 import { WINDOW_GLOBAL_PARAMS } from '../utils/constants';
@@ -35,16 +36,18 @@ const withBaseComponent = (PageComponent, pathName) => {
 
       const initialState = fragments[id].STATE;
 
-      ReactDOM.hydrate(
-        <ClientApp>
-          <PageComponent {...staticProps} initialState={initialState} history={history} />
-        </ClientApp>,
-        componentEl,
-        () => {
-          componentEl.style.pointerEvents = 'auto';
-          componentEl.setAttribute('voltran-hydrated', 'true');
-        }
-      );
+      loadableReady(() => {
+        ReactDOM.hydrate(
+          <ClientApp>
+            <PageComponent {...staticProps} initialState={initialState} history={history} />
+          </ClientApp>,
+          componentEl,
+          () => {
+            componentEl.style.pointerEvents = 'auto';
+            componentEl.setAttribute('voltran-hydrated', 'true');
+          }
+        );
+      });
     });
   }
 

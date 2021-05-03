@@ -14,16 +14,21 @@ const cleanAssetsPrefixFromAssetURI = assetURI => {
 
 const cssContentCache = {};
 
-if (process.env.NODE_ENV === 'production') {
-  Object.keys(assets).forEach(name => {
-    if (assets[name].css) {
-      cssContentCache[name] = fs.readFileSync(
-        path.resolve(
-          process.cwd(),
-          `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`
-        ),
-        'utf8'
-      );
+if (process.env.NODE_ENV === 'production' && assets.assetsByChunkName) {
+  Object.keys(assets.assetsByChunkName).
+  forEach(name => {
+    if (assets.assetsByChunkName[name] && Array.isArray(assets.assetsByChunkName[name]) && assets.assetsByChunkName[name].length > 0) {
+      assets.assetsByChunkName[name].map(fileName => {
+        if (fileName.endsWith('.css')) {
+          cssContentCache[name] = fs.readFileSync(
+            path.resolve(
+              process.cwd(),
+              `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(fileName)}`,
+            ),
+            'utf8',
+          );
+        }
+      });
     }
   });
 }
@@ -33,12 +38,12 @@ const getScripts = (name, subComponentFiles) => {
   const scripts = [
     {
       src: `${assetsBaseUrl}${assets.client.js}`,
-      isAsync: false
+      isAsync: false,
     },
     {
       src: `${assetsBaseUrl}${assets[name].js}`,
-      isAsync: false
-    }
+      isAsync: false,
+    },
   ];
   const mergedScripts =
     subComponentFilesScripts && subComponentFilesScripts.length > 0
@@ -48,7 +53,7 @@ const getScripts = (name, subComponentFiles) => {
   return mergedScripts;
 };
 
-const getStyles = async (name, subComponentFiles) => {
+const getStyles = async(name, subComponentFiles) => {
   const links = [];
   const subComponentFilesStyles = subComponentFiles.styles;
 
@@ -59,7 +64,7 @@ const getStyles = async (name, subComponentFiles) => {
       criticalStyleComponent:
         process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
           ? cssContentCache[name]
-          : undefined
+          : undefined,
     });
   }
 
@@ -70,7 +75,7 @@ const getStyles = async (name, subComponentFiles) => {
       criticalStyleComponent:
         process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
           ? cssContentCache.client
-          : undefined
+          : undefined,
     });
   }
 
@@ -88,15 +93,15 @@ const getActiveComponent = name => {
   return {
     resultPath: path,
     componentName: name,
-    url: path
+    url: path,
   };
 };
 
-const createBaseRenderHtmlProps = async (name, subComponentFiles) => {
+const createBaseRenderHtmlProps = async(name, subComponentFiles) => {
   return {
     scripts: getScripts(name, subComponentFiles),
     links: await getStyles(name, subComponentFiles),
-    activeComponent: getActiveComponent(name)
+    activeComponent: getActiveComponent(name),
   };
 };
 

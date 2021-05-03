@@ -24,7 +24,7 @@ function componentClassName(componentName, context) {
 
 function Html({
   componentName,
-  children,
+  bodyHtml,
   styleTags,
   initialState,
   fullWidth,
@@ -41,7 +41,7 @@ function Html({
         class="${voltranConfig.prefix}-voltran-body voltran-body ${
     isMobileFragment ? 'mobile' : ''
   }${fullWidth ? 'full' : ''} ${componentClassName(componentName, context)}">
-        ${children}
+        ${bodyHtml}
       </div>
       <div>REPLACE_WITH_LINKS</div>
       <div>REPLACE_WITH_SCRIPTS</div>

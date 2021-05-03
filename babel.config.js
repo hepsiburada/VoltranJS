@@ -8,7 +8,8 @@ module.exports = api => {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-numeric-separator',
-    '@babel/plugin-proposal-throw-expressions'
+    '@babel/plugin-proposal-throw-expressions',
+    '@loadable/babel-plugin',
   ];
 
   const basePresets = [];

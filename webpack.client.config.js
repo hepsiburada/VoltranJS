@@ -10,7 +10,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 require('intersection-observer');
 
@@ -34,7 +34,6 @@ const voltranClientConfig = voltranClientConfigPath
   ? require(voltranConfig.webpackConfiguration.client)
   : '';
 
-const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
 
 const fragmentManifest = require(voltranConfig.routing.dictionary);
@@ -42,7 +41,6 @@ const fragmentManifest = require(voltranConfig.routing.dictionary);
 const isDebug = voltranConfig.dev;
 const reScript = /\.(js|jsx|mjs)$/;
 const distFolderPath = voltranConfig.distFolder;
-const prometheusFile = voltranConfig.monitoring.prometheus;
 
 const chunks = {};
 
@@ -116,11 +114,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     rules: [
       {
         test: reScript,
-        loader: 'esbuild-loader',
+        loader: 'babel-loader',
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
-          loader: 'jsx',
-          target: 'es2015'
+          cacheDirectory: isDebug,
+          babelrc: false,
+          plugins: ['@loadable/babel-plugin'],
+          ...babelConfig()
         }
       },
       {
@@ -197,10 +197,6 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
 
   optimization: {
     minimizer: [
-      new ESBuildMinifyPlugin({
-        target: 'es2015',
-        css: true
-      }),
       new TerserWebpackPlugin({
         sourceMap: isDebug,
         parallel: true,
@@ -223,6 +219,15 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
       'process.env.BROWSER': true,
       __DEV__: isDebug,
       GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL)
+    }),
+
+    new LoadablePlugin({
+      filename: path.resolve(
+        process.cwd(),
+        `${voltranConfig.inputFolder}/universal/loadable-stats.json`
+      ),
+      writeToDisk: true,
+      outputAsset: false
     }),
 
     new CopyWebpackPlugin([
