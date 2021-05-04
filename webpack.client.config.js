@@ -47,7 +47,7 @@ const prometheusFile = voltranConfig.monitoring.prometheus;
 const chunks = {};
 
 chunks.client = [
-  '@babel/polyfill',
+  '@babel/polyfill/noConflict',
   'intersection-observer',
   path.resolve(__dirname, 'src/client/client.js')
 ];
