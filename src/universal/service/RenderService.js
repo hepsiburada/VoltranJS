@@ -1,10 +1,10 @@
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
-import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import ReactDOMServer from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router';
 import ConnectedApp from '../components/App';
 import Html from '../components/Html';
+import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
 import { guid } from '../utils/helper';
@@ -14,6 +14,10 @@ const getStates = async (component, context, predefinedInitialState) => {
   let subComponentFiles = [];
   let seoState = {};
   let responseOptions = {};
+
+  if (context.isWithoutState) {
+    return { initialState, seoState, subComponentFiles, responseOptions };
+  }
 
   if (!predefinedInitialState && component.getInitialState) {
     const services = component.services.map(serviceName => ServerApiManagerCache[serviceName]);
@@ -82,6 +86,10 @@ const isPreview = query => {
   return query.preview === '';
 };
 
+const isWithoutState = query => {
+  return query.withoutState === '';
+};
+
 const renderComponent = async (component, context, predefinedInitialState = null) => {
   const { initialState, seoState, subComponentFiles, responseOptions } = await getStates(
     component.object,
@@ -112,4 +120,4 @@ const renderComponent = async (component, context, predefinedInitialState = null
   };
 };
 
-export { renderHtml, renderLinksAndScripts, getStates, isWithoutHTML, isPreview, renderComponent };
+export { renderHtml, renderLinksAndScripts, getStates, isWithoutHTML, isPreview, isWithoutState, renderComponent };
