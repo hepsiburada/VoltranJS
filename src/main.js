@@ -4,14 +4,15 @@ import cluster from 'cluster';
 import logger from './universal/utils/logger';
 import Hiddie from 'hiddie';
 import http from 'http';
-import voltranConfig from '../voltran.config';
 import prom from 'prom-client';
-import {HTTP_STATUS_CODES} from './universal/utils/constants';
+
+import voltranConfig from '../voltran.config';
+import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
 const enablePrometheus = voltranConfig.monitoring.prometheus;
 
 function triggerMessageListener(worker) {
-  worker.on('message', function (message) {
+  worker.on('message', function(message) {
     if (message?.options?.forwardAllWorkers) {
       sendMessageToAllWorkers(message);
     }
@@ -19,15 +20,15 @@ function triggerMessageListener(worker) {
 }
 
 function sendMessageToAllWorkers(message) {
-  Object.keys(cluster.workers).forEach(function (key) {
+  Object.keys(cluster.workers).forEach(function(key) {
     const worker = cluster.workers[key];
     worker.send({
-      msg: message.msg,
+      msg: message.msg
     });
   }, this);
 }
 
-cluster.on('fork', (worker) => {
+cluster.on('fork', worker => {
   triggerMessageListener(worker);
 });
 
@@ -52,7 +53,7 @@ if (cluster.isMaster) {
         return res.end(await aggregatorRegistry.clusterMetrics());
       }
       res.statusCode = HTTP_STATUS_CODES.NOT_FOUND;
-      res.end(JSON.stringify({message: 'not found'}));
+      res.end(JSON.stringify({ message: 'not found' }));
     });
 
     http.createServer(hiddie.run).listen(metricsPort, () => {
