@@ -1,11 +1,27 @@
 # Changelog
 
-## [1.0.10](https://github.com/hepsiburada/VoltranJS/compare/1.0.9...1.0.10)
+## [1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...1.0.11)
+
+### Merged
+
+- feature: added without state parameter [`#20`](https://github.com/hepsiburada/VoltranJS/pull/20)
+- feat: jest library setup [`#19`](https://github.com/hepsiburada/VoltranJS/pull/19)
+
+### Commits
+
+- Create CODE_OF_CONDUCT.md [`6da53eb`](https://github.com/hepsiburada/VoltranJS/commit/6da53ebcf849a8460619e77173cda485b6267c89)
+- Update issue templates [`6d1d122`](https://github.com/hepsiburada/VoltranJS/commit/6d1d122c790a1a1fe5f66f6c1f2c337ced793e16)
+
+## [1.0.10](https://github.com/hepsiburada/VoltranJS/compare/1.0.9...1.0.10) - 2021-05-27
 
 ### Merged
 
 - feat: add changelog generator service [`#18`](https://github.com/hepsiburada/VoltranJS/pull/18)
 - use @babel/polyfill/noConflict instead @babel/polyfill [`#16`](https://github.com/hepsiburada/VoltranJS/pull/16)
+
+### Commits
+
+- chore: add changelog [`b8662b0`](https://github.com/hepsiburada/VoltranJS/commit/b8662b05673537883ba45576cf1e2d357bb0e5e0)
 
 ## [1.0.9](https://github.com/hepsiburada/VoltranJS/compare/1.0.8...1.0.9) - 2021-04-29
 
