@@ -1,6 +1,12 @@
 # Changelog
 
-## [1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...1.0.11)
+## [v1.0.12](https://github.com/hepsiburada/VoltranJS/compare/1.0.11...v1.0.12) - 2021-07-30
+
+### Merged
+
+- VoltranJS serverConfig file fixed. [`#21`](https://github.com/hepsiburada/VoltranJS/pull/21)
+
+## [1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...1.0.11) - 2021-06-08
 
 ### Merged
 
@@ -11,6 +17,7 @@
 
 - Create CODE_OF_CONDUCT.md [`6da53eb`](https://github.com/hepsiburada/VoltranJS/commit/6da53ebcf849a8460619e77173cda485b6267c89)
 - Update issue templates [`6d1d122`](https://github.com/hepsiburada/VoltranJS/commit/6d1d122c790a1a1fe5f66f6c1f2c337ced793e16)
+- chore: update changelog [`05955c3`](https://github.com/hepsiburada/VoltranJS/commit/05955c343471d27e797c472c09811410d56fdb7d)
 
 ## [1.0.10](https://github.com/hepsiburada/VoltranJS/compare/1.0.9...1.0.10) - 2021-05-27
 
