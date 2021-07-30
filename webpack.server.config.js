@@ -21,8 +21,14 @@ let styles = '';
 for (let i = 0; i < voltranConfig.styles.length; i++) {
   styles += `require('${voltranConfig.styles[i]}');`;
 }
+const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
+const voltranServerConfig = voltranServerConfigPath
+  ? require(voltranConfig.webpackConfiguration.server)
+  : '';
 
-const serverConfig = webpackMerge(commonConfig, voltranConfig.webpackConfiguration.server, {
+
+
+const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   name: 'server',
 
   target: 'node',
