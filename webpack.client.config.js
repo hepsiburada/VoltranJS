@@ -189,6 +189,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
           },
           {
             loader: 'sass-loader'
+          },
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              sourceMap: true,
+              resources: [...voltranConfig.sassResources]
+            }
           }
         ]
       }
