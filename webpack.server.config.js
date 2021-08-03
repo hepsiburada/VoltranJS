@@ -26,8 +26,6 @@ const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
 
-
-
 const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   name: 'server',
 
@@ -85,13 +83,17 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
           {
             loader: 'sass-loader'
           },
-          {
-            loader: 'sass-resources-loader',
-            options: {
-              sourceMap: true,
-              resources: [...voltranConfig.sassResources]
-            }
-          }
+          ...(voltranConfig.sassResources
+            ? [
+                {
+                  loader: 'sass-resources-loader',
+                  options: {
+                    sourceMap: false,
+                    resources: voltranConfig.sassResources
+                  }
+                }
+              ]
+            : [])
         ]
       }
     ]
