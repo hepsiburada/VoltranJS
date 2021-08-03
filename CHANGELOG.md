@@ -1,6 +1,22 @@
 # Changelog
 
-## [1.0.13](https://github.com/hepsiburada/VoltranJS/compare/1.0.12...1.0.13)
+## [1.0.14](https://github.com/hepsiburada/VoltranJS/compare/1.0.13...1.0.14)
+
+### Merged
+
+- Undefined SassResources bug [`#23`](https://github.com/hepsiburada/VoltranJS/pull/23)
+
+### Commits
+
+- voltranConfig.sassResources undefined bug fixed. [`acb50ef`](https://github.com/hepsiburada/VoltranJS/commit/acb50efb72227a759663eef15be48afc4b26e132)
+
+## [1.0.13](https://github.com/hepsiburada/VoltranJS/compare/v1.0.13...1.0.13) - 2021-08-03
+
+### Commits
+
+- chore: update changelog [`94a3f7a`](https://github.com/hepsiburada/VoltranJS/commit/94a3f7a0e76363fd6fc7fb22bd80dd5f34b228d9)
+
+## [v1.0.13](https://github.com/hepsiburada/VoltranJS/compare/1.0.12...v1.0.13) - 2021-08-03
 
 ### Merged
 
