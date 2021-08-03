@@ -1,10 +1,24 @@
 # Changelog
 
-## [v1.0.12](https://github.com/hepsiburada/VoltranJS/compare/1.0.11...v1.0.12) - 2021-07-30
+## [1.0.13](https://github.com/hepsiburada/VoltranJS/compare/1.0.12...1.0.13)
+
+### Merged
+
+- sass-resources-loader implementation. [`#22`](https://github.com/hepsiburada/VoltranJS/pull/22)
+
+### Commits
+
+- sass-resource-loader implementation is done. Updated read me according to new config. [`cc97ef5`](https://github.com/hepsiburada/VoltranJS/commit/cc97ef506b03be4db82c0044b12301a22eb97085)
+
+## [1.0.12](https://github.com/hepsiburada/VoltranJS/compare/1.0.11...1.0.12) - 2021-07-30
 
 ### Merged
 
 - VoltranJS serverConfig file fixed. [`#21`](https://github.com/hepsiburada/VoltranJS/pull/21)
+
+### Commits
+
+- chore: update changelog [`19134e7`](https://github.com/hepsiburada/VoltranJS/commit/19134e71989fe79328c8157b7ceb46bbc9afb7ef)
 
 ## [1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...1.0.11) - 2021-06-08
 
