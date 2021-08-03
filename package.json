@@ -85,7 +85,6 @@
     "react-router-dom": "5.1.2",
     "rimraf": "2.6.2",
     "sass-loader": "7.1.0",
-    "sass-resources-loader": "2.0.1",
     "serve-static": "1.14.1",
     "source-map-support": "^0.5.19",
     "string-replace-loader": "^2.3.0",
@@ -113,7 +112,8 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
     "jest": "^26.6.3",
-    "response-time": "^2.3.2"
+    "response-time": "^2.3.2",
+    "sass-resources-loader": "^2.2.3"
   },
   "scripts": {
     "lint": "npm run eslint && npm run prettier",

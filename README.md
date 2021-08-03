@@ -26,17 +26,16 @@
   <a href="#contributing">Contributing</a>
 </p>
 
-
 ### Key Features
 
 You can use Voltran if you need a micro frontend framework that provides following features:
 
-  - Lightweight and fast API
-  - Serves single and multiple components
-  - Preview (to visualize components)
-  - SEO friendly (if needed)
-  - CSS & SCSS support
-  - Supports only React (for now)
+- Lightweight and fast API
+- Serves single and multiple components
+- Preview (to visualize components)
+- SEO friendly (if needed)
+- CSS & SCSS support
+- Supports only React (for now)
 
 ## Installation
 
@@ -45,11 +44,13 @@ Voltran requires [Node.js](https://nodejs.org/) v10.15.0+ to run.
 Install the Voltran.
 
 #### Yarn
+
 ```sh
 $ yarn add voltranjs
 ```
 
 #### Npm
+
 ```sh
 $ npm install voltranjs
 ```
@@ -62,43 +63,31 @@ First of all, you should import `@voltran/core`.
 
 After that we can write the component's code.
 
-
 **HelloWorld.js**
 
-
 ```jsx
-
 const voltran = require('@voltran/core');
 
 import React from 'react';
 
 const ROUTE_PATHS = {
-  HELLOWORLDPAGE: '/HelloWorld',
+  HELLOWORLDPAGE: '/HelloWorld'
 };
 
-const HelloWorld = ({initialState}) => {
-
-    return (
-        <>
-            Hello World!
-        </>
-    );
+const HelloWorld = ({ initialState }) => {
+  return <>Hello World!</>;
 };
 
 const component = voltran.default.withBaseComponent(HelloWorld, ROUTE_PATHS.HELLOWORLDPAGE);
 
 export default component;
-
 ```
 
 If you want to fetch data from server side, you should add `getInitialState`.
 
-
 **./conf/local.config.js**
 
-
 ```js
-
 const port = 3578;
 
 module.exports = {
@@ -106,9 +95,9 @@ module.exports = {
   baseUrl: `http://localhost:${port}`,
   mediaUrl: '',
   services: {
-    'voltranapi': {
-      'clientUrl': 'http://voltran-api.qa.hepsiburada.com',
-      'serverUrl': 'http://voltran-api.qa.hepsiburada.com'
+    voltranapi: {
+      clientUrl: 'http://voltran-api.qa.hepsiburada.com',
+      serverUrl: 'http://voltran-api.qa.hepsiburada.com'
     }
   },
   timeouts: {
@@ -116,12 +105,9 @@ module.exports = {
     serverApiManager: 20 * 1000
   }
 };
-
 ```
 
-
 **HelloWorld.js**
-
 
 ```jsx
 
@@ -157,7 +143,6 @@ export default component;
 
 ```
 
-
 **Output For Preview**
 
 ```
@@ -179,32 +164,32 @@ Hello World. My Name is Volkan!
 }
 ```
 
-
 ## Configs
 
 Voltran requires following configurations:
 
-| **Config** | **Type** |
-| ------ | ------ |
-| [appConfigFile](#appConfigFile) | Object |
-| [dev](#dev) | Boolean |
-| [distFolder](#distFolder) | String |
-| [publicDistFolder](#publicDistFolder) | String |
-| [inputFolder](#inputFolder) | String  * `required` |
-| [monitoring](#monitoring) | Object |
-| [port](#port) | Number - String |
-| [prefix](#prefix) | String * `required` |
-| [ssr](#ssr) | String |
-| [styles](#styles) | Array |
-| [output](#output) | Object |
-| [staticProps](#staticProps) | Array |
-| [routing](#routing) | Object |
-| [webpackConfiguration](#webpackConfiguration) | Object |
-
+| **Config**                                    | **Type**             |
+| --------------------------------------------- | -------------------- |
+| [appConfigFile](#appConfigFile)               | Object               |
+| [dev](#dev)                                   | Boolean              |
+| [distFolder](#distFolder)                     | String               |
+| [publicDistFolder](#publicDistFolder)         | String               |
+| [inputFolder](#inputFolder)                   | String \* `required` |
+| [monitoring](#monitoring)                     | Object               |
+| [port](#port)                                 | Number - String      |
+| [prefix](#prefix)                             | String \* `required` |
+| [ssr](#ssr)                                   | String               |
+| [styles](#styles)                             | Array                |
+| [output](#output)                             | Object               |
+| [staticProps](#staticProps)                   | Array                |
+| [routing](#routing)                           | Object               |
+| [webpackConfiguration](#webpackConfiguration) | Object               |
+| [sassResources](#sassResources)               | Array                |
 
 #### appConfigFile
 
 It should contain environment specific configurations (test, production ...).
+
 ```
 appConfigFile: {
   entry: path.resolve(__dirname, './yourConfigFolder/'),
@@ -214,22 +199,27 @@ appConfigFile: {
   }
 }
 ```
+
 #### dev
+
 Development mode. Set to `true` if you need to debug.
 
 `Default`: `false`
 
 #### distFolder
+
 The path to the folder where bundled scripts will be placed after the build.
 
 `Default`: `./dist`
 
 #### publicDistFolder
+
 The path to the folder where asset files will be placed after the build.
 
 `Default`: `./dist/assets`
 
 #### inputFolder
+
 The path to the folder that contains script files. It's required.
 
 Passes this config to Babel Loader where it reads all js files under this folder.
@@ -237,12 +227,15 @@ Passes this config to Babel Loader where it reads all js files under this folder
 'Voltran' converts your files to the appropriate format and optimizes them.
 
 #### monitoring
+
 For now, only prometheus is supported.
+
 ```
 monitoring: {
   prometheus: false
 }
 ```
+
 > or you can set your custom js file.
 
 ```
@@ -252,23 +245,29 @@ monitoring: {
 ```
 
 #### port
+
 `Default`: `3578`
+
 > If you want to change the port
 > you may need to change the port in appConfigFiles
 
 #### prefix
+
 `It is required.`
 
 There may be different components owned by different teams using voltrans on the same page. Voltran needs to use a prefix in order to avoid conflicts issues.
 This prefix is prepended to initial states and CSS class names.
+
 > We recommend that each team use their own acronyms/prefixes.
 
 #### ssr
+
 `Default`: `true`
 Voltran supports server side rendering.
 Applications that need 'SEO' features needs to set this parameter to `true`.
 
 #### styles
+
 This field's value should be an array of strings. Array values should be the paths to the global CSS files.
 
 ```
@@ -279,6 +278,7 @@ styles: [
 ```
 
 ### output
+
 ```
 output: {
   client: {
@@ -295,6 +295,7 @@ output: {
 ```
 
 #### staticProps
+
 You can pass static props to all components at the same time.
 
 ```
@@ -304,6 +305,7 @@ staticProps: [
 ```
 
 #### routing
+
 Voltran need two files to set routing.
 
 ```
@@ -314,8 +316,9 @@ routing: {
 ```
 
 Example files can be found here:
-   - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
-   - [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
+
+- [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
+- [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
 
 #### webpackConfiguration
 
@@ -323,17 +326,22 @@ You can add your webpack configuration. They will be merged with the voltran con
 
 You can access the starter kit we created from the [link](https://github.com/hepsiburada/VoltranJS-Starter-Kit).
 
+#### sassResources
+
+You can add sass resources to this field as string array. sass-resource-loader gonna inject those files in every sass files so you won't need to import them.
+
+You can check [sass-resource-loader](https://github.com/shakacode/sass-resources-loader) for usage.
+
 ## Tech
 
 Voltran uses a number of open source projects to work properly:
 
-* [ReactJS] - A JavaScript library for building user interfaces!
-* [Webpack] - Module bundler
-* [babel] - The compiler for next generation JavaScript.
-* [node.js] - evented I/O for the backend
-* [hiddie] - fast node.js network app framework (friendly fork of [middie](https://github.com/fastify/middie))
-* [Yarn] - the streaming build system
-
+- [ReactJS] - A JavaScript library for building user interfaces!
+- [Webpack] - Module bundler
+- [babel] - The compiler for next generation JavaScript.
+- [node.js] - evented I/O for the backend
+- [hiddie] - fast node.js network app framework (friendly fork of [middie](https://github.com/fastify/middie))
+- [Yarn] - the streaming build system
 
 ## Contributing
 
@@ -343,8 +351,6 @@ Voltran uses a number of open source projects to work properly:
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
-
 <p align="center">
    <a href="https://medium.com/hepsiburadatech"><img src="./src/assets/hepsitech.png" alt="hepsitech"></a>  
 </p>
-
