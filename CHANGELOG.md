@@ -1,14 +1,17 @@
 # Changelog
 
-## [1.0.14](https://github.com/hepsiburada/VoltranJS/compare/1.0.13...1.0.14)
+## [1.0.16](https://github.com/hepsiburada/VoltranJS/compare/1.0.13...1.0.16)
 
 ### Merged
 
+- set-cookie header imported to cookies [`#25`](https://github.com/hepsiburada/VoltranJS/pull/25)
 - Undefined SassResources bug [`#23`](https://github.com/hepsiburada/VoltranJS/pull/23)
 
 ### Commits
 
 - voltranConfig.sassResources undefined bug fixed. [`acb50ef`](https://github.com/hepsiburada/VoltranJS/commit/acb50efb72227a759663eef15be48afc4b26e132)
+- chore: update changelog [`f3501ad`](https://github.com/hepsiburada/VoltranJS/commit/f3501ad944fe8f186acdce498e82ec131e09ff51)
+- Version upgrade [`b4aad6f`](https://github.com/hepsiburada/VoltranJS/commit/b4aad6f1cbc30c22c547529e9f86bd267f0559b1)
 
 ## [1.0.13](https://github.com/hepsiburada/VoltranJS/compare/v1.0.13...1.0.13) - 2021-08-03
 
