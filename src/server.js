@@ -141,6 +141,11 @@ const locals = async (req, res, next) => {
   req.path = xss(parsedUrl.pathname);
   req.url = xss(req.url);
 
+  if (req.headers['set-cookie']) {
+    req.headers['cookie'] = req.headers['cookie'] || req.headers['set-cookie']?.join();
+    delete req.headers['set-cookie'];
+  }
+
   res.locals = {};
   res.locals.startEpoch = new Date();
 
