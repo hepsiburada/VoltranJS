@@ -1,6 +1,6 @@
 {
   "name": "voltranjs",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "main": "src/index.js",
   "author": "Hepsiburada Technology Team",
   "bin": {
