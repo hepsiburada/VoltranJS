@@ -1,6 +1,16 @@
 # Changelog
 
-## [v1.0.17](https://github.com/hepsiburada/VoltranJS/compare/v1.0.11...v1.0.17)
+## [v1.0.18](https://github.com/hepsiburada/VoltranJS/compare/v1.0.17...v1.0.18)
+
+### Merged
+
+- fixed regenerator-runtime [`#26`](https://github.com/hepsiburada/VoltranJS/pull/26)
+
+### Commits
+
+- chore: update changelog [`3a6f319`](https://github.com/hepsiburada/VoltranJS/commit/3a6f3196100385e25b8d08085b4f5e034564db56)
+
+## [v1.0.17](https://github.com/hepsiburada/VoltranJS/compare/v1.0.11...v1.0.17) - 2021-09-06
 
 ### Merged
 
