@@ -1,9 +1,13 @@
-const components = require('__V_COMPONENTS__');
+import { generateComponents } from '../../utils/helper';
+
+const componentConfig = require('__V_COMPONENTS__');
+
+const components = generateComponents(componentConfig.default);
 
 const routesWithComponents = {};
 
-Object.keys(components.default).forEach(path => {
-  const info = components.default[path];
+Object.keys(components).forEach(path => {
+  const info = components[path];
   routesWithComponents[path] = info.fragment;
 });
 
