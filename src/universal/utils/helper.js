@@ -1,4 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
+import voltranConfig from '../../../voltran.config';
+
 export const removeQueryStringFromUrl = url => {
   const partials = url.split('?');
 
@@ -20,12 +22,9 @@ const toCamel = (value = '') => {
     .toLowerCase();
 };
 
-export const generateComponents = ({
-  paths = {},
-  components = [],
-  defaultConfig = {},
-  customConfig = {}
-}) => {
+export const generateComponents = partialsConfig => {
+  const { paths = {}, components = [], defaultConfig = {}, customConfig = {} } = partialsConfig;
+
   let result = {};
   Object.entries(paths).forEach(([key, value]) => {
     result = {
@@ -46,6 +45,15 @@ export const generateComponents = ({
 export function guid() {
   return `${s4()}${s4()}-${s4()}-4${s4().substr(0, 3)}-${s4()}-${s4()}${s4()}${s4()}`.toLowerCase();
 }
+
+export const getEventBus = () => {
+  return process.env.BROWSER && window && window.HbEventBus;
+};
+
+export const getProjectWindowData = () => {
+  const prefix = voltranConfig.prefix.toUpperCase();
+  return process.env.BROWSER && window && window[prefix];
+};
 
 export function s4() {
   return Math.floor((1 + Math.random()) * 0x10000)

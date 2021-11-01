@@ -16,8 +16,7 @@ import logger from './universal/utils/logger';
 
 const appConfig = require('__APP_CONFIG__');
 
-// eslint-disable-next-line consistent-return
-export default async (req, res) => {
+const render = async (req, res) => {
   const isWithoutStateValue = isWithoutState(req.query);
   const pathParts = xss(req.path)
     .split('/')
@@ -94,3 +93,5 @@ export default async (req, res) => {
     });
   }
 };
+
+export default render;

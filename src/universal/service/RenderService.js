@@ -19,12 +19,12 @@ const getStates = async (component, context, predefinedInitialState) => {
     return { initialState, seoState, subComponentFiles, responseOptions };
   }
 
-  if (!predefinedInitialState && component.getInitialState) {
+  if (!predefinedInitialState && component?.getInitialState) {
     const services = component.services.map(serviceName => ServerApiManagerCache[serviceName]);
     initialState.data = await component.getInitialState(...[...services, context]);
   }
 
-  if (component.getSeoState) {
+  if (component?.getSeoState) {
     seoState = component.getSeoState(initialState.data);
   }
 
@@ -90,6 +90,10 @@ const isWithoutState = query => {
   return query.withoutState === '';
 };
 
+const isRequestDispatcher = query => {
+  return query.requestDispathcer === '' || query.requestDispathcer !== 'false';
+};
+
 const renderComponent = async (component, context, predefinedInitialState = null) => {
   const { initialState, seoState, subComponentFiles, responseOptions } = await getStates(
     component.object,
@@ -127,6 +131,7 @@ export {
   getStates,
   isWithoutHTML,
   isPreview,
+  isRequestDispatcher,
   isWithoutState,
   renderComponent
 };

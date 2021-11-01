@@ -7,7 +7,7 @@ module.exports = {
     window: true,
     hepsiBus: true,
     global: true,
-    jest: true,
+    jest: true
   },
   parserOptions: {
     ecmaFeatures: {
@@ -46,7 +46,13 @@ module.exports = {
     'no-nested-ternary': 'off',
     'no-underscore-dangle': 'off',
     'consistent-return': 'off',
-    'array-callback-return': 'off'
+    'array-callback-return': 'off',
+    'no-restricted-syntax': [
+      'error',
+      'FunctionExpression',
+      'WithStatement',
+      "BinaryExpression[operator='in']"
+    ]
   },
   env: {
     jest: true,

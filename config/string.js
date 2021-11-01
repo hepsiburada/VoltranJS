@@ -16,7 +16,9 @@ function replaceString() {
     },
     {
       search: '__APP_CONFIG__',
-      replace: normalizeUrl(`${voltranConfig.appConfigFile.output.path}/${voltranConfig.appConfigFile.output.name}.js`),
+      replace: normalizeUrl(
+        `${voltranConfig.appConfigFile.output.path}/${voltranConfig.appConfigFile.output.name}.js`
+      ),
       flags: 'g'
     },
     {
@@ -30,14 +32,16 @@ function replaceString() {
       flags: 'g'
     },
     {
+      search: '__V_REQUEST_CONFIGS__',
+      replace: normalizeUrl(voltranConfig.routing.requestConfigs),
+      flags: 'g'
+    },
+    {
       search: '@voltran/core',
       replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'
     },
-    {
-      search: '"__V_styles__"',
-      replace: getStyles()
-    }
+    { search: '"__V_styles__"', replace: getStyles() }
   ];
 
   data.push({

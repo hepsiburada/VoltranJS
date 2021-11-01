@@ -1,5 +1,5 @@
 import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
-import { renderComponent, renderLinksAndScripts } from '../service/RenderService';
+import { isPreview, renderComponent, renderLinksAndScripts } from '../service/RenderService';
 
 export default class Renderer {
   constructor(component, context) {
@@ -9,8 +9,10 @@ export default class Renderer {
     this.initialState = null;
     this.winnerMap = null;
 
-    if (this.isPredefinedInitialStateSupported() &&
-      (process.env.BROWSER || (!process.env.BROWSER && !this.context.isWithoutState))) {
+    if (
+      this.isPredefinedInitialStateSupported() &&
+      (process.env.BROWSER || (!process.env.BROWSER && !this.context.isWithoutState))
+    ) {
       this.servicesMap = this.getServicesMap();
       this.winnerMap = {};
     }
@@ -38,12 +40,19 @@ export default class Renderer {
   render() {
     return new Promise(resolve => {
       renderComponent(this.component, this.context, this.initialState).then(response => {
-        const { output, links, scripts, activeComponent, seoState } = response;
+        const { output, links, scripts, activeComponent, seoState, fullHtml } = response;
         const html = renderLinksAndScripts(output, '', '');
 
         resolve({
           key: this.component.name,
-          value: { html, scripts, style: links, activeComponent, seoState },
+          value: {
+            html,
+            scripts,
+            style: links,
+            activeComponent,
+            seoState,
+            ...(isPreview(this.context?.query) && { fullHtml })
+          },
           id: this.component.id
         });
       });

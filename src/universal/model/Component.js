@@ -1,10 +1,7 @@
 import routesWithComponents from '../core/route/routesWithComponents';
 // eslint-disable-next-line import/named
-import { createComponentName, generateComponents } from '../utils/helper';
-
-const componentConfig = require('__V_COMPONENTS__');
-
-const components = generateComponents(componentConfig.default);
+import { createComponentName } from '../utils/helper';
+import components from '../core/route/components';
 
 export default class Component {
   static getComponentName = path => {
@@ -13,16 +10,16 @@ export default class Component {
 
   static getComponentPath = name => `/${name}`;
 
-  static getComponentIsMobileFragment = path => {
-    return components[path].isMobileFragment ? components[path].isMobileFragment : false;
+  static getComponentIsMobileFragment = (path = '') => {
+    return components?.[path]?.isMobileFragment ?? false;
   };
 
-  static getComponentIsFullWidth = path => {
-    return components[path].fullWidth ? components[path].fullWidth : false;
+  static getComponentIsFullWidth = (path = '') => {
+    return components?.[path]?.fullWidth ?? false;
   };
 
-  static getComponentIsPreviewQuery = path => {
-    return components[path].isPreviewQuery || true;
+  static getComponentIsPreviewQuery = (path = '') => {
+    return components?.[path]?.isPreviewQuery ?? true;
   };
 
   static getComponentObjectWithPath = path => routesWithComponents[path];

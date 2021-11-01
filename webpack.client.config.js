@@ -36,11 +36,11 @@ const normalizeUrl = require("./lib/os.js");
 const replaceString = require("./config/string.js");
 
 const fragmentManifest = require(voltranConfig.routing.dictionary);
+const fixFragmentManifest = require('./src/universal/core/route/dictionary');
 
 const isDebug = voltranConfig.dev;
 const reScript = /\.(js|jsx|mjs)$/;
 const distFolderPath = voltranConfig.distFolder;
-const prometheusFile = voltranConfig.monitoring.prometheus;
 
 const chunks = {};
 
@@ -48,17 +48,16 @@ chunks.client = [
   path.resolve(__dirname, "src/client/client.js")
 ];
 
-for (const index in fragmentManifest) {
-  if (!fragmentManifest[index]) {
-    continue;
-  }
+function generateChunk(fragments) {
+  fragments.forEach(fragment => {
+    const fragmentUrl = fragment?.path;
+    const name = createComponentName(fragment.routePath);
 
-  const fragment = fragmentManifest[index];
-  const fragmentUrl = fragment.path;
-  const name = createComponentName(fragment.routePath);
-
-  chunks[name] = [fragmentUrl];
+    chunks[name] = [fragmentUrl];
+  });
 }
+
+generateChunk([...fragmentManifest, ...fixFragmentManifest]);
 
 const GO_PIPELINE_LABEL = process.env.GO_PIPELINE_LABEL || packageJson.version;
 const appConfigFileTarget = `${voltranConfig.appConfigFile.output.path}/${voltranConfig.appConfigFile.output.name}.js`;
