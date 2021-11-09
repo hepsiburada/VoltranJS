@@ -36,7 +36,6 @@ export default async (req, res) => {
       url: xss(req.url)
         .replace(componentPath, '/')
         .replace('//', '/'),
-      userAgent: xss(req.headers['user-agent']),
       headers: JSON.parse(xss(JSON.stringify(req.headers))),
       isWithoutState: isWithoutStateValue
     };

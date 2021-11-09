@@ -9,7 +9,7 @@ import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
 
-function getRenderer(name, query, cookies, url, path, userAgent) {
+function getRenderer(name, query, cookies, url, path) {
   const componentPath = Component.getComponentPath(name);
   const routeInfo = matchUrlInRouteConfigs(componentPath);
 
@@ -21,7 +21,6 @@ function getRenderer(name, query, cookies, url, path, userAgent) {
       query,
       cookies,
       url: urlWithPath,
-      userAgent
     };
 
     if (Component.isExist(componentPath)) {
