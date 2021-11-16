@@ -62,13 +62,7 @@ const handleProcessMessage = message => {
 
 const handleUrls = async (req, res, next) => {
   if (req.url === '/' && req.method === 'GET') {
-    if (process.env.NODE_ENV === 'production') {
-      res
-        .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
-        .html('<h1>Aradığınız sayfa bulunamadı...</h1>');
-    } else {
-      res.html(Welcome());
-    }
+    res.html(Welcome());
   } else if (req.url === '/metrics' && req.method === 'GET' && !enablePrometheus) {
     res.setHeader('Content-Type', prom.register.contentType);
     res.end(prom.register.metrics());
