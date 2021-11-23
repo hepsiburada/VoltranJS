@@ -3,9 +3,7 @@ module.exports = api => {
 
   const basePlugins = [
     'babel-plugin-styled-components',
-    '@babel/syntax-dynamic-import',
     '@babel/plugin-syntax-jsx',
-    '@babel/plugin-proposal-class-properties',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-numeric-separator',
@@ -21,7 +19,7 @@ module.exports = api => {
       '@babel/preset-env',
       {
         useBuiltIns: 'entry',
-        corejs: '3.0.0',
+        corejs: '3.0.0'
       }
     ]);
   } else {
@@ -39,15 +37,15 @@ module.exports = api => {
     }
 
     presets.push([
-      '@babel/preset-env',
+      '@babel/env',
       {
-        useBuiltIns: 'entry',
-        corejs: '3.0.0',
         targets: {
-          esmodules: true,
-          ie: '11',
-          node: 'current'
-        }
+          esmodules: true
+        },
+        corejs: '3',
+        useBuiltIns: 'entry',
+        bugfixes: true,
+        modules: false
       }
     ]);
   }
