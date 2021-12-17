@@ -41,12 +41,17 @@ function replaceString() {
       replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'
     },
+    {
+      search: '@voltran/server',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
+      flags: 'g'
+    },
     { search: '"__V_styles__"', replace: getStyles() }
   ];
 
   data.push({
     search: '__V_PROMETHEUS__',
-    replace: normalizeUrl(prometheusFile ? prometheusFile : '../lib/tools/prom.js'),
+    replace: normalizeUrl(prometheusFile || '../lib/tools/prom.js'),
     flags: 'g'
   });
 
