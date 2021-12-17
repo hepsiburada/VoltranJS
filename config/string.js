@@ -22,6 +22,7 @@ function replaceString () {
     },
     { search: '__V_DICTIONARY__', replace: normalizeUrl(voltranConfig.routing.dictionary), flags: 'g' },
     { search: '@voltran/core', replace: normalizeUrl(path.resolve(__dirname, '../src/index')), flags: 'g' },
+    { search: '@voltran/server', replace: normalizeUrl(path.resolve(__dirname, '../src/server')), flags: 'g' },
     { search: '"__V_styles__"', replace: getStyles() }
   ];
 
