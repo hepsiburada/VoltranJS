@@ -13,7 +13,10 @@ export default (body, title = null) => {
         <title>Preview${additionalTitle}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script>window.HBUS_LAZY = true;</script>
-        <script src="${appConfig.voltranCommonUrl}"></script>
+
+        ${cr(
+          appConfig.voltranCommonUrl ? `<script src="${appConfig.voltranCommonUrl}"></script>` : ''
+        )}
         ${cr(
           appConfig.showPreviewFrame,
           `<style>
@@ -31,7 +34,7 @@ export default (body, title = null) => {
               -moz-osx-font-smoothing: grayscale;
             }
 
-            
+
             .voltran-body.full {
               width: auto;
               padding: 0;

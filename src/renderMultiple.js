@@ -1,15 +1,19 @@
 /* eslint-disable no-param-reassign */
+import async from 'async';
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
 import Component from './universal/model/Component';
 import Renderer from './universal/model/Renderer';
-import async from 'async';
 import Preview from './universal/components/Preview';
-import { isPreview, isWithoutHTML } from './universal/service/RenderService';
+import { isRequestDispatcher, isPreview, isWithoutHTML } from './universal/service/RenderService';
 import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
 
-function getRenderer(name, query, cookies, url, path, userAgent) {
+function getRenderer(name, req) {
+  const { query, cookies, url, headers, params } = req;
+  const path = `/${params?.path || ''}`;
+  const userAgent = headers['user-agent'];
+
   const componentPath = Component.getComponentPath(name);
   const routeInfo = matchUrlInRouteConfigs(componentPath);
 
@@ -159,7 +163,7 @@ async function setInitialStates(renderers) {
 }
 
 async function getResponses(renderers) {
-  return (await Promise.all(renderers.map(renderer => renderer.render())))
+  const responses = (await Promise.all(renderers.map(renderer => renderer.render())))
     .filter(result => result.value != null)
     .reduce((obj, item) => {
       const el = obj;
@@ -169,6 +173,8 @@ async function getResponses(renderers) {
 
       return el;
     }, {});
+
+  return responses;
 }
 
 async function getPreview(responses, requestCount) {
@@ -178,21 +184,26 @@ async function getPreview(responses, requestCount) {
   );
 }
 
-// eslint-disable-next-line consistent-return
-export default async (req, res) => {
-  const renderers = req.params.components
+const DEFAULT_PARTIALS = ['RequestDispatcher'];
+
+export const getPartials = req => {
+  const useRequestDispatcher = isRequestDispatcher(req.query);
+
+  const reqPartials = req.params.components
     .split(',')
     .filter((value, index, self) => self.indexOf(value) === index)
-    .map(name =>
-      getRenderer(
-        name,
-        req.query,
-        req.cookies,
-        req.url,
-        `/${req.params.path || ''}`,
-        req.headers['user-agent']
-      )
-    )
+    .filter(item => !DEFAULT_PARTIALS.includes(item));
+
+  const partials = [...(useRequestDispatcher ? DEFAULT_PARTIALS : []), ...reqPartials];
+
+  return partials;
+};
+
+const renderMultiple = async (req, res) => {
+  const partials = getPartials(req);
+
+  const renderers = partials
+    .map(name => getRenderer(name, req))
     .filter(renderer => renderer != null);
 
   if (!renderers.length) {
@@ -227,3 +238,5 @@ export default async (req, res) => {
       .observe(Date.now() - res.locals.startEpoch);
   }
 };
+
+export default renderMultiple;

@@ -29,30 +29,28 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const getScripts = (name, subComponentFiles) => {
-  const subComponentFilesScripts = subComponentFiles.scripts;
+  const subComponentFilesScripts = subComponentFiles?.scripts;
   const scripts = [
     {
-      src: `${assetsBaseUrl}${assets.client.js}`,
+      src: `${assetsBaseUrl}${assets?.client?.js}`,
       isAsync: false
     },
     {
-      src: `${assetsBaseUrl}${assets[name].js}`,
+      src: `${assetsBaseUrl}${assets?.[name]?.js}`,
       isAsync: false
     }
   ];
   const mergedScripts =
-    subComponentFilesScripts && subComponentFilesScripts.length > 0
-      ? scripts.concat(subComponentFiles.scripts)
-      : scripts;
+    subComponentFilesScripts?.length > 0 ? scripts.concat(subComponentFiles.scripts) : scripts;
 
   return mergedScripts;
 };
 
 const getStyles = async (name, subComponentFiles) => {
   const links = [];
-  const subComponentFilesStyles = subComponentFiles.styles;
+  const subComponentFilesStyles = subComponentFiles?.styles;
 
-  if (assets[name].css) {
+  if (assets?.[name]?.css) {
     links.push({
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets[name].css}`,
@@ -63,7 +61,7 @@ const getStyles = async (name, subComponentFiles) => {
     });
   }
 
-  if (assets.client.css) {
+  if (assets?.client?.css) {
     links.push({
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets.client.css}`,
@@ -75,9 +73,7 @@ const getStyles = async (name, subComponentFiles) => {
   }
 
   const mergedLinks =
-    subComponentFilesStyles && subComponentFilesStyles.length > 0
-      ? links.concat(subComponentFiles.styles)
-      : links;
+    subComponentFilesStyles?.length > 0 ? links.concat(subComponentFiles.styles) : links;
 
   return mergedLinks;
 };

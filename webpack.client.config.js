@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const AssetsPlugin = require('assets-webpack-plugin');
@@ -15,34 +14,31 @@ const { ESBuildMinifyPlugin } = require('esbuild-loader');
 require('intersection-observer');
 
 const { createComponentName } = require('./src/universal/utils/helper.js');
-
 const packageJson = require('./package.json');
+const voltranConfig = require('./voltran.config');
 
 const isBuildingForCDN = process.argv.includes('--for-cdn');
 const isAnalyze = process.argv.includes('--analyze');
 const env = process.env.VOLTRAN_ENV || 'local';
-const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
-const babelConfig = require('./babel.server.config');
 
 const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
 const voltranClientConfig = voltranClientConfigPath
   ? require(voltranConfig.webpackConfiguration.client)
   : '';
 
-const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
 
 const fragmentManifest = require(voltranConfig.routing.dictionary);
+const fixFragmentManifest = require('./src/universal/core/route/dictionary');
 
 const isDebug = voltranConfig.dev;
 const reScript = /\.(js|jsx|mjs)$/;
 const distFolderPath = voltranConfig.distFolder;
-const prometheusFile = voltranConfig.monitoring.prometheus;
 
 const chunks = {};
 
@@ -53,17 +49,16 @@ chunks.client = [
   path.resolve(__dirname, 'src/client/client.js')
 ];
 
-for (const index in fragmentManifest) {
-  if (!fragmentManifest[index]) {
-    continue;
-  }
+function generateChunk(fragments) {
+  fragments.forEach(fragment => {
+    const fragmentUrl = fragment?.path;
+    const name = createComponentName(fragment.routePath);
 
-  const fragment = fragmentManifest[index];
-  const fragmentUrl = fragment.path;
-  const name = createComponentName(fragment.routePath);
-
-  chunks[name] = [fragmentUrl];
+    chunks[name] = [fragmentUrl];
+  });
 }
+
+generateChunk([...fragmentManifest, ...fixFragmentManifest]);
 
 if (isDebug) {
   chunks.client.push('webpack-hot-middleware/client');
@@ -136,13 +131,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -164,13 +159,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
-              options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                loader: 'style-loader',
+                options: {
+                  insertAt: 'top',
+                  singleton: true,
+                  sourceMap: false
+                }
               }
-            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -193,14 +188,14 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
           },
           ...(voltranConfig.sassResources
             ? [
-              {
-                loader: 'sass-resources-loader',
-                options: {
-                  sourceMap: false,
-                  resources: voltranConfig.sassResources
+                {
+                  loader: 'sass-resources-loader',
+                  options: {
+                    sourceMap: false,
+                    resources: voltranConfig.sassResources
+                  }
                 }
-              }
-            ]
+              ]
             : [])
         ]
       }
@@ -226,10 +221,10 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isBuildingForCDN
       ? []
       : [
-        new CleanWebpackPlugin([distFolderPath], {
-          verbose: true
-        })
-      ]),
+          new CleanWebpackPlugin([distFolderPath], {
+            verbose: true
+          })
+        ]),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
@@ -247,11 +242,11 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
-        new MiniCssExtractPlugin({
-          filename: '[name].css',
-          chunkFilename: '[id]-[contenthash].css'
-        })
-      ]),
+          new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: '[id]-[contenthash].css'
+          })
+        ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,

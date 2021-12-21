@@ -16,8 +16,7 @@ import logger from './universal/utils/logger';
 
 const appConfig = require('__APP_CONFIG__');
 
-// eslint-disable-next-line consistent-return
-export default async (req, res) => {
+const render = async (req, res) => {
   const isWithoutStateValue = isWithoutState(req.query);
   const pathParts = xss(req.path)
     .split('/')
@@ -63,7 +62,7 @@ export default async (req, res) => {
       componentName,
       seoState,
       isPreviewQuery,
-      responseOptions,
+      responseOptions
     } = renderResponse;
 
     const statusCode = responseOptions?.isPartialContent
@@ -84,7 +83,9 @@ export default async (req, res) => {
       if (voltranEnv !== 'prod' && isPreviewQuery) {
         res.status(statusCode).html(Preview([fullHtml].join('\n')));
       } else {
-        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).html('<h1>Aradığınız sayfa bulunamadı...</h1>');
+        res
+          .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+          .html('<h1>Aradığınız sayfa bulunamadı...</h1>');
       }
     }
   } else {
@@ -93,3 +94,5 @@ export default async (req, res) => {
     });
   }
 };
+
+export default render;
