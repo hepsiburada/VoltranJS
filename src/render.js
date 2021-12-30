@@ -8,7 +8,8 @@ import {
   renderComponent,
   renderLinksAndScripts,
   isPreview,
-  isWithoutHTML
+  isWithoutHTML,
+  isWithoutState
 } from './universal/service/RenderService';
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
@@ -17,6 +18,7 @@ const appConfig = require('__APP_CONFIG__');
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
+  const isWithoutStateValue = isWithoutState(req.query);
   const pathParts = xss(req.path)
     .split('/')
     .filter(part => part);
@@ -34,7 +36,9 @@ export default async (req, res) => {
       url: xss(req.url)
         .replace(componentPath, '/')
         .replace('//', '/'),
-      userAgent: xss(req.headers['user-agent'])
+      userAgent: Buffer.from(req.headers['user-agent'], 'utf-8').toString('base64'),
+      headers: JSON.parse(xss(JSON.stringify(req.headers))),
+      isWithoutState: isWithoutStateValue
     };
 
     const component = new Component(routeInfo.path);

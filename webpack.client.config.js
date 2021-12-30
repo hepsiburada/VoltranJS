@@ -12,8 +12,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 
-require('intersection-observer');
-
 const { createComponentName } = require('./src/universal/utils/helper.js');
 
 const packageJson = require('./package.json');
@@ -45,7 +43,8 @@ const distFolderPath = voltranConfig.distFolder;
 const chunks = {};
 
 chunks.client = [
-  '@babel/polyfill/noConflict',
+  'regenerator-runtime/runtime.js',
+  'core-js/stable',
   'intersection-observer',
   path.resolve(__dirname, 'src/client/client.js')
 ];
@@ -135,13 +134,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-                loader: 'style-loader',
-                options: {
-                  insertAt: 'top',
-                  singleton: true,
-                  sourceMap: false
-                }
+              loader: 'style-loader',
+              options: {
+                insertAt: 'top',
+                singleton: true,
+                sourceMap: false
               }
+            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -163,13 +162,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         use: [
           isDebug
             ? {
-                loader: 'style-loader',
-                options: {
-                  insertAt: 'top',
-                  singleton: true,
-                  sourceMap: false
-                }
+              loader: 'style-loader',
+              options: {
+                insertAt: 'top',
+                singleton: true,
+                sourceMap: false
               }
+            }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
@@ -189,7 +188,18 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
           },
           {
             loader: 'sass-loader'
-          }
+          },
+          ...(voltranConfig.sassResources
+            ? [
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  sourceMap: false,
+                  resources: voltranConfig.sassResources
+                }
+              }
+            ]
+            : [])
         ]
       }
     ]
@@ -210,10 +220,10 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isBuildingForCDN
       ? []
       : [
-          new CleanWebpackPlugin([distFolderPath], {
-            verbose: true
-          })
-        ]),
+        new CleanWebpackPlugin([distFolderPath], {
+          verbose: true
+        })
+      ]),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': true,
@@ -240,11 +250,11 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
-          new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id]-[contenthash].css'
-          })
-        ]),
+        new MiniCssExtractPlugin({
+          filename: '[name].css',
+          chunkFilename: '[id]-[contenthash].css'
+        })
+      ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,

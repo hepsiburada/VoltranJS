@@ -2,7 +2,7 @@
 import newrelic from './universal/tools/newrelic/newrelic';
 
 import cookieParser from 'cookie-parser';
-import {compose} from 'compose-middleware';
+import { compose } from 'compose-middleware';
 import compression from 'compression';
 import path from 'path';
 import Hiddie from 'hiddie';
@@ -18,9 +18,9 @@ import render from './render';
 import registerControllers from './api/controllers';
 import renderMultiple from './renderMultiple';
 
-import {createCacheManagerInstance} from "./universal/core/cache/cacheUtils";
+import { createCacheManagerInstance } from './universal/core/cache/cacheUtils';
 
-import {HTTP_STATUS_CODES} from './universal/utils/constants';
+import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
 import voltranConfig from '../voltran.config';
 
@@ -39,7 +39,7 @@ process.on('unhandledRejection', (reason, p) => {
   process.exit(1);
 });
 
-process.on('message', (message) => {
+process.on('message', message => {
   handleProcessMessage(message);
 });
 
@@ -52,13 +52,13 @@ Object.keys(fragmentManifest).forEach(index => {
   fragments.push(name);
 });
 
-const handleProcessMessage = (message) => {
+const handleProcessMessage = message => {
   if (message?.msg?.action === 'deleteallcache') {
     createCacheManagerInstance().removeAll();
   } else if (message?.msg?.action === 'deletecache') {
     createCacheManagerInstance().remove(message?.msg?.key);
   }
-}
+};
 
 const handleUrls = async (req, res, next) => {
   if (req.url === '/' && req.method === 'GET') {
@@ -67,33 +67,33 @@ const handleUrls = async (req, res, next) => {
     res.setHeader('Content-Type', prom.register.contentType);
     res.end(prom.register.metrics());
   } else if (req.url === '/status' && req.method === 'GET') {
-    res.json({success: true, version: process.env.GO_PIPELINE_LABEL || '1.0.0', fragments});
+    res.json({ success: true, version: process.env.GO_PIPELINE_LABEL || '1.0.0', fragments });
   } else if ((req.url === '/statusCheck' || req.url === '/statuscheck') && req.method === 'GET') {
-    res.json({success: true, version: process.env.GO_PIPELINE_LABEL || '1.0.0', fragments});
+    res.json({ success: true, version: process.env.GO_PIPELINE_LABEL || '1.0.0', fragments });
   } else if (req.url === '/deleteallcache' && req.method === 'GET') {
     process.send({
       msg: {
-        action: 'deleteallcache',
+        action: 'deleteallcache'
       },
       options: {
-        forwardAllWorkers: true,
-      },
+        forwardAllWorkers: true
+      }
     });
-    res.json({success: true});
+    res.json({ success: true });
   } else if (req.path === '/deletecache' && req.method === 'GET') {
     if (req?.query?.key) {
       process.send({
         msg: {
           action: 'deletecache',
-          key: req?.query?.key,
+          key: req?.query?.key
         },
         options: {
-          forwardAllWorkers: true,
-        },
+          forwardAllWorkers: true
+        }
       });
-      res.json({success: true});
+      res.json({ success: true });
     } else {
-      res.json({success: false});
+      res.json({ success: false });
     }
   } else {
     newrelic?.setTransactionName?.(req.path);
@@ -140,6 +140,11 @@ const locals = async (req, res, next) => {
   req.query = JSON.parse(xss(JSON.stringify(parsedUrl.query)));
   req.path = xss(parsedUrl.pathname);
   req.url = xss(req.url);
+
+  if (req.headers['set-cookie']) {
+    req.headers.cookie = req.headers.cookie || req.headers['set-cookie']?.join();
+    delete req.headers['set-cookie'];
+  }
 
   res.locals = {};
   res.locals.startEpoch = new Date();

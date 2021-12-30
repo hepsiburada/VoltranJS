@@ -1,33 +1,23 @@
 import React from 'react';
-import { ServerStyleSheet } from 'styled-components';
 import ReactDOMServer from 'react-dom/server';
+import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router';
-import { ChunkExtractor } from '@loadable/server';
-
-/* Components */
-import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import ConnectedApp from '../components/App';
 import Html from '../components/Html';
-
-/* Utils */
+import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
 import { guid } from '../utils/helper';
-import path from 'path';
-
-/* Config */
-const voltranConfig = require('../../../voltran.config');
-
-const loadableStats = path.resolve(
-  process.cwd(),
-  `${voltranConfig.inputFolder}/universal/loadable-stats.json`
-);
 
 const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
   let subComponentFiles = [];
   let seoState = {};
   let responseOptions = {};
+
+  if (context.isWithoutState) {
+    return { initialState, seoState, subComponentFiles, responseOptions };
+  }
 
   if (!predefinedInitialState && component.getInitialState) {
     const services = component.services.map(serviceName => ServerApiManagerCache[serviceName]);
@@ -55,10 +45,6 @@ const renderLinksAndScripts = (html, links, scripts) => {
     .replace('<div>REPLACE_WITH_SCRIPTS</div>', scripts);
 };
 
-const getExtractor = (entrypoints, statsFile = loadableStats) => {
-  return new ChunkExtractor({ statsFile, entrypoints });
-};
-
 const renderHtml = (component, initialState, context) => {
   // eslint-disable-next-line no-param-reassign
   component.id = guid();
@@ -69,18 +55,13 @@ const renderHtml = (component, initialState, context) => {
     return PureHtml(component.path, component.name, initialStateWithLocation);
   }
 
-  const Fragment = () =>
+  const bodyHtml = ReactDOMServer.renderToString(
     sheet.collectStyles(
       <StaticRouter location={component.path} context={context}>
-        <ConnectedApp initialState={initialStateWithLocation} location={context}/>
+        <ConnectedApp initialState={initialStateWithLocation} location={context} />
       </StaticRouter>
-    );
-
-  const extractor = getExtractor([component.name]);
-  const jsx = extractor.collectChunks(<Fragment />);
-  const styleSheet = new ServerStyleSheet();
-
-  const bodyHtml = ReactDOMServer.renderToString(jsx);
+    )
+  );
 
   const styleTags = sheet.getStyleTags();
   const resultPath = `'${component.path}'`;
@@ -103,6 +84,10 @@ const isWithoutHTML = query => {
 
 const isPreview = query => {
   return query.preview === '';
+};
+
+const isWithoutState = query => {
+  return query.withoutState === '';
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {
@@ -131,8 +116,8 @@ const renderComponent = async (component, context, predefinedInitialState = null
     fullWidth: component.fullWidth,
     isMobileComponent: component.isMobileComponent,
     isPreviewQuery: component.isPreviewQuery,
-    responseOptions
+    responseOptions,
   };
 };
 
-export { renderHtml, renderLinksAndScripts, getStates, isWithoutHTML, isPreview, renderComponent };
+export { renderHtml, renderLinksAndScripts, getStates, isWithoutHTML, isPreview, isWithoutState, renderComponent };

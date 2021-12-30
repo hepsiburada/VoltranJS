@@ -9,7 +9,8 @@ export default class Renderer {
     this.initialState = null;
     this.winnerMap = null;
 
-    if (this.isPredefinedInitialStateSupported()) {
+    if (this.isPredefinedInitialStateSupported() &&
+      (process.env.BROWSER || (!process.env.BROWSER && !this.context.isWithoutState))) {
       this.servicesMap = this.getServicesMap();
       this.winnerMap = {};
     }
