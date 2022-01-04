@@ -55,7 +55,7 @@ const renderHtml = (component, initialState, context) => {
     return PureHtml(component.path, component.name, initialStateWithLocation);
   }
 
-  const children = ReactDOMServer.renderToString(
+  const bodyHtml = ReactDOMServer.renderToString(
     sheet.collectStyles(
       <StaticRouter location={component.path} context={context}>
         <ConnectedApp initialState={initialStateWithLocation} location={context} />
@@ -69,7 +69,7 @@ const renderHtml = (component, initialState, context) => {
   return Html({
     resultPath,
     componentName: component.name,
-    children,
+    bodyHtml,
     styleTags,
     initialState: initialStateWithLocation,
     fullWidth: component.fullWidth,

@@ -10,6 +10,7 @@ const voltranConfig = require('./voltran.config');
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath); // eslint-disable-line import/no-dynamic-require
 
+const babelConfig = require('./babel.server.config');
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
 const replaceString = require('./config/string.js');
@@ -47,11 +48,12 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
     rules: [
       {
         test: /\.(js|jsx|mjs)$/,
-        loader: 'esbuild-loader',
+        loader: 'babel-loader',
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
-          loader: 'jsx',
-          target: 'es2015'
+          cacheDirectory: true,
+          babelrc: false,
+          ...babelConfig()
         }
       },
       {
