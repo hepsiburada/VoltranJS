@@ -8,35 +8,34 @@ const assetsPrefix = appConfig.mediaUrl.length ? appConfig.mediaUrl : appConfig.
 const fs = require('fs');
 const path = require('path');
 
+const cssContentCache = {};
+
 const cleanAssetsPrefixFromAssetURI = assetURI => {
   return assetURI.replace(assetsPrefix, '');
 };
 
-const cssContentCache = {};
+const readAsset = name => {
+  return fs.readFileSync(
+    path.resolve(
+      process.cwd(),
+      `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(name)}`
+    ),
+    'utf8'
+  );
+};
 
 if (process.env.NODE_ENV === 'production') {
   Object.keys(assets).forEach(name => {
-    // @todo refactor
-    if (assets[name].css) {
-      if (Array.isArray(assets[name].css)) {
-        assets[name].css.map(cssItem => {
-          cssContentCache[cssItem] = fs.readFileSync(
-            path.resolve(
-              process.cwd(),
-              `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(cssItem)}`
-            ),
-            'utf8'
-          );
-        });
-      } else {
-        cssContentCache[name] = fs.readFileSync(
-          path.resolve(
-            process.cwd(),
-            `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`
-          ),
-          'utf8'
-        );
-      }
+    if (!assets[name].css) {
+      return;
+    }
+
+    if (Array.isArray(assets[name].css)) {
+      assets[name].css.map(cssItem => {
+        cssContentCache[cssItem] = readAsset(cssItem);
+      });
+    } else {
+      cssContentCache[name] = readAsset(assets[name].css);
     }
   });
 }
