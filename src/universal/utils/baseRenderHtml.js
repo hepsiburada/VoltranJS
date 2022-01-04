@@ -16,14 +16,27 @@ const cssContentCache = {};
 
 if (process.env.NODE_ENV === 'production') {
   Object.keys(assets).forEach(name => {
+    // @todo refactor
     if (assets[name].css) {
-      cssContentCache[name] = fs.readFileSync(
-        path.resolve(
-          process.cwd(),
-          `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`
-        ),
-        'utf8'
-      );
+      if (Array.isArray(assets[name].css)) {
+        assets[name].css.map(cssItem => {
+          cssContentCache[cssItem] = fs.readFileSync(
+            path.resolve(
+              process.cwd(),
+              `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(cssItem)}`
+            ),
+            'utf8'
+          );
+        });
+      } else {
+        cssContentCache[name] = fs.readFileSync(
+          path.resolve(
+            process.cwd(),
+            `${voltranConfig.publicDistFolder}/${cleanAssetsPrefixFromAssetURI(assets[name].css)}`
+          ),
+          'utf8'
+        );
+      }
     }
   });
 }
