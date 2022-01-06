@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import newrelic from './universal/tools/newrelic/newrelic';
+// import newrelic from './universal/tools/newrelic/newrelic';
 
 import cookieParser from 'cookie-parser';
 import { compose } from 'compose-middleware';
@@ -95,7 +95,7 @@ const handleUrls = async (req, res, next) => {
       res.json({ success: false });
     }
   } else {
-    newrelic?.setTransactionName?.(req.path);
+    // newrelic?.setTransactionName?.(req.path);
     next();
   }
 };

@@ -4,7 +4,7 @@ import withBaseComponent from '../../partials/withBaseComponent';
 import { getEventBus } from '../../utils/helper';
 import { isExitCondition } from './RequestDispatcher.utils';
 
-const requestConfigs = require('__V_REQUEST_CONFIGS__');
+const requestConfigs = { default: [] };
 
 const { effects } = requestConfigs.default;
 const requestPrefix = 'RequestDispatcher.';
