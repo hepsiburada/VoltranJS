@@ -6,7 +6,7 @@ import { isExitCondition } from './RequestDispatcher.utils';
 
 const requestConfigs = require('__V_REQUEST_CONFIGS__');
 
-const { effects } = requestConfigs.default;
+const { effects = [] } = requestConfigs.default;
 const requestPrefix = 'RequestDispatcher.';
 const responsePrefix = 'RequestDispatcher.Response.';
 
