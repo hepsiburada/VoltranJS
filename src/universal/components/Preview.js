@@ -15,7 +15,9 @@ export default (body, title = null) => {
         <script>window.HBUS_LAZY = true;</script>
 
         ${cr(
-          appConfig.voltranCommonUrl ? `<script src="${appConfig.voltranCommonUrl}"></script>` : ''
+          appConfig.voltranCommonUrl,
+          `<script src="${appConfig.voltranCommonUrl}"></script>`,
+          ''
         )}
         ${cr(
           appConfig.showPreviewFrame,
