@@ -101,7 +101,6 @@ const handleUrls = async (req, res, next) => {
 };
 
 const cors = async (req, res, next) => {
-  res.setHeader('CCC', 'SSSS');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS');
 
