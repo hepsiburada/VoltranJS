@@ -25,9 +25,10 @@ const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
 const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
-const voltranServer = voltranConfig.entry
-  ? voltranConfig.entry
-  : path.resolve(__dirname, isDebug ? 'src/server.js' : 'src/main.js');
+const voltranServer =
+  voltranConfig.entry && !isDebug
+    ? voltranConfig.entry
+    : path.resolve(__dirname, isDebug ? 'src/server.js' : 'src/main.js');
 
 const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   name: 'server',
