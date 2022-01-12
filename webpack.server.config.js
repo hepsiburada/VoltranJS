@@ -6,6 +6,8 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
+console.log('::VOLTRAN WP SERVER: ', env);
+
 const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
