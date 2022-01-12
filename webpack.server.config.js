@@ -5,6 +5,8 @@ const nodeExternals = require('webpack-node-externals');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
+console.log('::VOLTRAN WP SERVER: ', env);
+
 const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
