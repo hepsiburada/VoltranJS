@@ -37,6 +37,31 @@ function replaceString() {
       flags: 'g'
     },
     {
+      search: '__V_PREVIEW_PAGES__',
+      replace: normalizeUrl(voltranConfig.routing.previewPages),
+      flags: 'g'
+    },
+    {
+      search: '@voltran/core',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
+      flags: 'g'
+    },
+    {
+      search: '@voltran/server',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
+      flags: 'g'
+    },
+    {
+      search: '__V_DICTIONARY__',
+      replace: normalizeUrl(voltranConfig.routing.dictionary),
+      flags: 'g'
+    },
+    {
+      search: '__V_REQUEST_CONFIGS__',
+      replace: normalizeUrl(voltranConfig.routing.requestConfigs),
+      flags: 'g'
+    },
+    {
       search: '@voltran/core',
       replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'

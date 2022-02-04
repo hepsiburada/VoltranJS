@@ -1,7 +1,6 @@
-import withBaseComponent from './universal/partials/withBaseComponent';
+import voltran from './universal/partials/withBaseComponent';
 import { SERVICES } from './universal/utils/constants';
+import { ClientApiManager, ServerApiManager } from './universal/core/api';
 
-export default {
-  withBaseComponent,
-  SERVICES
-};
+export default voltran;
+export { SERVICES, ClientApiManager, ServerApiManager };

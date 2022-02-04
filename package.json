@@ -41,6 +41,7 @@
     "classnames": "2.2.6",
     "clean-webpack-plugin": "4.0.0",
     "cli-color": "2.0.2",
+    "colors": "^1.4.0",
     "compose-middleware": "5.0.1",
     "compression": "^1.7.4",
     "cookie-parser": "1.4.3",

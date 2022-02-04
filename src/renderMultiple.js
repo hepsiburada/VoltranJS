@@ -4,10 +4,30 @@ import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
 import Component from './universal/model/Component';
 import Renderer from './universal/model/Renderer';
 import Preview from './universal/components/Preview';
-import { isRequestDispatcher, isPreview, isWithoutHTML } from './universal/service/RenderService';
+import {
+  isRequestDispatcher,
+  isPreview,
+  isWithoutHTML,
+  isWithoutState,
+  getPreviewLayout
+} from './universal/service/RenderService';
 import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
+
+const previewPages = require('__V_PREVIEW_PAGES__');
+
+const getRenderOptions = req => {
+  const isPreviewValue = isPreview(req.query) || false;
+  const isWithoutHTMLValue = isWithoutHTML(req.query) || false;
+  const isWithoutStateValue = isWithoutState(req.query) || false;
+
+  return {
+    isPreview: isPreviewValue,
+    isWithoutHTML: isWithoutHTMLValue,
+    isWithoutState: isWithoutStateValue
+  };
+};
 
 function getRenderer(name, req) {
   const { query, cookies, url, headers, params } = req;
@@ -16,6 +36,7 @@ function getRenderer(name, req) {
 
   const componentPath = Component.getComponentPath(name);
   const routeInfo = matchUrlInRouteConfigs(componentPath);
+  const renderOptions = getRenderOptions(req);
 
   if (routeInfo) {
     const urlWithPath = url.replace('/', path);
@@ -26,6 +47,7 @@ function getRenderer(name, req) {
       cookies,
       url: urlWithPath,
       userAgent,
+      ...renderOptions
     };
 
     if (Component.isExist(componentPath)) {
@@ -177,11 +199,21 @@ async function getResponses(renderers) {
   return responses;
 }
 
-async function getPreview(responses, requestCount) {
-  return Preview(
-    [...Object.keys(responses).map(name => responses[name].fullHtml)].join('\n'),
-    `${requestCount} request!`
-  );
+async function getPreview(responses, requestCount, req) {
+  const layoutName = getPreviewLayout(req.query);
+  const { layouts } = previewPages.default;
+  let PreviewFile = Preview;
+
+  if (layouts[layoutName]) {
+    PreviewFile = layouts[layoutName];
+  }
+
+  const content = Object.keys(responses).map(name => {
+    const componentName = responses?.[name]?.activeComponent?.componentName ?? '';
+    return getLayoutWithClass(componentName, responses[name].fullHtml);
+  });
+
+  return PreviewFile([...content].join('\n'), `${requestCount} request!`);
 }
 
 const DEFAULT_PARTIALS = ['RequestDispatcher'];
@@ -197,6 +229,17 @@ export const getPartials = req => {
   const partials = [...(useRequestDispatcher ? DEFAULT_PARTIALS : []), ...reqPartials];
 
   return partials;
+};
+
+function cr(condition, ok, cancel) {
+  return condition ? ok : cancel || '';
+}
+
+const getLayoutWithClass = (name, html, id = '', style = null) => {
+  const idAttr = cr(id !== '', `id=${id}`);
+  const styleAttr = cr(style !== null, `style=${style}`);
+
+  return `<div class="${name}"  ${idAttr} ${styleAttr}>${html}</div>`;
 };
 
 const renderMultiple = async (req, res) => {
@@ -228,7 +271,7 @@ const renderMultiple = async (req, res) => {
   const responses = await getResponses(renderers);
 
   if (isPreview(req.query)) {
-    const preview = await getPreview(responses, requestCount);
+    const preview = await getPreview(responses, requestCount, req);
     res.html(preview);
   } else {
     res.json(responses);
