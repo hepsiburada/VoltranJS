@@ -54,12 +54,15 @@ const isWithoutHTML = query => {
 };
 
 const isPreview = query => {
-  return query.preview === '';
+  if (query.preview || query.preview === '') {
+    return true;
+  }
+  return false;
 };
 
 const getPreviewLayout = query => {
-  if (query?.previewLayout) {
-    return query?.previewLayout;
+  if (isPreview(query)) {
+    return query?.preview;
   }
 
   return '';
@@ -70,7 +73,7 @@ const isWithoutState = query => {
 };
 
 const isRequestDispatcher = query => {
-  return query.requestDispathcer === '' || query.requestDispathcer !== 'false';
+  return query.requestDispatcher === '' || query.requestDispatcher !== 'false';
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {

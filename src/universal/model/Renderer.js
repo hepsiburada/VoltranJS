@@ -1,13 +1,7 @@
 import omit from 'lodash/omit';
 import { isPreview, renderComponent, renderLinksAndScripts } from '../service/RenderService';
+import { BLACKLIST_OUTPUT } from '../utils/constants';
 
-const blacklistOutput = [
-  'componentName',
-  'fullWidth',
-  'isMobileComponent',
-  'isPreviewQuery',
-  'responseOptions'
-];
 export default class Renderer {
   constructor(component, context) {
     this.component = component;
@@ -47,7 +41,7 @@ export default class Renderer {
     return new Promise(resolve => {
       renderComponent(this.component, this.context, this.initialState).then(response => {
         const { output, links, fullHtml, ...rest } = response;
-        const otherParams = omit(rest, blacklistOutput);
+        const otherParams = omit(rest, BLACKLIST_OUTPUT);
         const html = renderLinksAndScripts(output, '', '');
 
         resolve({

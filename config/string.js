@@ -33,12 +33,16 @@ function replaceString() {
     },
     {
       search: '__V_REQUEST_CONFIGS__',
-      replace: normalizeUrl(voltranConfig.routing.requestConfigs),
+      replace: normalizeUrl(
+        voltranConfig.routing.requestConfigs || path.resolve(__dirname, './emptyModule.js')
+      ),
       flags: 'g'
     },
     {
       search: '__V_PREVIEW_PAGES__',
-      replace: normalizeUrl(voltranConfig.routing.previewPages),
+      replace: normalizeUrl(
+        voltranConfig.routing.previewPages || path.resolve(__dirname, './emptyModule.js')
+      ),
       flags: 'g'
     },
     {

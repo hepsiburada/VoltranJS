@@ -25,11 +25,20 @@ const SERVICES = Object.freeze(
   }, {})
 );
 
+const BLACKLIST_OUTPUT = [
+  'componentName',
+  'fullWidth',
+  'isMobileComponent',
+  'isPreviewQuery',
+  'responseOptions'
+];
+
 export {
   HTTP_STATUS_CODES,
   WINDOW_GLOBAL_PARAMS,
   JSON_CONTENT_TYPE,
   CONTENT_TYPE_HEADER,
   REQUEST_TYPES_WITH_BODY,
-  SERVICES
+  SERVICES,
+  BLACKLIST_OUTPUT
 };

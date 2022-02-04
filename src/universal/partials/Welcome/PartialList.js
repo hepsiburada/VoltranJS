@@ -16,7 +16,7 @@ const Welcome = () => {
       <Link href={item.previewUrl ? item.previewUrl : `${item.url}?preview`} target="_blank">
         <Name>{item.name}</Name>
         <Url>{item.url}</Url>
-        <Footer>
+        <Footer status={item.status}>
           <Label status={item.status}>
             {item.status} <Dot status={item.status} />
           </Label>

@@ -201,7 +201,7 @@ async function getResponses(renderers) {
 
 async function getPreview(responses, requestCount, req) {
   const layoutName = getPreviewLayout(req.query);
-  const { layouts } = previewPages.default;
+  const { layouts = {} } = previewPages?.default || {};
   let PreviewFile = Preview;
 
   if (layouts[layoutName]) {
