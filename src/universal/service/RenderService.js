@@ -2,42 +2,13 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter } from 'react-router';
+
 import ConnectedApp from '../components/App';
 import Html from '../components/Html';
 import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
-import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
 import { guid } from '../utils/helper';
-
-const getStates = async (component, context, predefinedInitialState) => {
-  const initialState = predefinedInitialState || { data: {} };
-  let subComponentFiles = [];
-  let seoState = {};
-  let responseOptions = {};
-
-  if (context.isWithoutState) {
-    return { initialState, seoState, subComponentFiles, responseOptions };
-  }
-
-  if (!predefinedInitialState && component?.getInitialState) {
-    const services = component.services.map(serviceName => ServerApiManagerCache[serviceName]);
-    initialState.data = await component.getInitialState(...[...services, context]);
-  }
-
-  if (component?.getSeoState) {
-    seoState = component.getSeoState(initialState.data);
-  }
-
-  if (initialState.data.subComponentFiles) {
-    subComponentFiles = initialState.data.subComponentFiles;
-  }
-
-  if (initialState.data.responseOptions) {
-    responseOptions = initialState.data.responseOptions;
-  }
-
-  return { initialState, seoState, subComponentFiles, responseOptions };
-};
+import getStates from './getStates';
 
 const renderLinksAndScripts = (html, links, scripts) => {
   return html
@@ -86,6 +57,14 @@ const isPreview = query => {
   return query.preview === '';
 };
 
+const getPreviewLayout = query => {
+  if (query?.previewLayout) {
+    return query?.previewLayout;
+  }
+
+  return '';
+};
+
 const isWithoutState = query => {
   return query.withoutState === '';
 };
@@ -95,7 +74,7 @@ const isRequestDispatcher = query => {
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {
-  const { initialState, seoState, subComponentFiles, responseOptions } = await getStates(
+  const { initialState, subComponentFiles, ...restStates } = await getStates(
     component.object,
     context,
     predefinedInitialState
@@ -116,11 +95,10 @@ const renderComponent = async (component, context, predefinedInitialState = null
     scripts,
     activeComponent,
     componentName: component.name,
-    seoState,
     fullWidth: component.fullWidth,
     isMobileComponent: component.isMobileComponent,
     isPreviewQuery: component.isPreviewQuery,
-    responseOptions
+    ...restStates
   };
 };
 
@@ -130,6 +108,7 @@ export {
   getStates,
   isWithoutHTML,
   isPreview,
+  getPreviewLayout,
   isRequestDispatcher,
   isWithoutState,
   renderComponent

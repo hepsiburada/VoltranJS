@@ -1,5 +1,7 @@
 import components from '../../core/route/components';
 
+const previewPages = require('__V_PREVIEW_PAGES__');
+
 const partials = [];
 
 Object.keys(components).forEach(path => {
@@ -10,5 +12,6 @@ Object.keys(components).forEach(path => {
     status: info.status
   });
 });
+partials.push(...previewPages.default.pages);
 
 export default partials;

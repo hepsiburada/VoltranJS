@@ -37,6 +37,11 @@ function replaceString() {
       flags: 'g'
     },
     {
+      search: '__V_PREVIEW_PAGES__',
+      replace: normalizeUrl(voltranConfig.routing.previewPages),
+      flags: 'g'
+    },
+    {
       search: '@voltran/core',
       replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'

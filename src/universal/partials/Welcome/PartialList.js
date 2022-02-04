@@ -12,7 +12,7 @@ const Welcome = () => {
   const { live = [], dev = [], page = [] } = groupBy(partials, item => item.status);
 
   const renderItem = item => (
-    <ListItem>
+    <ListItem status={item.status}>
       <Link href={item.previewUrl ? item.previewUrl : `${item.url}?preview`} target="_blank">
         <Name>{item.name}</Name>
         <Url>{item.url}</Url>
@@ -26,12 +26,24 @@ const Welcome = () => {
   );
   return (
     <List>
-      <HeaderName>Live</HeaderName>
-      {live.map(item => renderItem(item))}
-      <HeaderName>Pages</HeaderName>
-      {page.map(item => renderItem(item))}
-      <HeaderName>Development</HeaderName>
-      {dev.map(item => renderItem(item))}
+      {live.length > 0 && (
+        <>
+          <HeaderName>Live</HeaderName>
+          {live.map(item => renderItem(item))}
+        </>
+      )}
+      {page.length > 0 && (
+        <>
+          <HeaderName>Pages</HeaderName>
+          {page.map(item => renderItem(item))}
+        </>
+      )}
+      {dev.length > 0 && (
+        <>
+          <HeaderName>Development</HeaderName>
+          {dev.map(item => renderItem(item))}
+        </>
+      )}
     </List>
   );
 };

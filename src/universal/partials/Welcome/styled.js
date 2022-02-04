@@ -2,12 +2,15 @@ import styled from 'styled-components';
 
 const STATUS_COLOR = {
   live: '#8dc63f',
-  dev: '#FF6000'
+  dev: '#FF6000',
+  page: '#00abff'
 };
+
 export const List = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
+  margin-bottom: 20px;
 `;
 
 export const HeaderName = styled.div`
@@ -18,19 +21,41 @@ export const HeaderName = styled.div`
 
 export const ListItem = styled.li`
   padding: 20px;
-  border-radius: 2px;
-  background: white;
-  box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
-  position: relative;
   display: inline-block;
   vertical-align: top;
   height: 120px;
   width: 320px;
   margin: 10px;
   cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid ${({ status }) => (status && STATUS_COLOR[status]) || '#8dc63f'};
+
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  :after {
+    content: '';
+    border-radius: 20px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
 
   &:hover {
-    background: #efefef;
+    transform: scale(1.02, 1.02);
+    :after {
+      opacity: 1;
+    }
   }
 
   @media screen and (max-width: 600px) {
@@ -58,7 +83,7 @@ export const Link = styled.a`
 `;
 
 export const Name = styled.span`
-  font-weight: 400;
+  font-weight: 800;
   display: block;
   max-width: 80%;
   font-size: 16px;
