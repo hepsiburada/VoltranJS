@@ -24,11 +24,10 @@ export const ListItem = styled.li`
   display: inline-block;
   vertical-align: top;
   height: 120px;
-  width: 320px;
+  width: 240px;
   margin: 10px;
   cursor: pointer;
-  border-radius: 20px;
-  border: 1px solid ${({ status }) => (status && STATUS_COLOR[status]) || '#8dc63f'};
+  border-radius: 10px;
 
   position: relative;
   background-color: #fff;
@@ -38,14 +37,14 @@ export const ListItem = styled.li`
 
   :after {
     content: '';
-    border-radius: 20px;
+    border-radius: 10px;
     position: absolute;
     z-index: -1;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     opacity: 0;
     -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -104,7 +103,7 @@ export const Footer = styled.span`
   right: 0;
   width: 100%;
   padding: 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid ${({ status }) => (status && STATUS_COLOR[status]) || '#eeeeee'}50;
   font-size: 13px;
 `;
 

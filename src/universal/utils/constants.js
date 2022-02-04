@@ -25,6 +25,14 @@ const SERVICES = Object.freeze(
   }, {})
 );
 
+const BLACKLIST_OUTPUT = [
+  'componentName',
+  'fullWidth',
+  'isMobileComponent',
+  'isPreviewQuery',
+  'responseOptions'
+];
+
 const QUERY_PARAMS = {
   WITH_CRITICAL_STYLES: 'withCriticalCss'
 };
@@ -36,5 +44,6 @@ export {
   CONTENT_TYPE_HEADER,
   REQUEST_TYPES_WITH_BODY,
   SERVICES,
+  BLACKLIST_OUTPUT,
   QUERY_PARAMS
 };
