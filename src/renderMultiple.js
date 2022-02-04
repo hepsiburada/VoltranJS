@@ -25,7 +25,7 @@ function getRenderer(name, req) {
       query,
       cookies,
       url: urlWithPath,
-      userAgent
+      userAgent,
     };
 
     if (Component.isExist(componentPath)) {

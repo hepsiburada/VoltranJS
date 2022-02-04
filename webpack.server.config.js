@@ -5,6 +5,8 @@ const nodeExternals = require('webpack-node-externals');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
+console.log('::VOLTRAN WP SERVER: ', env);
+
 const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
@@ -25,6 +27,10 @@ const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
 const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
+const voltranServer =
+  voltranConfig.entry && !isDebug
+    ? voltranConfig.entry
+    : path.resolve(__dirname, isDebug ? 'src/server.js' : 'src/main.js');
 
 const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   name: 'server',
@@ -34,7 +40,7 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   mode: isDebug ? 'development' : 'production',
 
   entry: {
-    server: [path.resolve(__dirname, isDebug ? 'src/server.js' : 'src/main.js')]
+    server: [voltranServer]
   },
 
   output: {
