@@ -1,5 +1,5 @@
 import React from 'react';
-import groupBy from 'lodash/groupBy';
+import structUtils from '../../utils/struct';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
@@ -9,11 +9,11 @@ import partials from './partials';
 const sheet = new ServerStyleSheet();
 
 const Welcome = () => {
-  const { live = [], dev = [], page = [] } = groupBy(partials, item => item.status);
+  const { live = [], dev = [], page = [] } = structUtils.groupBy(partials, item => item.status);
 
   const renderItem = item => (
     <ListItem>
-      <Link href={item.previewUrl ? item.previewUrl : `${item.url}?preview`} target="_blank">
+      <Link href={item.previewUrl ? item.previewUrl : `${item.url}?preview`} target='_blank'>
         <Name>{item.name}</Name>
         <Url>{item.url}</Url>
         <Footer>

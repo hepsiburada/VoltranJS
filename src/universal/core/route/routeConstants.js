@@ -1,5 +1,3 @@
-import values from 'lodash/values';
-
 const components = require('__V_COMPONENTS__');
 
 const ROUTE_PATHS = {};
@@ -15,6 +13,6 @@ Object.keys(components.default).forEach(path => {
   };
 });
 
-const ROUTE_PATH_ARRAY = values(ROUTE_PATHS);
+const ROUTE_PATH_ARRAY = Object.values(ROUTE_PATHS);
 
 export { ROUTE_PATHS, ROUTE_PATH_ARRAY, ROUTE_CONFIGS };
