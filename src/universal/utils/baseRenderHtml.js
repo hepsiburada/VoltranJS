@@ -1,6 +1,7 @@
 const appConfig = require('__APP_CONFIG__');
 const assets = require('__ASSETS_FILE_PATH__');
 const voltranConfig = require('../../../voltran.config');
+import { QUERY_PARAMS } from './constants';
 
 const assetsBaseUrl = !appConfig.mediaUrl ? appConfig.baseUrl : '';
 const assetsPrefix = appConfig.mediaUrl.length ? appConfig.mediaUrl : appConfig.baseUrl;
@@ -60,8 +61,9 @@ const getScripts = (name, subComponentFiles) => {
   return mergedScripts;
 };
 
-const getStyles = async (name, subComponentFiles) => {
+const getStyles = async (name, subComponentFiles, predefinedInitialState) => {
   const links = [];
+  const withCriticalCss = predefinedInitialState.query[QUERY_PARAMS.WITH_CRITICAL_STYLES];
   const subComponentFilesStyles = subComponentFiles.styles;
 
   if (assets[name].css) {
@@ -69,9 +71,11 @@ const getStyles = async (name, subComponentFiles) => {
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets[name].css}`,
       criticalStyleComponent:
-        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
+        process.env.NODE_ENV === 'production' &&
+        !voltranConfig.criticalCssDisabled &&
+        withCriticalCss
           ? cssContentCache[name]
-          : undefined
+          : null
     });
   }
 
@@ -80,9 +84,11 @@ const getStyles = async (name, subComponentFiles) => {
       rel: 'stylesheet',
       href: `${assetsBaseUrl}${assets.client.css}`,
       criticalStyleComponent:
-        process.env.NODE_ENV === 'production' && !voltranConfig.criticalCssDisabled
+        process.env.NODE_ENV === 'production' &&
+        !voltranConfig.criticalCssDisabled &&
+        withCriticalCss
           ? cssContentCache.client
-          : undefined
+          : null
     });
   }
 
@@ -104,10 +110,10 @@ const getActiveComponent = name => {
   };
 };
 
-const createBaseRenderHtmlProps = async (name, subComponentFiles) => {
+const createBaseRenderHtmlProps = async (name, subComponentFiles, predefinedInitialState) => {
   return {
     scripts: getScripts(name, subComponentFiles),
-    links: await getStyles(name, subComponentFiles),
+    links: await getStyles(name, subComponentFiles, predefinedInitialState),
     activeComponent: getActiveComponent(name)
   };
 };
