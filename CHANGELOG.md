@@ -1,5 +1,29 @@
 # Changelog
 
+## [v1.0.22](https://github.com/hepsiburada/VoltranJS/compare/v1.0.21...v1.0.22)
+
+### Merged
+
+- reverted hiding of welcome page in live environment [`#31`](https://github.com/hepsiburada/VoltranJS/pull/31)
+
+## [v1.0.21](https://github.com/hepsiburada/VoltranJS/compare/v1.0.20...v1.0.21)
+
+### Merged
+
+- user agent information encoded [`#35`](https://github.com/hepsiburada/VoltranJS/pull/35)
+
+## [v1.0.20](https://github.com/hepsiburada/VoltranJS/compare/v1.0.19...v1.0.20)
+
+### Merged
+
+- removed user agent information from inline script output [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
+
+## [v1.0.19](https://github.com/hepsiburada/VoltranJS/compare/v1.0.18...v1.0.19)
+
+### Merged
+
+- welcome Page is hidden in production environment [`#28`](https://github.com/hepsiburada/VoltranJS/pull/28)
+
 ## [v1.0.18](https://github.com/hepsiburada/VoltranJS/compare/v1.0.17...v1.0.18)
 
 ### Merged
