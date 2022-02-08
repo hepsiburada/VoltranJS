@@ -74,7 +74,7 @@ const isRequestDispatcher = query => {
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {
-  const { initialState, subComponentFiles, extraPropKeys, ...restStates } = await getStates(
+  const { initialState, subComponentFiles, extraPropKeys, responseOptions, ...restStates } = await getStates(
     component.object,
     context,
     predefinedInitialState
@@ -82,7 +82,8 @@ const renderComponent = async (component, context, predefinedInitialState = null
 
   const { links, scripts, activeComponent } = await createBaseRenderHtmlProps(
     component.name,
-    subComponentFiles
+    subComponentFiles,
+    context
   );
 
   const output = renderHtml({ component, initialState, context, extraPropKeys });
@@ -98,6 +99,7 @@ const renderComponent = async (component, context, predefinedInitialState = null
     fullWidth: component.fullWidth,
     isMobileComponent: component.isMobileComponent,
     isPreviewQuery: component.isPreviewQuery,
+    responseOptions,
     ...restStates
   };
 };
