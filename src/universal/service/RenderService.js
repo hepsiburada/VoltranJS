@@ -99,7 +99,8 @@ const renderComponent = async (component, context, predefinedInitialState = null
 
   const { links, scripts, activeComponent } = await createBaseRenderHtmlProps(
     component.name,
-    subComponentFiles
+    subComponentFiles,
+    context
   );
 
   const output = renderHtml(component, initialState, context);
@@ -116,8 +117,16 @@ const renderComponent = async (component, context, predefinedInitialState = null
     fullWidth: component.fullWidth,
     isMobileComponent: component.isMobileComponent,
     isPreviewQuery: component.isPreviewQuery,
-    responseOptions,
+    responseOptions
   };
 };
 
-export { renderHtml, renderLinksAndScripts, getStates, isWithoutHTML, isPreview, isWithoutState, renderComponent };
+export {
+  renderHtml,
+  renderLinksAndScripts,
+  getStates,
+  isWithoutHTML,
+  isPreview,
+  isWithoutState,
+  renderComponent
+};
