@@ -43,9 +43,6 @@ const distFolderPath = voltranConfig.distFolder;
 const chunks = {};
 
 chunks.client = [
-  'regenerator-runtime/runtime.js',
-  'core-js/stable',
-  'intersection-observer',
   path.resolve(__dirname, 'src/client/client.js')
 ];
 
@@ -59,10 +56,6 @@ function generateChunk(fragments) {
 }
 
 generateChunk([...fragmentManifest, ...fixFragmentManifest]);
-
-if (isDebug) {
-  chunks.client.push('webpack-hot-middleware/client');
-}
 
 const GO_PIPELINE_LABEL = process.env.GO_PIPELINE_LABEL || packageJson.version;
 const appConfigFileTarget = `${voltranConfig.appConfigFile.output.path}/${voltranConfig.appConfigFile.output.name}.js`;
@@ -87,6 +80,9 @@ if (isDebug) {
   context += ';';
 
   fs.writeFileSync(appConfigFileTarget, context);
+
+  chunks.client.unshift('regenerator-runtime/runtime.js', 'core-js/stable', 'intersection-observer');
+  chunks.client.push('webpack-hot-middleware/client');
 }
 
 const outputPath = voltranConfig.output.client.path;
