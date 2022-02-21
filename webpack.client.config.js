@@ -47,9 +47,6 @@ const prometheusFile = voltranConfig.monitoring.prometheus;
 const chunks = {};
 
 chunks.client = [
-  'regenerator-runtime/runtime.js',
-  'core-js/stable',
-  'intersection-observer',
   path.resolve(__dirname, 'src/client/client.js')
 ];
 
@@ -63,10 +60,6 @@ for (const index in fragmentManifest) {
   const name = createComponentName(fragment.routePath);
 
   chunks[name] = [fragmentUrl];
-}
-
-if (isDebug) {
-  chunks.client.push('webpack-hot-middleware/client');
 }
 
 const GO_PIPELINE_LABEL = process.env.GO_PIPELINE_LABEL || packageJson.version;
@@ -92,6 +85,9 @@ if (isDebug) {
   context += ';';
 
   fs.writeFileSync(appConfigFileTarget, context);
+
+  chunks.client.unshift('regenerator-runtime/runtime.js', 'core-js/stable', 'intersection-observer');
+  chunks.client.push('webpack-hot-middleware/client');
 }
 
 const outputPath = voltranConfig.output.client.path;

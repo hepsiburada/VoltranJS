@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import Eev from 'eev';
 
 /* eslint-disable-next-line */
