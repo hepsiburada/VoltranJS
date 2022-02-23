@@ -7,7 +7,7 @@
 </h1>
 
 <h4 align="center">Voltran is a micro frontends framework which is developed by Hepsiburada Technology Team. Micro frontends help cross functional teams to make end-to-end and independent developments and deployments.</h4>
- 
+
  <br>
 
 <p align="center">
@@ -185,6 +185,7 @@ Voltran requires following configurations:
 | [routing](#routing)                           | Object               |
 | [webpackConfiguration](#webpackConfiguration) | Object               |
 | [sassResources](#sassResources)               | Array                |
+| [criticalCssDisabled](#criticalCssDisabled)   | Boolean
 
 #### appConfigFile
 
@@ -315,7 +316,13 @@ routing: {
 }
 ```
 
-Example files can be found here:
+#### criticalCssDisabled
+
+Set to `false` if don't need to critical styles.
+
+`Default`: `true`
+
+### Example files can be found here:
 
 - [components.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/components.js)
 - [dictionary.js](https://github.com/hepsiburada/VoltranJS-Starter-Kit/blob/master/src/appRoute/dictionary.js)
@@ -349,8 +356,8 @@ Voltran uses a number of open source projects to work properly:
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+5. Submit a pull request
 
 <p align="center">
-   <a href="https://medium.com/hepsiburadatech"><img src="./src/assets/hepsitech.png" alt="hepsitech"></a>  
+   <a href="https://medium.com/hepsiburadatech"><img src="./src/assets/hepsitech.png" alt="hepsitech"></a>
 </p>
