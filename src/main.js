@@ -4,7 +4,7 @@ import os from 'os';
 // This pool will be used by queue system (epoll, kqueue and iocp)
 // we need to check under load.
 // cluster?
-process.env.UV_THREADPOOL_SIZE = OS.cpus().length
+process.env.UV_THREADPOOL_SIZE = os.cpus().length
 
 import cluster from 'cluster';
 
