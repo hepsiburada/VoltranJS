@@ -5,6 +5,7 @@ import ClientApp from '../components/ClientApp';
 import { WINDOW_GLOBAL_PARAMS } from '../utils/constants';
 import { createComponentName } from '../utils/helper';
 import voltranConfig from '../../../voltran.config';
+import HistoryService from '../service/HistoryService';
 
 const getStaticProps = () => {
   const staticProps = {};
@@ -24,7 +25,12 @@ const withBaseComponent = (PageComponent, pathName) => {
 
   if (process.env.BROWSER && window[prefix] && window[prefix][componentName.toUpperCase()]) {
     const fragments = window[prefix][componentName.toUpperCase()];
-    const history = window[WINDOW_GLOBAL_PARAMS.HISTORY];
+
+    window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY] =
+      window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY] ||
+      new HistoryService(WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY);
+    const history = window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY].getHistory();
+
     const staticProps = getStaticProps();
 
     Object.keys(fragments).forEach(id => {
@@ -37,7 +43,11 @@ const withBaseComponent = (PageComponent, pathName) => {
 
       ReactDOM.hydrate(
         <ClientApp>
-          <PageComponent {...staticProps} initialState={initialState} history={history} />
+          <PageComponent
+            {...staticProps}
+            initialState={initialState}
+            history={history}
+          />
         </ClientApp>,
         componentEl,
         () => {

@@ -145,9 +145,13 @@ async function setInitialStates(renderers) {
             winner
               .execute()
               .then(response => callback(null, response))
-              .catch(exception =>
-                callback(new Error(`${winner.uri} : ${exception.message}`), null)
-              );
+              .catch(exception => {
+                if (renderer.component.object.byPassWhenFailed) {
+                  callback(null, { data: { isFailed: true } });
+                } else {
+                  callback(new Error(`${winner.uri} : ${exception.message}`), null);
+                }
+              });
           };
         }
       });
