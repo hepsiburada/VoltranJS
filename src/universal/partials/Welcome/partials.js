@@ -10,7 +10,7 @@ Object.keys(components).forEach(path => {
     partials.push({
       name: info.fragmentName,
       url: path,
-      status: info.status
+      status: info?.fragment?.previewStatus || info.status
     });
   }
 });
