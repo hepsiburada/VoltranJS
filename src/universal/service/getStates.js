@@ -1,3 +1,5 @@
+import featureToggleService from './FeatureToggleService';
+
 const getResponseData = (component, context, data) => {
   let result = {};
 
@@ -17,9 +19,14 @@ const getStates = async (component, context, predefinedInitialState) => {
   let subComponentFiles = [];
   let responseOptions = {};
   const responseData = getResponseData(component, context, initialState.data);
+  let toggles = [];
+
+  if (component.toggles) {
+    toggles = featureToggleService.getToggles(component.toggles);
+  }
 
   if (context.isWithoutState) {
-    return { initialState, subComponentFiles, responseOptions, ...responseData };
+    return { initialState, subComponentFiles, responseOptions, toggles, ...responseData };
   }
 
   if (!predefinedInitialState && component?.getServerSideProps) {
@@ -38,6 +45,7 @@ const getStates = async (component, context, predefinedInitialState) => {
     initialState,
     subComponentFiles,
     responseOptions,
+    toggles,
     ...responseData
   };
 };
