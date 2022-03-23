@@ -30,7 +30,7 @@ const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
   let subComponentFiles = [];
   let responseOptions = {};
-  const responseData = getResponseData(component, context, initialState.data);
+  let responseData = {};
   const extraPropKeys = getExtraProps(component, context, initialState.data);
 
   if (context.isWithoutState) {
@@ -48,6 +48,8 @@ const getStates = async (component, context, predefinedInitialState) => {
   if (initialState?.data?.responseOptions) {
     responseOptions = initialState?.data?.responseOptions || {};
   }
+
+  responseData = getResponseData(component, context, initialState.data);
 
   return {
     initialState,
