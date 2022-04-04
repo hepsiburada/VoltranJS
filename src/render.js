@@ -37,7 +37,6 @@ export default async (req, res) => {
         .replace(componentPath, '/')
         .replace('//', '/'),
       userAgent: Buffer.from(req.headers['user-agent'], 'utf-8').toString('base64'),
-      headers: JSON.parse(xss(JSON.stringify(req.headers))),
       isWithoutState: isWithoutStateValue
     };
 
@@ -63,7 +62,7 @@ export default async (req, res) => {
       componentName,
       seoState,
       isPreviewQuery,
-      responseOptions,
+      responseOptions
     } = renderResponse;
 
     const statusCode = responseOptions?.isPartialContent
@@ -84,7 +83,9 @@ export default async (req, res) => {
       if (voltranEnv !== 'prod' && isPreviewQuery) {
         res.status(statusCode).html(Preview([fullHtml].join('\n')));
       } else {
-        res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).html('<h1>Aradığınız sayfa bulunamadı...</h1>');
+        res
+          .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)
+          .html('<h1>Aradığınız sayfa bulunamadı...</h1>');
       }
     }
   } else {
