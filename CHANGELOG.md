@@ -1,30 +1,78 @@
 # Changelog
 
-## [v1.0.22](https://github.com/hepsiburada/VoltranJS/compare/v1.0.21...v1.0.22)
+## [1.0.26](https://github.com/hepsiburada/VoltranJS/compare/1.0.25...1.0.27)
 
 ### Merged
 
-- reverted hiding of welcome page in live environment [`#31`](https://github.com/hepsiburada/VoltranJS/pull/31)
+- Reduced the size of the 'Client.js' file [`#39`](https://github.com/hepsiburada/VoltranJS/pull/39)
 
-## [v1.0.21](https://github.com/hepsiburada/VoltranJS/compare/v1.0.20...v1.0.21)
+### Commits
 
-### Merged
+- feat: remove headers message on rendered html [`cf6d4a6`](https://github.com/hepsiburada/VoltranJS/commit/cf6d4a60cadb8e8db915173439736e0413a716d8)
 
-- user agent information encoded [`#35`](https://github.com/hepsiburada/VoltranJS/pull/35)
-
-## [v1.0.20](https://github.com/hepsiburada/VoltranJS/compare/v1.0.19...v1.0.20)
+## [1.0.25](https://github.com/hepsiburada/VoltranJS/compare/1.0.24...1.0.25) - 2022-02-11
 
 ### Merged
 
-- removed user agent information from inline script output [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
+- feat: added criticalCss query params feature [`#38`](https://github.com/hepsiburada/VoltranJS/pull/38)
 
-## [v1.0.19](https://github.com/hepsiburada/VoltranJS/compare/v1.0.18...v1.0.19)
+## [1.0.24](https://github.com/hepsiburada/VoltranJS/compare/1.0.23...1.0.24) - 2022-02-07
 
 ### Merged
 
-- welcome Page is hidden in production environment [`#28`](https://github.com/hepsiburada/VoltranJS/pull/28)
+- Fix: Lodash dep. removed and replaced with native functions [`#36`](https://github.com/hepsiburada/VoltranJS/pull/36)
 
-## [v1.0.18](https://github.com/hepsiburada/VoltranJS/compare/v1.0.17...v1.0.18)
+### Commits
+
+- - Lodash changed with native functions. [`3f12087`](https://github.com/hepsiburada/VoltranJS/commit/3f12087204c109b5da74661ad1d62bda74b312b7)
+- chore: update changelog [`15d0b1e`](https://github.com/hepsiburada/VoltranJS/commit/15d0b1ec8a6132d61cbdbac276c6a753ac489123)
+- version upgrade [`2049fd5`](https://github.com/hepsiburada/VoltranJS/commit/2049fd58b9a71c6fdf87c728db5fd950d689ece2)
+
+## [1.0.23](https://github.com/hepsiburada/VoltranJS/compare/1.0.22...1.0.23) - 2022-01-04
+
+### Merged
+
+- Css files with array for react lazy and suspense usage [`#34`](https://github.com/hepsiburada/VoltranJS/pull/34)
+
+### Commits
+
+- Code refactor [`416b52b`](https://github.com/hepsiburada/VoltranJS/commit/416b52bf320737d4de854d694e658a4db3c253cb)
+- Css files with array [`1c60f25`](https://github.com/hepsiburada/VoltranJS/commit/1c60f250f025b6cea774d83077819f5255c960aa)
+- Version upgrade [`6699d87`](https://github.com/hepsiburada/VoltranJS/commit/6699d8745305493df5eb543deb1d122c4b4f3169)
+
+## [1.0.22](https://github.com/hepsiburada/VoltranJS/compare/1.0.21...1.0.22) - 2021-11-16
+
+### Merged
+
+- fix: welcome page reverted [`#31`](https://github.com/hepsiburada/VoltranJS/pull/31)
+
+## [1.0.21](https://github.com/hepsiburada/VoltranJS/compare/1.0.20...1.0.21) - 2021-11-11
+
+### Merged
+
+- feat: removed user agent on initial state [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
+
+### Commits
+
+- feat: updated voltran version [`a44c5e3`](https://github.com/hepsiburada/VoltranJS/commit/a44c5e31d129913b40a545e513c0b060fc25275c)
+
+## [1.0.20](https://github.com/hepsiburada/VoltranJS/compare/1.0.19...1.0.20) - 2021-11-11
+
+### Merged
+
+- feat: removed user agent on initial state [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
+
+## [1.0.19](https://github.com/hepsiburada/VoltranJS/compare/1.0.18...1.0.19) - 2021-10-27
+
+### Merged
+
+- feat:welcome page is hidden in production environment [`#28`](https://github.com/hepsiburada/VoltranJS/pull/28)
+
+### Commits
+
+- chore: version updated [`70cf0ed`](https://github.com/hepsiburada/VoltranJS/commit/70cf0ed1f87bd6cdfefad7de3d52aa2df397b72b)
+
+## [1.0.18](https://github.com/hepsiburada/VoltranJS/compare/1.0.17...1.0.18) - 2021-09-08
 
 ### Merged
 
@@ -32,30 +80,64 @@
 
 ### Commits
 
-- chore: update changelog [`3a6f319`](https://github.com/hepsiburada/VoltranJS/commit/3a6f3196100385e25b8d08085b4f5e034564db56)
+- chore: update changelog [`4b1cd93`](https://github.com/hepsiburada/VoltranJS/commit/4b1cd93bf29c0c1ec831b435599f3bb5bb15c8ff)
 
-## [v1.0.17](https://github.com/hepsiburada/VoltranJS/compare/v1.0.11...v1.0.17) - 2021-09-06
+## [1.0.17](https://github.com/hepsiburada/VoltranJS/compare/1.0.16...1.0.17) - 2021-09-06
 
 ### Merged
 
 - pass headers in fragments [`#27`](https://github.com/hepsiburada/VoltranJS/pull/27)
+
+### Commits
+
+- chore: update changelog [`3a6f319`](https://github.com/hepsiburada/VoltranJS/commit/3a6f3196100385e25b8d08085b4f5e034564db56)
+
+## [1.0.16](https://github.com/hepsiburada/VoltranJS/compare/v1.0.16...1.0.16) - 2021-08-23
+
+### Commits
+
+- Update changelog [`717c909`](https://github.com/hepsiburada/VoltranJS/commit/717c9090983e84d29346a43ccdaf4d3fdc6c858d)
+
+## [v1.0.16](https://github.com/hepsiburada/VoltranJS/compare/1.0.13...v1.0.16) - 2021-08-23
+
+### Merged
+
 - set-cookie header imported to cookies [`#25`](https://github.com/hepsiburada/VoltranJS/pull/25)
 - Undefined SassResources bug [`#23`](https://github.com/hepsiburada/VoltranJS/pull/23)
+
+### Commits
+
+- voltranConfig.sassResources undefined bug fixed. [`acb50ef`](https://github.com/hepsiburada/VoltranJS/commit/acb50efb72227a759663eef15be48afc4b26e132)
+- chore: update changelog [`f3501ad`](https://github.com/hepsiburada/VoltranJS/commit/f3501ad944fe8f186acdce498e82ec131e09ff51)
+- Version upgrade [`b4aad6f`](https://github.com/hepsiburada/VoltranJS/commit/b4aad6f1cbc30c22c547529e9f86bd267f0559b1)
+
+## [1.0.13](https://github.com/hepsiburada/VoltranJS/compare/v1.0.13...1.0.13) - 2021-08-03
+
+### Commits
+
+- chore: update changelog [`94a3f7a`](https://github.com/hepsiburada/VoltranJS/commit/94a3f7a0e76363fd6fc7fb22bd80dd5f34b228d9)
+
+## [v1.0.13](https://github.com/hepsiburada/VoltranJS/compare/1.0.12...v1.0.13) - 2021-08-03
+
+### Merged
+
 - sass-resources-loader implementation. [`#22`](https://github.com/hepsiburada/VoltranJS/pull/22)
-- VoltranJS serverConfig file fixed. [`#21`](https://github.com/hepsiburada/VoltranJS/pull/21)
 
 ### Commits
 
 - sass-resource-loader implementation is done. Updated read me according to new config. [`cc97ef5`](https://github.com/hepsiburada/VoltranJS/commit/cc97ef506b03be4db82c0044b12301a22eb97085)
-- voltranConfig.sassResources undefined bug fixed. [`acb50ef`](https://github.com/hepsiburada/VoltranJS/commit/acb50efb72227a759663eef15be48afc4b26e132)
-- chore: update changelog [`f3501ad`](https://github.com/hepsiburada/VoltranJS/commit/f3501ad944fe8f186acdce498e82ec131e09ff51)
-- chore: update changelog [`05955c3`](https://github.com/hepsiburada/VoltranJS/commit/05955c343471d27e797c472c09811410d56fdb7d)
-- chore: update changelog [`94a3f7a`](https://github.com/hepsiburada/VoltranJS/commit/94a3f7a0e76363fd6fc7fb22bd80dd5f34b228d9)
-- chore: update changelog [`19134e7`](https://github.com/hepsiburada/VoltranJS/commit/19134e71989fe79328c8157b7ceb46bbc9afb7ef)
-- Update changelog [`717c909`](https://github.com/hepsiburada/VoltranJS/commit/717c9090983e84d29346a43ccdaf4d3fdc6c858d)
-- Version upgrade [`b4aad6f`](https://github.com/hepsiburada/VoltranJS/commit/b4aad6f1cbc30c22c547529e9f86bd267f0559b1)
 
-## [v1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...v1.0.11) - 2021-06-08
+## [1.0.12](https://github.com/hepsiburada/VoltranJS/compare/1.0.11...1.0.12) - 2021-07-30
+
+### Merged
+
+- VoltranJS serverConfig file fixed. [`#21`](https://github.com/hepsiburada/VoltranJS/pull/21)
+
+### Commits
+
+- chore: update changelog [`19134e7`](https://github.com/hepsiburada/VoltranJS/commit/19134e71989fe79328c8157b7ceb46bbc9afb7ef)
+
+## [1.0.11](https://github.com/hepsiburada/VoltranJS/compare/1.0.10...1.0.11) - 2021-06-08
 
 ### Merged
 
@@ -66,6 +148,7 @@
 
 - Create CODE_OF_CONDUCT.md [`6da53eb`](https://github.com/hepsiburada/VoltranJS/commit/6da53ebcf849a8460619e77173cda485b6267c89)
 - Update issue templates [`6d1d122`](https://github.com/hepsiburada/VoltranJS/commit/6d1d122c790a1a1fe5f66f6c1f2c337ced793e16)
+- chore: update changelog [`05955c3`](https://github.com/hepsiburada/VoltranJS/commit/05955c343471d27e797c472c09811410d56fdb7d)
 
 ## [1.0.10](https://github.com/hepsiburada/VoltranJS/compare/1.0.9...1.0.10) - 2021-05-27
 
