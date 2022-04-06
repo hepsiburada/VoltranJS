@@ -6,8 +6,6 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
-console.log('::VOLTRAN WP SERVER: ', env);
-
 const voltranConfig = require('./voltran.config');
 
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
@@ -30,10 +28,9 @@ const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
 const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
-const voltranServer =
-  voltranConfig.entry && !isDebug
-    ? voltranConfig.entry
-    : path.resolve(__dirname, isDebug ? 'src/server.js' : 'src/main.js');
+const voltranCustomServer = voltranConfig.entry.server || 'src/server.js';
+
+const voltranServer = path.resolve(__dirname, isDebug ? voltranCustomServer : 'src/main.js');
 
 const serverConfig = merge(commonConfig, voltranServerConfig, {
   name: 'server',

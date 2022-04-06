@@ -16,14 +16,14 @@ const renderLinksAndScripts = (html, links, scripts) => {
     .replace('<div>REPLACE_WITH_SCRIPTS</div>', scripts);
 };
 
-const renderHtml = ({ component, initialState, context, toggles }) => {
+const renderHtml = ({ component, initialState, context, extraPropKeys }) => {
   // eslint-disable-next-line no-param-reassign
   component.id = guid();
   const initialStateWithLocation = {
     ...initialState,
     location: context,
     id: component.id,
-    toggles
+    ...extraPropKeys
   };
   const sheet = new ServerStyleSheet();
 
@@ -82,7 +82,7 @@ const isRequestDispatcher = query => {
 };
 
 const renderComponent = async (component, context, predefinedInitialState = null) => {
-  const { initialState, subComponentFiles, toggles, ...restStates } = await getStates(
+  const { initialState, subComponentFiles, extraPropKeys, ...restStates } = await getStates(
     component.object,
     context,
     predefinedInitialState
@@ -94,7 +94,7 @@ const renderComponent = async (component, context, predefinedInitialState = null
     context
   );
 
-  const output = renderHtml({ component, initialState, context, toggles });
+  const output = renderHtml({ component, initialState, context, extraPropKeys });
   const fullHtml = renderLinksAndScripts(output, generateLinks(links), generateScripts(scripts));
 
   return {

@@ -56,18 +56,17 @@ function replaceString() {
       flags: 'g'
     },
     {
-      search: '__V_DICTIONARY__',
-      replace: normalizeUrl(voltranConfig.routing.dictionary),
+      search: '__V_MAIN__',
+      replace: normalizeUrl(
+        voltranConfig.entry.main || path.resolve(__dirname, './emptyModule.js')
+      ),
       flags: 'g'
     },
     {
-      search: '__V_REQUEST_CONFIGS__',
-      replace: normalizeUrl(voltranConfig.routing.requestConfigs),
-      flags: 'g'
-    },
-    {
-      search: '@voltran/core',
-      replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
+      search: '__V_SERVER__',
+      replace: normalizeUrl(
+        voltranConfig.entry.server || path.resolve(__dirname, './emptyModule.js')
+      ),
       flags: 'g'
     },
     { search: '"__V_styles__"', replace: getStyles() }

@@ -22,7 +22,6 @@ function getPreview(output) {
   const { layouts = {} } = previewPages?.default || {};
   let PreviewFile = Preview;
 
-  console.log('layouts:', layouts);
   if (layouts.default) {
     PreviewFile = layouts.default;
   }

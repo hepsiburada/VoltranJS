@@ -8,7 +8,7 @@ const launchServer = () => {
   http.createServer(hiddie.run).listen(voltranConfig.port);
 };
 
-if (process.env.NODE_ENV === 'production' && !voltranConfig.entry) {
+if (process.env.NODE_ENV === 'production' && !voltranConfig.entry.server) {
   launchServer();
 }
 

@@ -6,12 +6,14 @@ import Hiddie from 'hiddie';
 import http from 'http';
 import voltranConfig from '../voltran.config';
 import prom from 'prom-client';
-import {HTTP_STATUS_CODES} from './universal/utils/constants';
+import { HTTP_STATUS_CODES } from './universal/utils/constants';
+
+const voltranMain = require('__V_MAIN__');
 
 const enablePrometheus = voltranConfig.monitoring.prometheus;
 
 function triggerMessageListener(worker) {
-  worker.on('message', function (message) {
+  worker.on('message', function(message) {
     if (message?.options?.forwardAllWorkers) {
       sendMessageToAllWorkers(message);
     }
@@ -19,28 +21,33 @@ function triggerMessageListener(worker) {
 }
 
 function sendMessageToAllWorkers(message) {
-  Object.keys(cluster.workers).forEach(function (key) {
+  Object.keys(cluster.workers).forEach(function(key) {
     const worker = cluster.workers[key];
     worker.send({
-      msg: message.msg,
+      msg: message.msg
     });
   }, this);
 }
 
-cluster.on('fork', (worker) => {
+cluster.on('fork', worker => {
   triggerMessageListener(worker);
 });
 
-if (cluster.isMaster) {
-  for (let i = 0; i < os.cpus().length; i += 1) {
+const DEFAULT_CPU_COUNT = os.cpus().length;
+
+function forkClusters(cpuCount = DEFAULT_CPU_COUNT) {
+  for (let i = 0; i < cpuCount; i += 1) {
     cluster.fork();
   }
 
   cluster.on('exit', worker => {
     logger.error(`Worker ${worker.id} died`);
-    cluster.fork();
+    const newWorker = cluster.fork();
+    cluster.emit('message', newWorker, 'NEW_WORKER');
   });
+}
 
+if (cluster.isMaster) {
   if (enablePrometheus) {
     const aggregatorRegistry = new prom.AggregatorRegistry();
     const metricsPort = voltranConfig.port + 1;
@@ -52,7 +59,7 @@ if (cluster.isMaster) {
         return res.end(await aggregatorRegistry.clusterMetrics());
       }
       res.statusCode = HTTP_STATUS_CODES.NOT_FOUND;
-      res.end(JSON.stringify({message: 'not found'}));
+      res.end(JSON.stringify({ message: 'not found' }));
     });
 
     http.createServer(hiddie.run).listen(metricsPort, () => {
@@ -63,7 +70,14 @@ if (cluster.isMaster) {
       );
     });
   }
+
+  if (voltranConfig.entry.main) {
+    const voltranMainFile = voltranMain.default;
+    forkClusters(voltranMainFile.cpuCount);
+    voltranMainFile.load(cluster);
+  }
+} else if (voltranConfig.entry.server) {
+  require('__V_SERVER__');
 } else {
-  // eslint-disable-next-line global-require
   require('./server');
 }
