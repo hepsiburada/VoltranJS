@@ -28,9 +28,9 @@ const RequestDispatcher = () => {
       });
     };
 
-    const runEffect = (effect, data) => {
+    const runEffect = (effect, params) => {
       effect
-        .Request(data)
+        .Request({ params })
         .then(response => broadcast(effect, null, response))
         .catch(error => broadcast(effect, error, null));
     };

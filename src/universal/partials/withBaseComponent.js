@@ -19,7 +19,7 @@ const getStaticProps = () => {
   return staticProps;
 };
 
-const withBaseComponent = (PageComponent, pathName) => {
+const withBaseComponent = (PageComponent, pathName, wrapperEl) => {
   const componentName = createComponentName(pathName);
   const prefix = voltranConfig.prefix.toUpperCase();
 
@@ -40,14 +40,20 @@ const withBaseComponent = (PageComponent, pathName) => {
       if (isHydrated || !componentEl) return;
 
       const initialState = fragments[id].STATE;
+      const Wrapper = wrapperEl;
+      const pageComponent = (
+        <PageComponent {...staticProps} initialState={initialState} history={history} />
+      );
 
       ReactDOM.hydrate(
         <ClientApp>
-          <PageComponent
-            {...staticProps}
-            initialState={initialState}
-            history={history}
-          />
+          {Wrapper ? (
+            <Wrapper history={history} pathName={pathName}>
+              {pageComponent}
+            </Wrapper>
+          ) : (
+            pageComponent
+          )}
         </ClientApp>,
         componentEl,
         () => {
