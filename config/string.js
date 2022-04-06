@@ -55,6 +55,20 @@ function replaceString() {
       replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
       flags: 'g'
     },
+    {
+      search: '__V_MAIN__',
+      replace: normalizeUrl(
+        voltranConfig.entry.main || path.resolve(__dirname, './emptyModule.js')
+      ),
+      flags: 'g'
+    },
+    {
+      search: '__V_SERVER__',
+      replace: normalizeUrl(
+        voltranConfig.entry.server || path.resolve(__dirname, './emptyModule.js')
+      ),
+      flags: 'g'
+    },
     { search: '"__V_styles__"', replace: getStyles() }
   ];
 

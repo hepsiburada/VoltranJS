@@ -1,5 +1,3 @@
-import featureToggleService from './FeatureToggleService';
-
 const getResponseData = (component, context, data) => {
   let result = {};
 
@@ -14,19 +12,29 @@ const getResponseData = (component, context, data) => {
   return result;
 };
 
+const getExtraProps = (component, context, data) => {
+  let result = {};
+
+  if (component?.setExtraProps) {
+    if (typeof component.setExtraProps === 'function') {
+      result = component.setExtraProps(context, data);
+    } else {
+      result = component.setExtraProps;
+    }
+  }
+
+  return result;
+};
+
 const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
   let subComponentFiles = [];
   let responseOptions = {};
-  const responseData = getResponseData(component, context, initialState.data);
-  let toggles = [];
-
-  if (component.toggles) {
-    toggles = featureToggleService.getToggles(component.toggles);
-  }
+  let responseData = {};
+  const extraPropKeys = getExtraProps(component, context, initialState.data);
 
   if (context.isWithoutState) {
-    return { initialState, subComponentFiles, responseOptions, toggles, ...responseData };
+    return { initialState, subComponentFiles, responseOptions, extraPropKeys, ...responseData };
   }
 
   if (!predefinedInitialState && component?.getServerSideProps) {
@@ -41,11 +49,13 @@ const getStates = async (component, context, predefinedInitialState) => {
     responseOptions = initialState?.data?.responseOptions || {};
   }
 
+  responseData = getResponseData(component, context, initialState.data);
+
   return {
     initialState,
     subComponentFiles,
     responseOptions,
-    toggles,
+    extraPropKeys,
     ...responseData
   };
 };
