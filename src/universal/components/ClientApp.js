@@ -1,7 +1,7 @@
 import React from 'react';
 
 function ClientApp({ children }) {
-  return <div>{children}</div>;
+  return <div id="clientApp">{children}</div>;
 }
 
 export default ClientApp;

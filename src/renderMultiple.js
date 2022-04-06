@@ -47,6 +47,7 @@ function getRenderer(name, req) {
       cookies,
       url: urlWithPath,
       userAgent,
+      componentPath,
       ...renderOptions
     };
 

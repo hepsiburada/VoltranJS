@@ -34,7 +34,7 @@ const render = async (req, res) => {
   const pathParts = xss(req.path)
     .split('/')
     .filter(part => part);
-  const componentPath = `/${pathParts.join('/')}`;
+  const componentPath = `/${pathParts?.[0]}`;
   const isPreviewValue = isPreview(req.query);
 
   const routeInfo = matchUrlInRouteConfigs(componentPath);
@@ -52,7 +52,8 @@ const render = async (req, res) => {
       userAgent: Buffer.from(req.headers['user-agent'] || [], 'utf-8').toString('base64'),
       headers: JSON.parse(xss(JSON.stringify(req.headers))),
       isWithoutState: isWithoutStateValue,
-      isPreview: isPreviewValue
+      isPreview: isPreviewValue,
+      componentPath
     };
 
     const component = new Component(routeInfo.path);
@@ -96,7 +97,14 @@ const render = async (req, res) => {
       const voltranEnv = appConfig.voltranEnv || 'local';
 
       if (voltranEnv !== 'prod' && isPreviewQuery) {
-        const response = getPreview([fullHtml].join('\n'));
+        const requestDispatcherResponse = await renderComponent(
+          new Component('/RequestDispatcher'),
+          context
+        );
+        const requestDispatcherFullHtml = requestDispatcherResponse.fullHtml;
+
+        const response = getPreview([requestDispatcherFullHtml, fullHtml].join('\n'));
+
         res.status(statusCode).html(response);
       } else {
         res
