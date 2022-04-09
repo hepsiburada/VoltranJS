@@ -117,6 +117,7 @@ const cors = async (req, res, next) => {
 
 const utils = async (req, res, next) => {
   res.json = json => {
+    newrelic?.addCustomAttribute("voltran.error.message", JSON.stringify(json.message))
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(json));
   };
