@@ -6,6 +6,30 @@ let newrelic = null;
 if (newrelicEnabled) {
   // eslint-disable-next-line global-require
   newrelic = require('newrelic');
+  console.log(" ---- NewRelic is ENABLED! ----")
+} else {
+  console.log(" ---- NewRelic is DISABLED! ----")
+}
+
+const isJsonValid = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
+export const addCustomAttrsToNewrelic = (message) => {
+  const isValidJson = isJsonValid(message)
+  if (!isValidJson) return;
+  const parsedMessage = JSON.parse(message)
+  for (const key in parsedMessage) {
+    if (Object.hasOwnProperty.call(parsedMessage, key)) {
+      newrelic?.addCustomAttribute(`a_${key}`, parsedMessage[key])
+    }
+  }
+  newrelic?.addCustomAttribute("a_voltran.error.message", message)
 }
 
 export default newrelic;
