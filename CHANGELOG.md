@@ -1,14 +1,16 @@
 # Changelog
 
-## [1.0.26](https://github.com/hepsiburada/VoltranJS/compare/1.0.25...1.0.27)
+## [1.0.27](https://github.com/hepsiburada/VoltranJS/compare/1.0.25...1.0.27)
 
 ### Merged
 
+- Add error message attribute on newrelic errors. [`#44`](https://github.com/hepsiburada/VoltranJS/pull/44)
+- feat: remove headers message on rendered html [`#43`](https://github.com/hepsiburada/VoltranJS/pull/43)
 - Reduced the size of the 'Client.js' file [`#39`](https://github.com/hepsiburada/VoltranJS/pull/39)
 
 ### Commits
 
-- feat: remove headers message on rendered html [`cf6d4a6`](https://github.com/hepsiburada/VoltranJS/commit/cf6d4a60cadb8e8db915173439736e0413a716d8)
+- Add json option on error messages for newrelic [`54416a9`](https://github.com/hepsiburada/VoltranJS/commit/54416a955a498aea74574ce03fd435ea63b6c7fc)
 
 ## [1.0.25](https://github.com/hepsiburada/VoltranJS/compare/1.0.24...1.0.25) - 2022-02-11
 
