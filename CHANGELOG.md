@@ -1,13 +1,11 @@
 # Changelog
 
-## [v1.0.28](https://github.com/hepsiburada/VoltranJS/compare/v1.0.27...v1.0.28)
+## [1.0.27](https://github.com/hepsiburada/VoltranJS/compare/v1.0.27...v1.0.28)
 
 ### Commits
 
-- Add description of new relic integration on README. Fix importing function problem about newrelic on server.js [`ab7c472`](https://github.com/hepsiburada/VoltranJS/commit/ab7c4720a8c20439afeb7180c1bc10fd73daeab1)
+- Add description of new relic integration on README. [`ab7c472`](https://github.com/hepsiburada/VoltranJS/commit/ab7c4720a8c20439afeb7180c1bc10fd73daeab1)
 - Update changelog for 1.0.27 version [`969958e`](https://github.com/hepsiburada/VoltranJS/commit/969958e531ab99fa4d9722eee48773aa89054dd4)
-
-## [v1.0.27](https://github.com/hepsiburada/VoltranJS/compare/1.0.26...v1.0.27) - 2022-04-12
 
 ## [1.0.26](https://github.com/hepsiburada/VoltranJS/compare/1.0.25...1.0.26) - 2022-04-12
 
