@@ -185,7 +185,7 @@ Voltran requires following configurations:
 | [routing](#routing)                           | Object               |
 | [webpackConfiguration](#webpackConfiguration) | Object               |
 | [sassResources](#sassResources)               | Array                |
-| [criticalCssDisabled](#criticalCssDisabled)   | Boolean
+| [criticalCssDisabled](#criticalCssDisabled)   | Boolean              |
 
 #### appConfigFile
 
@@ -338,6 +338,12 @@ You can access the starter kit we created from the [link](https://github.com/hep
 You can add sass resources to this field as string array. sass-resource-loader gonna inject those files in every sass files so you won't need to import them.
 
 You can check [sass-resource-loader](https://github.com/shakacode/sass-resources-loader) for usage.
+
+## New Relic Integration
+
+Add `newrelicEnabled: true` on your config.
+
+If you throw an error like `throw new Error({message: "Service error", code: 500})` from your fragments, Voltran detects the fields and sends each field to New Relic as a custom attribute. These fields appear with `_a` prefix to place in the first of rows on your new relic.
 
 ## Tech
 
