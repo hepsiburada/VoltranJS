@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import newrelic from './universal/tools/newrelic/newrelic';
+import newrelic, { addCustomAttrsToNewrelic } from './universal/tools/newrelic/newrelic';
 
 import cookieParser from 'cookie-parser';
 import { compose } from 'compose-middleware';
@@ -116,7 +116,7 @@ const cors = async (req, res, next) => {
 
 const utils = async (req, res, next) => {
   res.json = json => {
-    newrelic?.addCustomAttribute("voltran.error.message", JSON.stringify(json.message))
+    addCustomAttrsToNewrelic(json.message);
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify(json));
   };
