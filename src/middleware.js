@@ -60,6 +60,8 @@ const handleProcessMessage = message => {
 };
 
 const handleUrls = async (req, res, next) => {
+  newrelic?.setTransactionName?.(req.path);
+
   if (req.url === '/' && req.method === 'GET') {
     res.html(Welcome());
   } else if (req.url === '/metrics' && req.method === 'GET' && !enablePrometheus) {
@@ -95,7 +97,6 @@ const handleUrls = async (req, res, next) => {
       res.json({ success: false });
     }
   } else {
-    newrelic?.setTransactionName?.(req.path);
     next();
   }
 };
