@@ -40,6 +40,7 @@ function getRenderer(name, req) {
 
   if (routeInfo) {
     const urlWithPath = url.replace('/', path);
+    const fullComponentPath = `/components/${req.params.components ?? ''}`;
 
     const context = {
       path,
@@ -47,7 +48,7 @@ function getRenderer(name, req) {
       cookies,
       url: urlWithPath,
       userAgent,
-      componentPath,
+      componentPath: fullComponentPath,
       ...renderOptions
     };
 
@@ -207,6 +208,7 @@ async function getResponses(renderers) {
 async function getPreview(responses, requestCount, req) {
   const layoutName = getPreviewLayout(req.query);
   const { layouts = {} } = previewPages?.default || {};
+  const componentNames = Object.keys(responses);
   let PreviewFile = Preview;
 
   if (layouts[layoutName]) {
@@ -218,7 +220,7 @@ async function getPreview(responses, requestCount, req) {
     return getLayoutWithClass(componentName, responses[name].fullHtml);
   });
 
-  return PreviewFile([...content].join('\n'), `${requestCount} request!`);
+  return PreviewFile([...content].join('\n'), `${requestCount} request!`, componentNames);
 }
 
 const DEFAULT_PARTIALS = ['RequestDispatcher'];
