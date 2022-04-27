@@ -63,22 +63,16 @@ function getRenderer(name, req) {
 }
 
 function iterateServicesMap(servicesMap, callback) {
-  Object.getOwnPropertySymbols(servicesMap).forEach(serviceName => {
-    const endPoints = servicesMap[serviceName];
+  Object.getOwnPropertyNames(servicesMap).forEach(serviceName => {
+    const requests = servicesMap[serviceName];
 
-    Object.keys(endPoints).forEach(endPointName => {
-      callback(serviceName, endPointName);
-    });
+    callback(serviceName, requests);
   });
 }
 
-function reduceServicesMap(servicesMap, callback, initialValue) {
-  return Object.getOwnPropertySymbols(servicesMap).map(serviceName => {
-    const endPoints = servicesMap[serviceName];
-
-    return Object.keys(endPoints).reduce((obj, endPointName) => {
-      return callback(serviceName, endPointName, obj);
-    }, initialValue);
+function reduceServicesMap(servicesMap, callback, obj) {
+  return Object.getOwnPropertyNames(servicesMap).map(serviceName => {
+    return callback(serviceName, obj);
   });
 }
 
@@ -86,9 +80,7 @@ function getHashes(renderers) {
   return renderers
     .filter(renderer => renderer.servicesMap)
     .reduce((hashes, renderer) => {
-      iterateServicesMap(renderer.servicesMap, (serviceName, endPointName) => {
-        const requests = renderer.servicesMap[serviceName][endPointName];
-
+      iterateServicesMap(renderer.servicesMap, (serviceName, requests) => {
         requests.forEach(request => {
           if (hashes[request.hash]) {
             hashes[request.hash].occurrence += 1;
@@ -121,12 +113,8 @@ function incWinnerScore(winner, hashes) {
   hashes[winner.hash].score += 1;
 }
 
-function putWinnerMap(serviceName, endPointName, winnerMap, winner) {
-  if (winnerMap[serviceName]) {
-    winnerMap[serviceName][endPointName] = winner;
-  } else {
-    winnerMap[serviceName] = { [endPointName]: winner };
-  }
+function putWinnerMap(serviceName, winnerMap, winner) {
+  winnerMap[serviceName] = winner;
 }
 
 async function setInitialStates(renderers) {
@@ -135,12 +123,10 @@ async function setInitialStates(renderers) {
   const promises = renderers
     .filter(renderer => renderer.servicesMap)
     .reduce((promises, renderer) => {
-      iterateServicesMap(renderer.servicesMap, (serviceName, endPointName) => {
-        const requests = renderer.servicesMap[serviceName][endPointName];
-
+      iterateServicesMap(renderer.servicesMap, (serviceName, requests) => {
         const winner = getWinner(requests, hashes);
         incWinnerScore(winner, hashes);
-        putWinnerMap(serviceName, endPointName, renderer.winnerMap, winner);
+        putWinnerMap(serviceName, renderer.winnerMap, winner);
 
         if (!promises[winner.hash]) {
           promises[winner.hash] = callback => {
@@ -176,9 +162,9 @@ async function setInitialStates(renderers) {
       renderer.setInitialState(
         reduceServicesMap(
           renderer.winnerMap,
-          (serviceName, endPointName, obj) => {
-            const request = renderer.winnerMap[serviceName][endPointName];
-            obj[endPointName] = results[request.hash];
+          (serviceName, obj) => {
+            const request = renderer.winnerMap[serviceName];
+            obj[serviceName] = results[request.hash];
             return obj;
           },
           {}

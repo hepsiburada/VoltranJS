@@ -1,5 +1,5 @@
-import Request from '../../model/Request';
-import { createCacheManagerInstance } from '../../core/cache/cacheUtils';
+import Request from '../../../model/Request';
+import { createCacheManagerInstance } from '../../cache/cacheUtils';
 
 function createApiClient(apiManager) {
   const cacheManager = createCacheManagerInstance();
@@ -101,5 +101,4 @@ function createApiClient(apiManager) {
   };
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { createApiClient };
+export default createApiClient;
