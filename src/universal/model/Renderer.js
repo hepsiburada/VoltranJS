@@ -33,8 +33,7 @@ export default class Renderer {
   }
 
   getServicesWithMultiple() {
-    const options = { isServer: false };
-    return this.component.object.getServicesWithMultiple(this.context, options);
+    return this.component.object.getServicesWithMultiple(this.context);
   }
 
   render() {
