@@ -1,5 +1,5 @@
-import Request from '../../../model/Request';
-import { createCacheManagerInstance } from '../../cache/cacheUtils';
+import Request from '../../model/Request';
+import { createCacheManagerInstance } from '../../core/cache/cacheUtils';
 
 function createApiClient(apiManager) {
   const cacheManager = createCacheManagerInstance();
@@ -35,7 +35,6 @@ function createApiClient(apiManager) {
     const payload = getPayload(url, method, params, configArgument);
     const uri = apiManager.api.getUri(payload);
 
-    console.log('URI:', uri);
     return new Request(apiManager.api, payload, uri, response);
   }
 
@@ -102,4 +101,5 @@ function createApiClient(apiManager) {
   };
 }
 
-export default createApiClient;
+// eslint-disable-next-line import/prefer-default-export
+export { createApiClient };

@@ -3,13 +3,13 @@ import {
   CONTENT_TYPE_HEADER,
   JSON_CONTENT_TYPE,
   REQUEST_TYPES_WITH_BODY
-} from '../../../utils/constants';
+} from '../../utils/constants';
 
 function createBaseConfig() {
   return {};
 }
 
-class BaseApiManager {
+class ApiManager {
   constructor(customConfig) {
     const headers = {
       common: {
@@ -40,4 +40,4 @@ class BaseApiManager {
   }
 }
 
-export default BaseApiManager;
+export default ApiManager;

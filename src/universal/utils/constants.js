@@ -19,6 +19,13 @@ const HTTP_STATUS_CODES = {
 const JSON_CONTENT_TYPE = 'application/json';
 const CONTENT_TYPE_HEADER = 'Content-Type';
 const REQUEST_TYPES_WITH_BODY = ['post', 'put', 'patch'];
+const SERVICES = Object.freeze(
+  Object.keys(appConfig.services).reduce((obj, val) => {
+    // eslint-disable-next-line no-param-reassign
+    obj[val] = Symbol(val);
+    return obj;
+  }, {})
+);
 
 const BLACKLIST_OUTPUT = [
   'componentName',
@@ -34,5 +41,6 @@ export {
   JSON_CONTENT_TYPE,
   CONTENT_TYPE_HEADER,
   REQUEST_TYPES_WITH_BODY,
+  SERVICES,
   BLACKLIST_OUTPUT
 };

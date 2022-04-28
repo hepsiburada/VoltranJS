@@ -1,5 +1,5 @@
-import createApiClient from '../utils/createApiClient';
-import BaseApiManager from './BaseApiManager';
+import ApiManager from './ApiManager';
+import { createApiClient } from '../../common/network/apiUtils';
 
 import http from 'http';
 import https from 'https';
@@ -10,9 +10,9 @@ const BASE_HTTP_AGENT_CONFIG = {
 };
 
 export default (config, timeout) => {
-  const apiManager = new BaseApiManager({
+  const apiManager = new ApiManager({
     timeout,
-    baseURL: config.serverUrl || config.url || config.clientUrl || '/',
+    baseURL: config.serverUrl,
     httpAgent: new http.Agent(BASE_HTTP_AGENT_CONFIG),
     httpsAgent: new https.Agent(BASE_HTTP_AGENT_CONFIG)
   });
