@@ -1,25 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
-const { merge } = require('webpack-merge');
-const packageJson = require('./package');
+const {merge} = require('webpack-merge');
+const packageJson = require(path.resolve(process.cwd(), 'package.json'));
+const voltranConfig = require('./voltran.config');
 
 const reStyle = /\.(css|less|styl|scss|sass|sss)$/;
 const reImage = /\.(bmp|gif|jpg|jpeg|png|svg)$/;
 const staticAssetName = '[name]-[contenthash].[ext]';
 
-const voltranConfig = require('./voltran.config');
 const isDebug = voltranConfig.dev;
 
 const voltranCommonConfigPath = voltranConfig.webpackConfiguration.common;
-const voltranCommonConfig = voltranCommonConfigPath ?
-  require(voltranConfig.webpackConfiguration.common) :
-  '';
+const voltranCommonConfig = voltranCommonConfigPath
+  ? require(voltranConfig.webpackConfiguration.common)
+  : '';
 
 const commonConfig = merge(voltranCommonConfig, {
   mode: isDebug ? 'development' : 'production',
 
   output: {
-    assetModuleFilename: staticAssetName
+    assetModuleFilename: staticAssetName,
   },
 
   module: {
@@ -42,9 +42,9 @@ const commonConfig = merge(voltranCommonConfig, {
                 use: 'svg-url-loader',
                 parser: {
                   dataUrlCondition: {
-                    maxSize: 4096 // 4kb
-                  }
-                }
+                    maxSize: 4096, // 4kb
+                  },
+                },
               },
 
               // Inline lightweight images as Base64 encoded DataUrl string
@@ -52,17 +52,17 @@ const commonConfig = merge(voltranCommonConfig, {
                 type: 'asset',
                 parser: {
                   dataUrlCondition: {
-                    maxSize: 4096 // 4kb
-                  }
-                }
-              }
-            ]
+                    maxSize: 4096, // 4kb
+                  },
+                },
+              },
+            ],
           },
 
           {
             type: 'asset/resource',
-          }
-        ]
+          },
+        ],
       },
 
       {
@@ -70,14 +70,14 @@ const commonConfig = merge(voltranCommonConfig, {
         type: 'asset',
         parser: {
           dataUrlCondition: {
-            maxSize: 10000
-          }
-        }
+            maxSize: 10000,
+          },
+        },
       },
 
       {
         test: /\.(ttf|eot|otf|woff|woff2)$/,
-        type: 'asset/resource'
+        type: 'asset/resource',
       }
     ]
   },
@@ -91,17 +91,18 @@ const commonConfig = merge(voltranCommonConfig, {
   plugins: [
     new webpack.DefinePlugin({
       VOLTRAN_API_VERSION: JSON.stringify(packageJson.version),
-      'process.env.GO_PIPELINE_LABEL': JSON.stringify(process.env.GO_PIPELINE_LABEL)
-    })
+      'process.env.GO_PIPELINE_LABEL': JSON.stringify(process.env.GO_PIPELINE_LABEL),
+    }),
   ],
-  /* resolve: {
+  resolve: {
     alias: {
-      'styled-components': path.resolve(__dirname, 'node_modules', 'styled-components'),
+      // 'styled-components': path.resolve(__dirname, 'node_modules', 'styled-components'),
+      // 'postcss-loader': path.resolve(__dirname, 'node_modules', 'postcss-loader'),
     },
     fallback: {
-      url: false
-    }
-  } */
+      url: false,
+    },
+  },
 });
 
 module.exports = commonConfig;
