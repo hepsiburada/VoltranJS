@@ -285,7 +285,7 @@ output: {
   client: {
     path: path.resolve(__dirname, './build/public/project/assets'),
     publicPath: path.resolve(__dirname, './src/assets'),
-    filename: '[name]-[hash].js',
+    filename: '[name]-[contenthash].js',
     chunkFilename: '[name]-[chunkhash].js'
   },
   server: {

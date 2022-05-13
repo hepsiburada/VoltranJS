@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
@@ -11,9 +12,10 @@ const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath); // eslint-disable-line import/no-dynamic-require
 
 const commonConfig = require('./webpack.common.config');
-const postCssConfig = require('./postcss.config');
+const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const replaceString = require('./config/string.js');
 
+const distFolderPath = voltranConfig.distFolder;
 const isDebug = voltranConfig.dev;
 
 let styles = '';
@@ -26,7 +28,7 @@ const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
 
-const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
+const serverConfig = merge(commonConfig, voltranServerConfig, {
   name: 'server',
 
   target: 'node',
@@ -65,20 +67,21 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
         test: /\.scss$/,
         use: [
           {
-            loader: 'css-loader/locals',
+            loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: appConfig.isCssClassNameObfuscationEnabled
+                  ? `${voltranConfig.prefix}-[name]-[hash:base64]`
+                  : `${voltranConfig.prefix}-[path][name]__[local]`,
+                localIdentHashSalt: packageJson.name,
+                exportOnlyLocals: true
+              },
               importLoaders: 1,
-              sourceMap: isDebug,
-              localIdentName: appConfig.isCssClassNameObfuscationEnabled
-                ? `${voltranConfig.prefix}-[name]-[hash:base64:5]`
-                : `${voltranConfig.prefix}-[name]-[local]`,
-              minimize: isDebug
+              sourceMap: isDebug
             }
           },
           {
-            loader: 'postcss-loader',
-            options: postCssConfig
+            loader: 'postcss-loader'
           },
           {
             loader: 'sass-loader'
@@ -99,9 +102,14 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
     ]
   },
 
+  externalsPresets: { node: true },
   externals: [nodeExternals()],
 
   plugins: [
+    new CleanWebpackPlugin([distFolderPath], {
+      verbose: true
+    }),
+
     new webpack.DefinePlugin({
       'process.env.BROWSER': false,
       __DEV__: isDebug
