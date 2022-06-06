@@ -1,10 +1,16 @@
 import createApiClient from '../utils/createApiClient';
 import BaseApiManager from './BaseApiManager';
 
-export default (config, timeout) => {
+export default (entity, serviceConfigs) => {
+  const baseURL = entity.clientUrl || entity.url || entity.serverUrl || '/';
+  const config = {
+    ...serviceConfigs,
+    ...entity?.config
+  };
+
   const apiManager = new BaseApiManager({
-    baseURL: config.clientUrl || config.url || config.serverUrl || '/',
-    timeout
+    baseURL,
+    ...config
   });
 
   return createApiClient(apiManager);

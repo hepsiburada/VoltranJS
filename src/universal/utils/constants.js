@@ -1,4 +1,3 @@
-const appConfig = require('__APP_CONFIG__');
 const voltranConfig = require('../../../voltran.config');
 
 const WINDOW_GLOBAL_PARAMS = {

@@ -1,7 +1,6 @@
 import xss from 'xss';
 
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
-import Preview from './universal/components/Preview';
 import { BLACKLIST_OUTPUT, HTTP_STATUS_CODES } from './universal/utils/constants';
 import metrics from './metrics';
 import {
@@ -14,20 +13,9 @@ import {
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
 import omit from 'lodash/omit';
+import { getPreviewFile } from './universal/utils/previewHelper';
 
 const appConfig = require('__APP_CONFIG__');
-const previewPages = require('__V_PREVIEW_PAGES__');
-
-function getPreview(output) {
-  const { layouts = {} } = previewPages?.default || {};
-  let PreviewFile = Preview;
-
-  if (layouts.default) {
-    PreviewFile = layouts.default;
-  }
-
-  return PreviewFile(output);
-}
 
 const render = async (req, res) => {
   const isWithoutStateValue = isWithoutState(req.query);
@@ -102,8 +90,10 @@ const render = async (req, res) => {
           context
         );
         const requestDispatcherFullHtml = requestDispatcherResponse.fullHtml;
+        const PreviewFile = getPreviewFile(context.query);
+        const body = [requestDispatcherFullHtml, fullHtml].join('\n');
 
-        const response = getPreview([requestDispatcherFullHtml, fullHtml].join('\n'));
+        const response = PreviewFile({ body, componentName });
 
         res.status(statusCode).html(response);
       } else {

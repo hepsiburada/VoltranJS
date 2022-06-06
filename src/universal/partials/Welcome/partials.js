@@ -1,6 +1,6 @@
 import components from '../../core/route/components';
 
-const previewPages = require('__V_PREVIEW_PAGES__');
+const preview = require('__V_PREVIEW__');
 
 const partials = [];
 const BLACKLIST = ['REQUEST_DISPATCHER'];
@@ -14,7 +14,7 @@ Object.keys(components).forEach(path => {
     });
   }
 });
-const pages = previewPages?.default?.pages || [];
+const pages = preview?.default?.pages || [];
 partials.push(...pages);
 
 export default partials;

@@ -65,14 +65,6 @@ const isPreview = query => {
   return false;
 };
 
-const getPreviewLayout = query => {
-  if (isPreview(query)) {
-    return query?.preview;
-  }
-
-  return '';
-};
-
 const isWithoutState = query => {
   return query.withoutState === '';
 };
@@ -116,7 +108,6 @@ export {
   getStates,
   isWithoutHTML,
   isPreview,
-  getPreviewLayout,
   isRequestDispatcher,
   isWithoutState,
   renderComponent
