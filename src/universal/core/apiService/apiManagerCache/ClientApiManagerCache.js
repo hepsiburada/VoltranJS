@@ -2,8 +2,8 @@
 import ClientApiManager from '../apiManager/ClientApiManager';
 import createCache from '../utils/createCache';
 
-const { services, timeouts } = require('__APP_CONFIG__');
+const { services, serviceConfigs } = require('__APP_CONFIG__');
 
-const cache = createCache(ClientApiManager, services, timeouts.clientApiManager);
+const cache = createCache(ClientApiManager, services, serviceConfigs?.client);
 
 export default cache;

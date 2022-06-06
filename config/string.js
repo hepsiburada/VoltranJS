@@ -39,9 +39,9 @@ function replaceString() {
       flags: 'g'
     },
     {
-      search: '__V_PREVIEW_PAGES__',
+      search: '__V_PREVIEW__',
       replace: normalizeUrl(
-        voltranConfig.routing.previewPages || path.resolve(__dirname, './emptyModule.js')
+        voltranConfig.routing.preview || path.resolve(__dirname, './emptyModule.js')
       ),
       flags: 'g'
     },

@@ -3,7 +3,10 @@ import styled from 'styled-components';
 const STATUS_COLOR = {
   live: '#8dc63f',
   dev: '#FF6000',
-  page: '#00abff'
+  page: '#00abff',
+  1: '#9b59b6',
+  2: '#c0392b',
+  3: '#16a085'
 };
 
 export const List = styled.ul`

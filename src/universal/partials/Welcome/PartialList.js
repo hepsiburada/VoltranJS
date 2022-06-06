@@ -9,41 +9,40 @@ import partials from './partials';
 const sheet = new ServerStyleSheet();
 
 const Welcome = () => {
-  const { live = [], dev = [], page = [] } = structUtils.groupBy(partials, item => item.status);
+  const { live = [], dev = [], page = [],...others  } = structUtils.groupBy(partials, item => item.status);
 
-  const renderItem = item => (
+  const renderItem = ({ item, status }) => (
     <ListItem status={item.status}>
       <Link href={item.previewUrl ? item.previewUrl : `${item.url}?preview`} target="_blank">
         <Name>{item.name}</Name>
         <Url>{item.url}</Url>
-        <Footer status={item.status}>
-          <Label status={item.status}>
-            {item.status} <Dot status={item.status} />
+        <Footer status={status}>
+          <Label status={status}>
+            {item.status} <Dot status={status} />
           </Label>
         </Footer>
       </Link>
     </ListItem>
   );
+
+  const renderGroup = ({ title, value, status }) => {
+    return (
+      <>
+        <HeaderName>{title}</HeaderName>
+        {value.map(item => renderItem({ item, status }))}
+      </>
+    );
+  };
+
   return (
     <List>
-      {live.length > 0 && (
-        <>
-          <HeaderName>Live</HeaderName>
-          {live.map(item => renderItem(item))}
-        </>
-      )}
-      {page.length > 0 && (
-        <>
-          <HeaderName>Pages</HeaderName>
-          {page.map(item => renderItem(item))}
-        </>
-      )}
-      {dev.length > 0 && (
-        <>
-          <HeaderName>Development</HeaderName>
-          {dev.map(item => renderItem(item))}
-        </>
-      )}
+      {page.length > 0 && renderGroup({ title: 'page', value: page, status: 'page' })}
+      {live.length > 0 && renderGroup({ title: 'live', value: live, status: 'live' })}
+      {dev.length > 0 && renderGroup({ title: 'dev', value: dev, status: 'dev' })}
+      {Object.entries(others).map((entity, index) => {
+        const [key, value] = entity;
+        return renderGroup({ title: key, value, status: index + 1 });
+      })}
     </List>
   );
 };

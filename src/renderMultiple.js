@@ -3,19 +3,16 @@ import async from 'async';
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
 import Component from './universal/model/Component';
 import Renderer from './universal/model/Renderer';
-import Preview from './universal/components/Preview';
 import {
   isRequestDispatcher,
   isPreview,
   isWithoutHTML,
-  isWithoutState,
-  getPreviewLayout
+  isWithoutState
 } from './universal/service/RenderService';
 import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
-
-const previewPages = require('__V_PREVIEW_PAGES__');
+import { getPreviewFile } from './universal/utils/previewHelper';
 
 const getRenderOptions = req => {
   const isPreviewValue = isPreview(req.query) || false;
@@ -192,21 +189,20 @@ async function getResponses(renderers) {
 }
 
 async function getPreview(responses, requestCount, req) {
-  const layoutName = getPreviewLayout(req.query);
-  const { layouts = {} } = previewPages?.default || {};
   const componentNames = Object.keys(responses);
-  let PreviewFile = Preview;
-
-  if (layouts[layoutName]) {
-    PreviewFile = layouts[layoutName];
-  }
+  const PreviewFile = getPreviewFile(req.query);
 
   const content = Object.keys(responses).map(name => {
     const componentName = responses?.[name]?.activeComponent?.componentName ?? '';
     return getLayoutWithClass(componentName, responses[name].fullHtml);
   });
+  const body = [...content].join('\n');
 
-  return PreviewFile([...content].join('\n'), `${requestCount} request!`, componentNames);
+  return PreviewFile({
+    body,
+    requestCount,
+    componentNames
+  });
 }
 
 const DEFAULT_PARTIALS = ['RequestDispatcher'];

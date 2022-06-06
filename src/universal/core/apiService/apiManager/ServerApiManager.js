@@ -9,10 +9,10 @@ const BASE_HTTP_AGENT_CONFIG = {
   rejectUnauthorized: false
 };
 
-export default (config, timeout) => {
+export default (entity, serviceConfigs) => {
   const apiManager = new BaseApiManager({
-    timeout,
-    baseURL: config.serverUrl || config.url || config.clientUrl || '/',
+    baseURL: entity.serverUrl || entity.url || entity.clientUrl || '/',
+    ...serviceConfigs,
     httpAgent: new http.Agent(BASE_HTTP_AGENT_CONFIG),
     httpsAgent: new https.Agent(BASE_HTTP_AGENT_CONFIG)
   });
