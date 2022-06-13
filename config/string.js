@@ -34,15 +34,13 @@ function replaceString() {
     {
       search: '__V_REQUEST_CONFIGS__',
       replace: normalizeUrl(
-        voltranConfig.routing.requestConfigs || path.resolve(__dirname, './emptyModule.js')
+        voltranConfig.requestConfigs || path.resolve(__dirname, './emptyModule.js')
       ),
       flags: 'g'
     },
     {
       search: '__V_PREVIEW__',
-      replace: normalizeUrl(
-        voltranConfig.routing.preview || path.resolve(__dirname, './emptyModule.js')
-      ),
+      replace: normalizeUrl(voltranConfig.preview || path.resolve(__dirname, './emptyModule.js')),
       flags: 'g'
     },
     {

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import {
   CONTENT_TYPE_HEADER,
   JSON_CONTENT_TYPE,

@@ -6,7 +6,10 @@ const isEventExist = eventName => {
 };
 
 const isExitCondition = condition => {
-  return Object.keys(getProjectWindowData()).indexOf(condition) > -1 || condition === 'default';
+  return (
+    Object.keys(getProjectWindowData()).indexOf(condition?.toUpperCase()) > -1 ||
+    condition === 'default'
+  );
 };
 
 export { isExitCondition, isEventExist };
