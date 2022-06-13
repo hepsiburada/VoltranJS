@@ -45,6 +45,7 @@ function getRenderer(name, req) {
       cookies,
       url: urlWithPath,
       userAgent,
+      headers,
       componentPath: fullComponentPath,
       ...renderOptions
     };
@@ -178,7 +179,7 @@ async function getResponses(renderers) {
     .filter(result => result.value != null)
     .reduce((obj, item) => {
       const el = obj;
-      const name = `${item.key}_${item.id}`;
+      const name = `${item.key}`;
 
       if (!el[name]) el[name] = item.value;
 
