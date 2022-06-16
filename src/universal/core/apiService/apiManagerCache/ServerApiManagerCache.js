@@ -4,6 +4,10 @@ import createCache from '../utils/createCache';
 
 const { services, serviceConfigs } = require('__APP_CONFIG__');
 
-const cache = createCache(ServerApiManager, services, serviceConfigs?.server);
+const getCache = func => {
+  const cache = createCache(ServerApiManager, services, serviceConfigs?.server, func);
 
-export default cache;
+  return cache;
+};
+
+export default getCache;
