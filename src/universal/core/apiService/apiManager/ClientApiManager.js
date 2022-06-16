@@ -1,7 +1,7 @@
 import createApiClient from '../utils/createApiClient';
 import BaseApiManager from './BaseApiManager';
 
-export default (entity, serviceConfigs) => {
+export default (entity, serviceConfigs, func) => {
   const baseURL = entity.clientUrl || entity.url || entity.serverUrl || '/';
   const config = {
     ...serviceConfigs,
@@ -13,5 +13,5 @@ export default (entity, serviceConfigs) => {
     ...config
   });
 
-  return createApiClient(apiManager);
+  return createApiClient(apiManager, func);
 };

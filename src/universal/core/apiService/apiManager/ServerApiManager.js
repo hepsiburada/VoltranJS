@@ -9,7 +9,7 @@ const BASE_HTTP_AGENT_CONFIG = {
   rejectUnauthorized: false
 };
 
-export default (entity, serviceConfigs) => {
+export default (entity, serviceConfigs, func) => {
   const apiManager = new BaseApiManager({
     baseURL: entity.serverUrl || entity.url || entity.clientUrl || '/',
     ...serviceConfigs,
@@ -17,5 +17,5 @@ export default (entity, serviceConfigs) => {
     httpsAgent: new https.Agent(BASE_HTTP_AGENT_CONFIG)
   });
 
-  return createApiClient(apiManager);
+  return createApiClient(apiManager, func);
 };

@@ -1,7 +1,7 @@
 import Request from '../../../model/Request';
 import { createCacheManagerInstance } from '../../cache/cacheUtils';
 
-function createApiClient(apiManager) {
+function createApiClient(apiManager, middlewareFunc) {
   const cacheManager = createCacheManagerInstance();
 
   function getSortedParams(nonSortedParams) {
@@ -21,17 +21,14 @@ function createApiClient(apiManager) {
   }
 
   function getPayload(url, method, params, configArgument) {
-    let payload;
-    if (configArgument) {
-      payload = { url, method, params, ...configArgument };
-    } else {
-      payload = { url, method, params };
-    }
-    return payload;
+    return { url, method, params, ...(configArgument && configArgument) };
   }
 
   function getRequest(method, url, paramsArgument, configArgument, response) {
-    const params = getSortedParams(paramsArgument);
+    let params = getSortedParams(paramsArgument);
+    if (middlewareFunc) {
+      params = middlewareFunc(params);
+    }
     const payload = getPayload(url, method, params, configArgument);
     const uri = apiManager.api.getUri(payload);
 
