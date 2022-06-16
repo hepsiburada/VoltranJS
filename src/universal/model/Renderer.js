@@ -1,5 +1,6 @@
-import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
+import omit from 'lodash/omit';
 import { isPreview, renderComponent, renderLinksAndScripts } from '../service/RenderService';
+import { BLACKLIST_OUTPUT } from '../utils/constants';
 
 export default class Renderer {
   constructor(component, context) {
@@ -13,44 +14,41 @@ export default class Renderer {
       this.isPredefinedInitialStateSupported() &&
       (process.env.BROWSER || (!process.env.BROWSER && !this.context.isWithoutState))
     ) {
-      this.servicesMap = this.getServicesMap();
+      this.servicesMap = this.getServicesWithMultiple();
       this.winnerMap = {};
     }
   }
 
   setInitialState(prepareInitialStateArgs) {
     this.initialState = {
-      data: this.component.object.prepareInitialState(...prepareInitialStateArgs)
+      data: this.component.object.getInitialStateWithMultiple(...prepareInitialStateArgs)
     };
   }
 
   isPredefinedInitialStateSupported() {
-    return this.component.object.getServicesMap && this.component.object.prepareInitialState;
+    return (
+      this.component.object.getServicesWithMultiple &&
+      this.component.object.getInitialStateWithMultiple
+    );
   }
 
-  getServicesMap() {
-    const services = this.component.object.services.map(
-      serviceName => ServerApiManagerCache[serviceName]
-    );
-
-    const params = [...services, this.context];
-    return this.component.object.getServicesMap(...params);
+  getServicesWithMultiple() {
+    return this.component.object.getServicesWithMultiple(this.context);
   }
 
   render() {
     return new Promise(resolve => {
       renderComponent(this.component, this.context, this.initialState).then(response => {
-        const { output, links, scripts, activeComponent, seoState, fullHtml } = response;
+        const { output, links, fullHtml, ...rest } = response;
+        const otherParams = omit(rest, BLACKLIST_OUTPUT);
         const html = renderLinksAndScripts(output, '', '');
 
         resolve({
           key: this.component.name,
           value: {
             html,
-            scripts,
             style: links,
-            activeComponent,
-            seoState,
+            ...otherParams,
             ...(isPreview(this.context?.query) && { fullHtml })
           },
           id: this.component.id

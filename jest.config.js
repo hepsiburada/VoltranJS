@@ -1,5 +1,3 @@
-// Jest configuration
-// https://facebook.github.io/jest/docs/en/configuration.html
 module.exports = {
   verbose: true,
   automock: false,
@@ -11,6 +9,11 @@ module.exports = {
     '!src/public/**',
     '!src/tools/**'
   ],
+  env: {
+    production: {
+      plugins: ['transform-es2015-modules-commonjs']
+    }
+  },
   coverageDirectory: '<rootDir>/coverage',
   globals: {
     window: true,

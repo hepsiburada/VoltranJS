@@ -33,7 +33,14 @@ function replaceString() {
     },
     {
       search: '__V_REQUEST_CONFIGS__',
-      replace: normalizeUrl(voltranConfig.routing.requestConfigs),
+      replace: normalizeUrl(
+        voltranConfig.requestConfigs || path.resolve(__dirname, './emptyModule.js')
+      ),
+      flags: 'g'
+    },
+    {
+      search: '__V_PREVIEW__',
+      replace: normalizeUrl(voltranConfig.preview || path.resolve(__dirname, './emptyModule.js')),
       flags: 'g'
     },
     {
@@ -44,6 +51,20 @@ function replaceString() {
     {
       search: '@voltran/server',
       replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
+      flags: 'g'
+    },
+    {
+      search: '__V_MAIN__',
+      replace: normalizeUrl(
+        voltranConfig.entry.main || path.resolve(__dirname, './emptyModule.js')
+      ),
+      flags: 'g'
+    },
+    {
+      search: '__V_SERVER__',
+      replace: normalizeUrl(
+        voltranConfig.entry.server || path.resolve(__dirname, './emptyModule.js')
+      ),
       flags: 'g'
     },
     { search: '"__V_styles__"', replace: getStyles() }

@@ -1,7 +1,7 @@
 const appConfig = require('__APP_CONFIG__');
 
-export default (body, title = null) => {
-  const additionalTitle = title ? ` - ${title}` : '';
+export default ({ body, componentName = '' }) => {
+  const additionalTitle = componentName ? ` - ${componentName}` : '';
 
   function cr(condition, ok, cancel) {
     return condition ? ok : cancel || '';

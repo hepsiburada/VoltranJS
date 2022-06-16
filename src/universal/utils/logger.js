@@ -2,6 +2,7 @@
 const application = 'voltran';
 const currentThread = 'event-loop';
 const sourceContext = 'app';
+const colors = require('colors');
 
 const logger = {
   formatter(level, message) {
@@ -13,7 +14,7 @@ const logger = {
       return;
     }
 
-    console.log(this.formatter('INFO', message));
+    console.log(colors.blue(this.formatter('INFO', message)));
   },
 
   error(message) {
@@ -22,6 +23,10 @@ const logger = {
     }
 
     console.error(this.formatter('ERROR', message));
+  },
+
+  warning(message) {
+    console.warn(colors.yellow(message));
   },
 
   exception(exception, stack = true, requestPath = null) {

@@ -5,6 +5,7 @@ import ClientApp from '../components/ClientApp';
 import { WINDOW_GLOBAL_PARAMS } from '../utils/constants';
 import { createComponentName } from '../utils/helper';
 import voltranConfig from '../../../voltran.config';
+import HistoryService from '../service/HistoryService';
 
 const getStaticProps = () => {
   const staticProps = {};
@@ -18,13 +19,18 @@ const getStaticProps = () => {
   return staticProps;
 };
 
-const withBaseComponent = (PageComponent, pathName) => {
+const withBaseComponent = (PageComponent, pathName, wrapperEl) => {
   const componentName = createComponentName(pathName);
   const prefix = voltranConfig.prefix.toUpperCase();
 
   if (process.env.BROWSER && window[prefix] && window[prefix][componentName.toUpperCase()]) {
     const fragments = window[prefix][componentName.toUpperCase()];
-    const history = window[WINDOW_GLOBAL_PARAMS.HISTORY];
+
+    window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY] =
+      window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY] ||
+      new HistoryService(WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY);
+    const history = window[WINDOW_GLOBAL_PARAMS.VOLTRAN_HISTORY].getHistory();
+
     const staticProps = getStaticProps();
 
     Object.keys(fragments).forEach(id => {
@@ -34,10 +40,20 @@ const withBaseComponent = (PageComponent, pathName) => {
       if (isHydrated || !componentEl) return;
 
       const initialState = fragments[id].STATE;
+      const Wrapper = wrapperEl;
+      const pageComponent = (
+        <PageComponent {...staticProps} initialState={initialState} history={history} />
+      );
 
       ReactDOM.hydrate(
         <ClientApp>
-          <PageComponent {...staticProps} initialState={initialState} history={history} />
+          {Wrapper ? (
+            <Wrapper history={history} pathName={pathName}>
+              {pageComponent}
+            </Wrapper>
+          ) : (
+            pageComponent
+          )}
         </ClientApp>,
         componentEl,
         () => {

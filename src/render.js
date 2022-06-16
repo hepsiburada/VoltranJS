@@ -1,8 +1,7 @@
 import xss from 'xss';
 
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
-import Preview from './universal/components/Preview';
-import { HTTP_STATUS_CODES } from './universal/utils/constants';
+import { BLACKLIST_OUTPUT, HTTP_STATUS_CODES } from './universal/utils/constants';
 import metrics from './metrics';
 import {
   renderComponent,
@@ -13,6 +12,8 @@ import {
 } from './universal/service/RenderService';
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
+import omit from 'lodash/omit';
+import { getPreviewFile } from './universal/utils/previewHelper';
 
 const appConfig = require('__APP_CONFIG__');
 
@@ -21,7 +22,8 @@ const render = async (req, res) => {
   const pathParts = xss(req.path)
     .split('/')
     .filter(part => part);
-  const componentPath = `/${pathParts.join('/')}`;
+  const componentPath = `/${pathParts?.[0]}`;
+  const isPreviewValue = isPreview(req.query);
 
   const routeInfo = matchUrlInRouteConfigs(componentPath);
 
@@ -37,7 +39,9 @@ const render = async (req, res) => {
         .replace('//', '/'),
       userAgent: Buffer.from(req.headers['user-agent'] || [], 'utf-8').toString('base64'),
       headers: JSON.parse(xss(JSON.stringify(req.headers))),
-      isWithoutState: isWithoutStateValue
+      isWithoutState: isWithoutStateValue,
+      isPreview: isPreviewValue,
+      componentPath
     };
 
     const component = new Component(routeInfo.path);
@@ -60,9 +64,9 @@ const render = async (req, res) => {
       scripts,
       activeComponent,
       componentName,
-      seoState,
       isPreviewQuery,
-      responseOptions
+      responseOptions,
+      ...responseData
     } = renderResponse;
 
     const statusCode = responseOptions?.isPartialContent
@@ -71,8 +75,8 @@ const render = async (req, res) => {
 
     if (!isPreview(context.query)) {
       const html = renderLinksAndScripts(output, '', '');
-
-      res.status(statusCode).json({ html, scripts, style: links, activeComponent, seoState });
+      const otherParams = omit(responseData, BLACKLIST_OUTPUT);
+      res.status(statusCode).json({ html, scripts, style: links, activeComponent, ...otherParams });
 
       metrics.fragmentRequestDurationMicroseconds
         .labels(componentName, isWithoutHTML(context.query) ? '1' : '0')
@@ -81,7 +85,17 @@ const render = async (req, res) => {
       const voltranEnv = appConfig.voltranEnv || 'local';
 
       if (voltranEnv !== 'prod' && isPreviewQuery) {
-        res.status(statusCode).html(Preview([fullHtml].join('\n')));
+        const requestDispatcherResponse = await renderComponent(
+          new Component('/RequestDispatcher'),
+          context
+        );
+        const requestDispatcherFullHtml = requestDispatcherResponse.fullHtml;
+        const PreviewFile = getPreviewFile(context.query);
+        const body = [requestDispatcherFullHtml, fullHtml].join('\n');
+
+        const response = PreviewFile({ body, componentName });
+
+        res.status(statusCode).html(response);
       } else {
         res
           .status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR)

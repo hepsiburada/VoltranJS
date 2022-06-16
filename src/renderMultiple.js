@@ -3,11 +3,28 @@ import async from 'async';
 import { matchUrlInRouteConfigs } from './universal/core/route/routeUtils';
 import Component from './universal/model/Component';
 import Renderer from './universal/model/Renderer';
-import Preview from './universal/components/Preview';
-import { isRequestDispatcher, isPreview, isWithoutHTML } from './universal/service/RenderService';
+import {
+  isRequestDispatcher,
+  isPreview,
+  isWithoutHTML,
+  isWithoutState
+} from './universal/service/RenderService';
 import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
+import { getPreviewFile } from './universal/utils/previewHelper';
+
+const getRenderOptions = req => {
+  const isPreviewValue = isPreview(req.query) || false;
+  const isWithoutHTMLValue = isWithoutHTML(req.query) || false;
+  const isWithoutStateValue = isWithoutState(req.query) || false;
+
+  return {
+    isPreview: isPreviewValue,
+    isWithoutHTML: isWithoutHTMLValue,
+    isWithoutState: isWithoutStateValue
+  };
+};
 
 function getRenderer(name, req) {
   const { query, cookies, url, headers, params } = req;
@@ -16,9 +33,11 @@ function getRenderer(name, req) {
 
   const componentPath = Component.getComponentPath(name);
   const routeInfo = matchUrlInRouteConfigs(componentPath);
+  const renderOptions = getRenderOptions(req);
 
   if (routeInfo) {
     const urlWithPath = url.replace('/', path);
+    const fullComponentPath = `/components/${req.params.components ?? ''}`;
 
     const context = {
       path,
@@ -26,6 +45,9 @@ function getRenderer(name, req) {
       cookies,
       url: urlWithPath,
       userAgent,
+      headers,
+      componentPath: fullComponentPath,
+      ...renderOptions
     };
 
     if (Component.isExist(componentPath)) {
@@ -39,22 +61,16 @@ function getRenderer(name, req) {
 }
 
 function iterateServicesMap(servicesMap, callback) {
-  Object.getOwnPropertySymbols(servicesMap).forEach(serviceName => {
-    const endPoints = servicesMap[serviceName];
+  Object.getOwnPropertyNames(servicesMap).forEach(serviceName => {
+    const requests = servicesMap[serviceName];
 
-    Object.keys(endPoints).forEach(endPointName => {
-      callback(serviceName, endPointName);
-    });
+    callback(serviceName, requests);
   });
 }
 
-function reduceServicesMap(servicesMap, callback, initialValue) {
-  return Object.getOwnPropertySymbols(servicesMap).map(serviceName => {
-    const endPoints = servicesMap[serviceName];
-
-    return Object.keys(endPoints).reduce((obj, endPointName) => {
-      return callback(serviceName, endPointName, obj);
-    }, initialValue);
+function reduceServicesMap(servicesMap, callback, obj) {
+  return Object.getOwnPropertyNames(servicesMap).map(serviceName => {
+    return callback(serviceName, obj);
   });
 }
 
@@ -62,9 +78,7 @@ function getHashes(renderers) {
   return renderers
     .filter(renderer => renderer.servicesMap)
     .reduce((hashes, renderer) => {
-      iterateServicesMap(renderer.servicesMap, (serviceName, endPointName) => {
-        const requests = renderer.servicesMap[serviceName][endPointName];
-
+      iterateServicesMap(renderer.servicesMap, (serviceName, requests) => {
         requests.forEach(request => {
           if (hashes[request.hash]) {
             hashes[request.hash].occurrence += 1;
@@ -97,12 +111,8 @@ function incWinnerScore(winner, hashes) {
   hashes[winner.hash].score += 1;
 }
 
-function putWinnerMap(serviceName, endPointName, winnerMap, winner) {
-  if (winnerMap[serviceName]) {
-    winnerMap[serviceName][endPointName] = winner;
-  } else {
-    winnerMap[serviceName] = { [endPointName]: winner };
-  }
+function putWinnerMap(serviceName, winnerMap, winner) {
+  winnerMap[serviceName] = winner;
 }
 
 async function setInitialStates(renderers) {
@@ -111,21 +121,23 @@ async function setInitialStates(renderers) {
   const promises = renderers
     .filter(renderer => renderer.servicesMap)
     .reduce((promises, renderer) => {
-      iterateServicesMap(renderer.servicesMap, (serviceName, endPointName) => {
-        const requests = renderer.servicesMap[serviceName][endPointName];
-
+      iterateServicesMap(renderer.servicesMap, (serviceName, requests) => {
         const winner = getWinner(requests, hashes);
         incWinnerScore(winner, hashes);
-        putWinnerMap(serviceName, endPointName, renderer.winnerMap, winner);
+        putWinnerMap(serviceName, renderer.winnerMap, winner);
 
         if (!promises[winner.hash]) {
           promises[winner.hash] = callback => {
             winner
               .execute()
               .then(response => callback(null, response))
-              .catch(exception =>
-                callback(new Error(`${winner.uri} : ${exception.message}`), null)
-              );
+              .catch(exception => {
+                if (renderer.component.object.byPassWhenFailed) {
+                  callback(null, { data: { isFailed: true } });
+                } else {
+                  callback(new Error(`${winner.uri} : ${exception.message}`), null);
+                }
+              });
           };
         }
       });
@@ -148,9 +160,9 @@ async function setInitialStates(renderers) {
       renderer.setInitialState(
         reduceServicesMap(
           renderer.winnerMap,
-          (serviceName, endPointName, obj) => {
-            const request = renderer.winnerMap[serviceName][endPointName];
-            obj[endPointName] = results[request.hash];
+          (serviceName, obj) => {
+            const request = renderer.winnerMap[serviceName];
+            obj[serviceName] = results[request.hash];
             return obj;
           },
           {}
@@ -167,7 +179,7 @@ async function getResponses(renderers) {
     .filter(result => result.value != null)
     .reduce((obj, item) => {
       const el = obj;
-      const name = `${item.key}_${item.id}`;
+      const name = `${item.key}`;
 
       if (!el[name]) el[name] = item.value;
 
@@ -177,11 +189,21 @@ async function getResponses(renderers) {
   return responses;
 }
 
-async function getPreview(responses, requestCount) {
-  return Preview(
-    [...Object.keys(responses).map(name => responses[name].fullHtml)].join('\n'),
-    `${requestCount} request!`
-  );
+async function getPreview(responses, requestCount, req) {
+  const componentNames = Object.keys(responses);
+  const PreviewFile = getPreviewFile(req.query);
+
+  const content = Object.keys(responses).map(name => {
+    const componentName = responses?.[name]?.activeComponent?.componentName ?? '';
+    return getLayoutWithClass(componentName, responses[name].fullHtml);
+  });
+  const body = [...content].join('\n');
+
+  return PreviewFile({
+    body,
+    requestCount,
+    componentNames
+  });
 }
 
 const DEFAULT_PARTIALS = ['RequestDispatcher'];
@@ -197,6 +219,17 @@ export const getPartials = req => {
   const partials = [...(useRequestDispatcher ? DEFAULT_PARTIALS : []), ...reqPartials];
 
   return partials;
+};
+
+function cr(condition, ok, cancel) {
+  return condition ? ok : cancel || '';
+}
+
+const getLayoutWithClass = (name, html, id = '', style = null) => {
+  const idAttr = cr(id !== '', `id=${id}`);
+  const styleAttr = cr(style !== null, `style=${style}`);
+
+  return `<div class="${name}"  ${idAttr} ${styleAttr}>${html}</div>`;
 };
 
 const renderMultiple = async (req, res) => {
@@ -228,7 +261,7 @@ const renderMultiple = async (req, res) => {
   const responses = await getResponses(renderers);
 
   if (isPreview(req.query)) {
-    const preview = await getPreview(responses, requestCount);
+    const preview = await getPreview(responses, requestCount, req);
     res.html(preview);
   } else {
     res.json(responses);

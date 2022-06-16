@@ -6,7 +6,7 @@ import { isExitCondition } from './RequestDispatcher.utils';
 
 const requestConfigs = require('__V_REQUEST_CONFIGS__');
 
-const { effects = [] } = requestConfigs.default;
+const { effects = [] } = requestConfigs?.default || {};
 const requestPrefix = 'RequestDispatcher.';
 const responsePrefix = 'RequestDispatcher.Response.';
 
@@ -23,14 +23,14 @@ const RequestDispatcher = () => {
     const eventBus = getEventBus();
 
     const broadcast = (effect, error, body) => {
-      effect.Subscribers.forEach(responseName => {
+      effect.subscribers.forEach(responseName => {
         eventBus.emit(`${responsePrefix}${responseName}`, { error, body });
       });
     };
 
-    const runEffect = (effect, data) => {
+    const runEffect = (effect, params) => {
       effect
-        .Request(data)
+        .request({ params })
         .then(response => broadcast(effect, null, response))
         .catch(error => broadcast(effect, error, null));
     };
