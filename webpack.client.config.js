@@ -2,27 +2,26 @@ const path = require('path');
 const fs = require('fs');
 
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const AssetsPlugin = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { ESBuildMinifyPlugin } = require('esbuild-loader');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const {ESBuildMinifyPlugin} = require('esbuild-loader');
 
 require('intersection-observer');
 
-const { createComponentName } = require('./src/universal/utils/helper.js');
-
-const packageJson = require('./package.json');
+const {createComponentName} = require('./src/universal/utils/helper.js');
+const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 
 const isBuildingForCDN = process.argv.includes('--for-cdn');
 const isAnalyze = process.argv.includes('--analyze');
 const env = process.env.VOLTRAN_ENV || 'local';
-const voltranConfig = require('./voltran.config');
 
+const voltranConfig = require('./voltran.config');
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
@@ -86,13 +85,17 @@ if (isDebug) {
 
   fs.writeFileSync(appConfigFileTarget, context);
 
-  chunks.client.unshift('regenerator-runtime/runtime.js', 'core-js/stable', 'intersection-observer');
+  chunks.client.unshift(
+    'regenerator-runtime/runtime.js',
+    'core-js/stable',
+    'intersection-observer',
+  );
   chunks.client.push('webpack-hot-middleware/client');
 }
 
 const outputPath = voltranConfig.output.client.path;
 
-const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
+const clientConfig = merge(commonConfig, voltranClientConfig, {
   name: 'client',
 
   target: 'web',
@@ -106,7 +109,7 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
     publicPath: `${appConfig.mediaUrl}/project/assets/`,
     filename: voltranConfig.output.client.filename,
     chunkFilename: voltranConfig.output.client.chunkFilename,
-    jsonpFunction: `WP_${voltranConfig.prefix.toUpperCase()}_VLTRN`
+    chunkLoadingGlobal: `WP_${voltranConfig.prefix.toUpperCase()}_VLTRN`,
   },
 
   module: {
@@ -117,15 +120,15 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
           loader: 'jsx',
-          target: 'es2015'
+          target: 'es2015',
         }
       },
       {
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [...replaceString()]
-        }
+          multiple: [...replaceString()],
+        },
       },
       {
         test: /\.css$/,
@@ -134,10 +137,8 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
             ? {
               loader: 'style-loader',
               options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
-              }
+                injectType: 'singletonStyleTag',
+              },
             }
             : MiniCssExtractPlugin.loader,
           {
@@ -146,14 +147,13 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
               modules: false,
               importLoaders: 1,
               sourceMap: isDebug,
-              minimize: isDebug
-            }
+            },
           },
           {
             loader: 'postcss-loader',
-            options: postCssConfig
-          }
-        ]
+            options: postCssConfig,
+          },
+        ],
       },
       {
         test: /\.scss$/,
@@ -162,22 +162,21 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
             ? {
               loader: 'style-loader',
               options: {
-                insertAt: 'top',
-                singleton: true,
-                sourceMap: false
+                injectType: 'singletonStyleTag',
               }
             }
             : MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: appConfig.isCssClassNameObfuscationEnabled
+                  ? `${voltranConfig.prefix}-[name]-[hash:base64]`
+                  : `${voltranConfig.prefix}-[path][name]__[local]`,
+                localIdentHashSalt: packageJson.name,
+              },
               importLoaders: 1,
               sourceMap: isDebug,
-              localIdentName: appConfig.isCssClassNameObfuscationEnabled
-                ? `${voltranConfig.prefix}-[name]-[hash:base64:5]`
-                : `${voltranConfig.prefix}-[name]-[local]`,
-              minimize: isDebug
             }
           },
           {
@@ -185,7 +184,7 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
             options: postCssConfig
           },
           {
-            loader: 'sass-loader'
+            loader: 'sass-loader',
           },
           ...(voltranConfig.sassResources
             ? [
@@ -193,51 +192,63 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
                 loader: 'sass-resources-loader',
                 options: {
                   sourceMap: false,
-                  resources: voltranConfig.sassResources
-                }
-              }
+                  resources: voltranConfig.sassResources,
+                },
+              },
             ]
-            : [])
-        ]
-      }
-    ]
+            : []),
+        ],
+      },
+    ],
   },
 
   optimization: {
+    // emitOnErrors: false,
     minimizer: [
       new ESBuildMinifyPlugin({
         target: 'es2015',
-        css: true
+        css: true,
       }),
       new TerserWebpackPlugin({
-        sourceMap: isDebug,
-        parallel: true,
-        terserOptions: { mangle: { safari10: true } }
+        terserOptions: {
+          mangle: {
+            safari10: true,
+          },
+        },
       }),
-      new OptimizeCSSAssetsPlugin({})
+      new CssMinimizerPlugin({}),
     ]
+  },
+
+  resolve: {
+    alias: {
+      'react': path.resolve(process.cwd(), 'node_modules/react'),
+      'react-dom': path.resolve(process.cwd(), 'node_modules/react-dom'),
+    },
   },
 
   plugins: [
     ...(isBuildingForCDN
       ? []
       : [
-        new CleanWebpackPlugin([distFolderPath], {
-          verbose: true
-        })
+        new CleanWebpackPlugin({
+          verbose: false,
+          dangerouslyAllowCleanPatternsOutsideProject: true,
+        }),
       ]),
 
     new webpack.DefinePlugin({
+      'process.env': {},
       'process.env.BROWSER': true,
       __DEV__: isDebug,
-      GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL)
+      GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL),
     }),
 
     new CopyWebpackPlugin([
       {
         from: voltranConfig.output.client.publicPath,
-        to: voltranConfig.publicDistFolder
-      }
+        to: voltranConfig.publicDistFolder,
+      },
     ]),
 
     ...(isDebug
@@ -245,14 +256,14 @@ const clientConfig = webpackMerge(commonConfig, voltranClientConfig, {
       : [
         new MiniCssExtractPlugin({
           filename: '[name].css',
-          chunkFilename: '[id]-[contenthash].css'
-        })
+          chunkFilename: '[id]-[contenthash].css',
+        }),
       ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,
       filename: 'assets.json',
-      prettyPrint: true
+      prettyPrint: true,
     }),
 
     ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
