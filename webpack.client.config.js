@@ -18,7 +18,6 @@ const {createComponentName} = require('./src/universal/utils/helper.js');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 
 const isBuildingForCDN = process.argv.includes('--for-cdn');
-const isAnalyze = process.argv.includes('--analyze');
 const env = process.env.VOLTRAN_ENV || 'local';
 
 const voltranConfig = require('./voltran.config');
@@ -266,7 +265,7 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
       prettyPrint: true,
     }),
 
-    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : [])
+    new BundleAnalyzerPlugin({analyzerMode: 'static'}),
   ]
 });
 

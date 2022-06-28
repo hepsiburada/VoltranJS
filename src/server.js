@@ -24,6 +24,8 @@ import { HTTP_STATUS_CODES } from './universal/utils/constants';
 
 import voltranConfig from '../voltran.config';
 
+const {bundleAnalyzerStaticEnabled} = require('__APP_CONFIG__');
+
 const enablePrometheus = voltranConfig.monitoring.prometheus;
 let Prometheus;
 
@@ -163,6 +165,11 @@ if (process.env.NODE_ENV === 'production') {
   hiddie.use(helmet());
   hiddie.use(cors);
   hiddie.use('/', serveStatic(`${voltranConfig.distFolder}/public`));
+  bundleAnalyzerStaticEnabled &&
+    hiddie.use(
+      '/bundleAnalyze',
+      serveStatic(`${voltranConfig.distFolder}/public/project/assets/report.html`)
+    );
   hiddie.use(cookieParser());
   hiddie.use(utils);
   hiddie.use(handleUrls);
