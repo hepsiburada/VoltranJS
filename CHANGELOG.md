@@ -1,11 +1,25 @@
 # Changelog
 
-## [1.0.27](https://github.com/hepsiburada/VoltranJS/compare/v1.0.27...v1.0.28)
+## [1.1.1](https://github.com/hepsiburada/VoltranJS/compare/1.0.29...1.1.1)
 
 ### Commits
 
-- Add description of new relic integration on README. [`ab7c472`](https://github.com/hepsiburada/VoltranJS/commit/ab7c4720a8c20439afeb7180c1bc10fd73daeab1)
-- Update changelog for 1.0.27 version [`969958e`](https://github.com/hepsiburada/VoltranJS/commit/969958e531ab99fa4d9722eee48773aa89054dd4)
+- string-replace-loader upgraded to last version [`2840d9e`](https://github.com/hepsiburada/VoltranJS/commit/2840d9ec27b4925d39eb2dfe23d6fda0d163578f)
+- Upgrade webpack 5, [`5f4ca9d`](https://github.com/hepsiburada/VoltranJS/commit/5f4ca9dd08e6e116d0c3bd5fdea554edb6acd7aa)
+
+## [1.0.29](https://github.com/hepsiburada/VoltranJS/compare/1.0.27...1.0.29) - 2022-04-21
+
+### Merged
+
+- Newrelic transaction for all routes [`#45`](https://github.com/hepsiburada/VoltranJS/pull/45)
+
+## [1.0.27](https://github.com/hepsiburada/VoltranJS/compare/1.0.26...1.0.27) - 2022-04-13
+
+### Commits
+
+- Add description of new relic integration on README. Fix importing function problem about newrelic on server.js [`ab7c472`](https://github.com/hepsiburada/VoltranJS/commit/ab7c4720a8c20439afeb7180c1bc10fd73daeab1)
+- Update version to 1.0.28 [`38ec211`](https://github.com/hepsiburada/VoltranJS/commit/38ec21196d824e8462a83a38481fd9534ce99aee)
+- Fix changelog issue. [`ec94706`](https://github.com/hepsiburada/VoltranJS/commit/ec947068aee79476a7265c405c811651c3ae54f8)
 
 ## [1.0.26](https://github.com/hepsiburada/VoltranJS/compare/1.0.25...1.0.26) - 2022-04-12
 
@@ -56,7 +70,7 @@
 
 - fix: welcome page reverted [`#31`](https://github.com/hepsiburada/VoltranJS/pull/31)
 
-## [1.0.21](https://github.com/hepsiburada/VoltranJS/compare/1.0.20...1.0.21) - 2021-11-11
+## [1.0.21](https://github.com/hepsiburada/VoltranJS/compare/1.0.19...1.0.21) - 2021-11-11
 
 ### Merged
 
@@ -65,12 +79,6 @@
 ### Commits
 
 - feat: updated voltran version [`a44c5e3`](https://github.com/hepsiburada/VoltranJS/commit/a44c5e31d129913b40a545e513c0b060fc25275c)
-
-## [1.0.20](https://github.com/hepsiburada/VoltranJS/compare/1.0.19...1.0.20) - 2021-11-11
-
-### Merged
-
-- feat: removed user agent on initial state [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
 
 ## [1.0.19](https://github.com/hepsiburada/VoltranJS/compare/1.0.18...1.0.19) - 2021-10-27
 
