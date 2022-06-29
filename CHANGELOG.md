@@ -1,6 +1,22 @@
 # Changelog
 
-## [1.1.1](https://github.com/hepsiburada/VoltranJS/compare/1.0.29...1.1.1)
+## [v1.1.2](https://github.com/hepsiburada/VoltranJS/compare/v1.1.2...v1.1.2)
+
+### Merged
+
+- webpack budnle analyze static file added [`#47`](https://github.com/hepsiburada/VoltranJS/pull/47)
+
+## [v1.1.2](https://github.com/hepsiburada/VoltranJS/compare/1.1.1...v1.1.2) - 2022-06-29
+
+### Commits
+
+- webpack budnle analyze static file added [`398023b`](https://github.com/hepsiburada/VoltranJS/commit/398023b0a0b59aeea2b3536e1c4f8bcc1c634a3c)
+
+## [1.1.1](https://github.com/hepsiburada/VoltranJS/compare/1.0.29...1.1.1) - 2022-06-28
+
+### Merged
+
+- Feature/upgrade to webpack5 [`#46`](https://github.com/hepsiburada/VoltranJS/pull/46)
 
 ### Commits
 
@@ -70,7 +86,7 @@
 
 - fix: welcome page reverted [`#31`](https://github.com/hepsiburada/VoltranJS/pull/31)
 
-## [1.0.21](https://github.com/hepsiburada/VoltranJS/compare/1.0.19...1.0.21) - 2021-11-11
+## [1.0.21](https://github.com/hepsiburada/VoltranJS/compare/1.0.20...1.0.21) - 2021-11-11
 
 ### Merged
 
@@ -79,6 +95,12 @@
 ### Commits
 
 - feat: updated voltran version [`a44c5e3`](https://github.com/hepsiburada/VoltranJS/commit/a44c5e31d129913b40a545e513c0b060fc25275c)
+
+## [1.0.20](https://github.com/hepsiburada/VoltranJS/compare/1.0.19...1.0.20) - 2021-11-11
+
+### Merged
+
+- feat: removed user agent on initial state [`#30`](https://github.com/hepsiburada/VoltranJS/pull/30)
 
 ## [1.0.19](https://github.com/hepsiburada/VoltranJS/compare/1.0.18...1.0.19) - 2021-10-27
 
