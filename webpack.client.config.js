@@ -1,39 +1,39 @@
-const path = require('path');
-const fs = require('fs');
+const path = require("path");
+const fs = require("fs");
 
-const webpack = require('webpack');
-const {merge} = require('webpack-merge');
-const AssetsPlugin = require('assets-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserWebpackPlugin = require('terser-webpack-plugin');
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
-const {ESBuildMinifyPlugin} = require('esbuild-loader');
+const webpack = require("webpack");
+const { merge } = require("webpack-merge");
+const AssetsPlugin = require("assets-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const { ESBuildMinifyPlugin } = require("esbuild-loader");
 
-require('intersection-observer');
+require("intersection-observer");
 
-const {createComponentName} = require('./src/universal/utils/helper.js');
-const packageJson = require(path.resolve(process.cwd(), 'package.json'));
+const { createComponentName } = require("./src/universal/utils/helper.js");
+const packageJson = require(path.resolve(process.cwd(), "package.json"));
 
-const isBuildingForCDN = process.argv.includes('--for-cdn');
-const env = process.env.VOLTRAN_ENV || 'local';
+const isBuildingForCDN = process.argv.includes("--for-cdn");
+const env = process.env.VOLTRAN_ENV || "local";
 
-const voltranConfig = require('./voltran.config');
+const voltranConfig = require("./voltran.config");
 const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath);
-const commonConfig = require('./webpack.common.config');
-const postCssConfig = require('./postcss.config');
-const babelConfig = require('./babel.server.config');
+const commonConfig = require("./webpack.common.config");
+const postCssConfig = require("./postcss.config");
+const babelConfig = require("./babel.server.config");
 
 const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
 const voltranClientConfig = voltranClientConfigPath
   ? require(voltranConfig.webpackConfiguration.client)
-  : '';
+  : "";
 
-const normalizeUrl = require('./lib/os.js');
-const replaceString = require('./config/string.js');
+const normalizeUrl = require("./lib/os.js");
+const replaceString = require("./config/string.js");
 
 const fragmentManifest = require(voltranConfig.routing.dictionary);
 
@@ -45,7 +45,7 @@ const prometheusFile = voltranConfig.monitoring.prometheus;
 const chunks = {};
 
 chunks.client = [
-  path.resolve(__dirname, 'src/client/client.js')
+  path.resolve(__dirname, "src/client/client.js")
 ];
 
 for (const index in fragmentManifest) {
@@ -73,33 +73,33 @@ if (isDebug) {
       appConfigJSONContent.services[service].serverUrl;
   }
 
-  const moduleExportsText = 'module.exports';
+  const moduleExportsText = "module.exports";
   const appConfigFileContent = fs.readFileSync(appConfigFileTarget).toString();
   const moduleExportsIndex = appConfigFileContent.indexOf(moduleExportsText);
 
   let context = appConfigFileContent.substr(0, moduleExportsIndex + moduleExportsText.length);
-  context += '=';
+  context += "=";
   context += JSON.stringify(appConfigJSONContent);
-  context += ';';
+  context += ";";
 
   fs.writeFileSync(appConfigFileTarget, context);
 
   chunks.client.unshift(
-    'regenerator-runtime/runtime.js',
-    'core-js/stable',
-    'intersection-observer',
+    "regenerator-runtime/runtime.js",
+    "core-js/stable",
+    "intersection-observer"
   );
-  chunks.client.push('webpack-hot-middleware/client');
+  chunks.client.push("webpack-hot-middleware/client");
 }
 
 const outputPath = voltranConfig.output.client.path;
 
 const clientConfig = merge(commonConfig, voltranClientConfig, {
-  name: 'client',
+  name: "client",
 
-  target: 'web',
+  target: "web",
 
-  mode: isDebug ? 'development' : 'production',
+  mode: isDebug ? "development" : "production",
 
   entry: chunks,
 
@@ -108,122 +108,122 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
     publicPath: `${appConfig.mediaUrl}/project/assets/`,
     filename: voltranConfig.output.client.filename,
     chunkFilename: voltranConfig.output.client.chunkFilename,
-    chunkLoadingGlobal: `WP_${voltranConfig.prefix.toUpperCase()}_VLTRN`,
+    chunkLoadingGlobal: `WP_${voltranConfig.prefix.toUpperCase()}_VLTRN`
   },
 
   module: {
     rules: [
       {
         test: reScript,
-        loader: 'esbuild-loader',
-        include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
+        loader: "esbuild-loader",
+        include: [path.resolve(__dirname, "src"), voltranConfig.inputFolder],
         options: {
-          loader: 'jsx',
-          target: 'es2015',
+          loader: "jsx",
+          target: "es2015"
         }
       },
       {
         test: /\.js$/,
-        loader: 'string-replace-loader',
+        loader: "string-replace-loader",
         options: {
-          multiple: [...replaceString()],
-        },
+          multiple: [...replaceString()]
+        }
       },
       {
         test: /\.css$/,
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
+              loader: "style-loader",
               options: {
-                injectType: 'singletonStyleTag',
-              },
+                injectType: "singletonStyleTag"
+              }
             }
             : MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: false,
               importLoaders: 1,
-              sourceMap: isDebug,
-            },
+              sourceMap: isDebug
+            }
           },
           {
-            loader: 'postcss-loader',
-            options: postCssConfig,
-          },
-        ],
+            loader: "postcss-loader",
+            options: postCssConfig
+          }
+        ]
       },
       {
         test: /\.scss$/,
         use: [
           isDebug
             ? {
-              loader: 'style-loader',
+              loader: "style-loader",
               options: {
-                injectType: 'singletonStyleTag',
+                injectType: "singletonStyleTag"
               }
             }
             : MiniCssExtractPlugin.loader,
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               modules: {
                 localIdentName: appConfig.isCssClassNameObfuscationEnabled
                   ? `${voltranConfig.prefix}-[name]-[hash:base64]`
                   : `${voltranConfig.prefix}-[path][name]__[local]`,
-                localIdentHashSalt: packageJson.name,
+                localIdentHashSalt: packageJson.name
               },
               importLoaders: 1,
-              sourceMap: isDebug,
+              sourceMap: isDebug
             }
           },
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: postCssConfig
           },
           {
-            loader: 'sass-loader',
+            loader: "sass-loader"
           },
           ...(voltranConfig.sassResources
             ? [
               {
-                loader: 'sass-resources-loader',
+                loader: "sass-resources-loader",
                 options: {
                   sourceMap: false,
-                  resources: voltranConfig.sassResources,
-                },
-              },
+                  resources: voltranConfig.sassResources
+                }
+              }
             ]
-            : []),
-        ],
-      },
-    ],
+            : [])
+        ]
+      }
+    ]
   },
 
   optimization: {
     // emitOnErrors: false,
     minimizer: [
       new ESBuildMinifyPlugin({
-        target: 'es2015',
-        css: true,
+        target: "es2015",
+        css: true
       }),
       new TerserWebpackPlugin({
         terserOptions: {
           mangle: {
-            safari10: true,
-          },
-        },
+            safari10: true
+          }
+        }
       }),
-      new CssMinimizerPlugin({}),
+      new CssMinimizerPlugin({})
     ]
   },
 
   resolve: {
     alias: {
-      'react': path.resolve(process.cwd(), 'node_modules/react'),
-      'react-dom': path.resolve(process.cwd(), 'node_modules/react-dom'),
-    },
+      "react": path.resolve(process.cwd(), "node_modules/react"),
+      "react-dom": path.resolve(process.cwd(), "node_modules/react-dom")
+    }
   },
 
   plugins: [
@@ -232,40 +232,40 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
       : [
         new CleanWebpackPlugin({
           verbose: false,
-          dangerouslyAllowCleanPatternsOutsideProject: true,
-        }),
+          dangerouslyAllowCleanPatternsOutsideProject: true
+        })
       ]),
 
     new webpack.DefinePlugin({
-      'process.env': {},
-      'process.env.BROWSER': true,
+      "process.env": {},
+      "process.env.BROWSER": true,
       __DEV__: isDebug,
-      GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL),
+      GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL)
     }),
 
     new CopyWebpackPlugin([
       {
         from: voltranConfig.output.client.publicPath,
-        to: voltranConfig.publicDistFolder,
-      },
+        to: voltranConfig.publicDistFolder
+      }
     ]),
 
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
       : [
         new MiniCssExtractPlugin({
-          filename: '[name].css',
-          chunkFilename: '[id]-[contenthash].css',
-        }),
+          filename: "[name].css",
+          chunkFilename: "[id]-[contenthash].css"
+        })
       ]),
 
     new AssetsPlugin({
       path: voltranConfig.inputFolder,
-      filename: 'assets.json',
-      prettyPrint: true,
+      filename: "assets.json",
+      prettyPrint: true
     }),
 
-    new BundleAnalyzerPlugin({analyzerMode: 'static'}),
+    ...(appConfig?.bundleAnalyzerStaticEnabled ? [new BundleAnalyzerPlugin({analyzerMode: 'static', openAnalyzer: false})] : [])
   ]
 });
 
