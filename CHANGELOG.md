@@ -1,10 +1,15 @@
 # Changelog
 
-## [v1.1.2](https://github.com/hepsiburada/VoltranJS/compare/v1.1.2...v1.1.2)
+## [v1.1.3](https://github.com/hepsiburada/VoltranJS/compare/v1.1.2...v1.1.3)
 
 ### Merged
 
+- fixed bundle analyze automatically open report in default browser [`#48`](https://github.com/hepsiburada/VoltranJS/pull/48)
 - webpack budnle analyze static file added [`#47`](https://github.com/hepsiburada/VoltranJS/pull/47)
+
+### Commits
+
+- chore: update changelog [`41300a5`](https://github.com/hepsiburada/VoltranJS/commit/41300a543d216914e9debe2148b205c5bebbd47f)
 
 ## [v1.1.2](https://github.com/hepsiburada/VoltranJS/compare/1.1.1...v1.1.2) - 2022-06-29
 
