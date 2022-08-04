@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
@@ -12,8 +13,10 @@ const appConfig = require(appConfigFilePath); // eslint-disable-line import/no-d
 
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
+const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const replaceString = require('./config/string.js');
 
+const distFolderPath = voltranConfig.distFolder;
 const isDebug = voltranConfig.dev;
 
 let styles = '';
@@ -30,7 +33,7 @@ const voltranCustomServer =
 
 const voltranServer = path.resolve(__dirname, isDebug ? voltranCustomServer : 'src/main.js');
 
-const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
+const serverConfig = merge(commonConfig, voltranServerConfig, {
   name: 'server',
 
   target: 'node',
@@ -44,7 +47,7 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
   output: {
     path: voltranConfig.output.server.path,
     filename: voltranConfig.output.server.filename,
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
 
   module: {
@@ -55,29 +58,31 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
           loader: 'jsx',
-          target: 'es2015'
-        }
+          target: 'es2015',
+        },
       },
       {
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [...replaceString()]
-        }
+          multiple: [...replaceString()],
+        },
       },
       {
         test: /\.scss$/,
         use: [
           {
-            loader: 'css-loader/locals',
+            loader: 'css-loader',
             options: {
-              modules: true,
+              modules: {
+                localIdentName: appConfig.isCssClassNameObfuscationEnabled
+                  ? `${voltranConfig.prefix}-[name]-[hash:base64]`
+                  : `${voltranConfig.prefix}-[path][name]__[local]`,
+                localIdentHashSalt: packageJson.name,
+                exportOnlyLocals: true,
+              },
               importLoaders: 1,
               sourceMap: isDebug,
-              localIdentName: appConfig.isCssClassNameObfuscationEnabled
-                ? `${voltranConfig.prefix}-[name]-[hash:base64:5]`
-                : `${voltranConfig.prefix}-[name]-[local]`,
-              minimize: isDebug
             }
           },
           {
@@ -85,30 +90,38 @@ const serverConfig = webpackMerge(commonConfig, voltranServerConfig, {
             options: postCssConfig
           },
           {
-            loader: 'sass-loader'
+            loader: 'sass-loader',
           },
           ...(voltranConfig.sassResources
             ? [
-                {
-                  loader: 'sass-resources-loader',
-                  options: {
-                    sourceMap: false,
-                    resources: voltranConfig.sassResources
-                  }
-                }
-              ]
+              {
+                loader: 'sass-resources-loader',
+                options: {
+                  sourceMap: false,
+                  resources: voltranConfig.sassResources,
+                },
+              },
+            ]
             : [])
         ]
       }
     ]
   },
 
-  externals: [nodeExternals()],
+  externalsPresets: {node: true},
+  externals: [
+    nodeExternals(),
+  ],
 
   plugins: [
+    new CleanWebpackPlugin({
+        verbose: false,
+      dangerouslyAllowCleanPatternsOutsideProject: true,
+    }),
+
     new webpack.DefinePlugin({
       'process.env.BROWSER': false,
-      __DEV__: isDebug
+      __DEV__: isDebug,
     }),
 
     ...(isDebug ? [new webpack.HotModuleReplacementPlugin()] : [])

@@ -21,7 +21,7 @@ module.exports = api => {
       '@babel/preset-env',
       {
         useBuiltIns: 'entry',
-        corejs: '3.0.0',
+        corejs: '3.20.2'
       }
     ]);
   } else {
@@ -42,7 +42,7 @@ module.exports = api => {
       '@babel/preset-env',
       {
         useBuiltIns: 'entry',
-        corejs: '3.0.0',
+        corejs: '3.20.2',
         targets: {
           esmodules: true,
           ie: '11',

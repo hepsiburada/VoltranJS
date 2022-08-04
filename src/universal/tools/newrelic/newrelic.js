@@ -6,9 +6,6 @@ let newrelic = null;
 if (newrelicEnabled) {
   // eslint-disable-next-line global-require
   newrelic = require('newrelic');
-  console.log(' ---- NewRelic is ENABLED! ----');
-} else {
-  console.log(' ---- NewRelic is DISABLED! ----');
 }
 
 const isJsonValid = str => {
