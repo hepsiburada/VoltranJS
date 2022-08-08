@@ -1,8 +1,4 @@
-import { generateComponents } from '../../utils/helper';
-
-const componentConfig = require('__V_COMPONENTS__');
-
-const components = generateComponents(componentConfig.default);
+import components from './components';
 
 const ROUTE_PATHS = {};
 const ROUTE_CONFIGS = {};

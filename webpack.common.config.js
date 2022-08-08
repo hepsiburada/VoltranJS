@@ -101,6 +101,8 @@ const commonConfig = merge(voltranCommonConfig, {
     },
     fallback: {
       url: false,
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
     },
   },
 });

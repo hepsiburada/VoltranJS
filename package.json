@@ -62,10 +62,12 @@
     "helmet": "3.21.3",
     "hiddie": "^1.0.0",
     "history": "^5.3.0",
+    "https-browserify": "^1.0.0",
     "husky": "^3.1.0",
     "identity-obj-proxy": "3.0.0",
     "intersection-observer": "0.7.0",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.21",
     "mini-css-extract-plugin": "2.5.2",
     "newrelic": "^6.13.0",
     "node-sass": "6.0.1",
@@ -88,6 +90,7 @@
     "sass-loader": "12.4.0",
     "serve-static": "1.14.1",
     "source-map-support": "0.5.21",
+    "stream-http": "^3.2.0",
     "string-replace-loader": "3.1.0",
     "style-loader": "3.3.1",
     "styled-components": "5.1.0",
@@ -129,9 +132,5 @@
     "commitLimit": false,
     "template": "changelog-template.hbs",
     "package": true
-  },
-  "peerDependencies": {
-    "react": ">=16.13.0",
-    "react-dom": ">=16.13.0"
   }
 }
