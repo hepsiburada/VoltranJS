@@ -12,7 +12,8 @@ import {
 } from './universal/service/RenderService';
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
-import omit from 'lodash/omit';
+import omit from './universal/utils/lodash/omit';
+
 import { getPreviewFile } from './universal/utils/previewHelper';
 
 const appConfig = require('__APP_CONFIG__');

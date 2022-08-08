@@ -1,6 +1,6 @@
-import omit from 'lodash/omit';
 import { isPreview, renderComponent, renderLinksAndScripts } from '../service/RenderService';
 import { BLACKLIST_OUTPUT } from '../utils/constants';
+import omit from '../utils/lodash/omit';
 
 export default class Renderer {
   constructor(component, context) {

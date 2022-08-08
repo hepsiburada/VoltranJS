@@ -1,9 +1,10 @@
 import React from 'react';
-import groupBy from 'lodash/groupBy';
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
 import partials from './partials';
+import groupBy from '../../utils/lodash/groupBy';
+
 const STATUS_COLOR = {
   live: '#8dc63f',
   dev: '#FF6000',
