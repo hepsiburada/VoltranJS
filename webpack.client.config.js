@@ -64,6 +64,12 @@ const appConfigFileTarget = `${voltranConfig.appConfigFile.output.path}/${voltra
 
 fs.copyFileSync(appConfigFilePath, appConfigFileTarget);
 
+chunks.client.unshift(
+  "regenerator-runtime/runtime.js",
+  "core-js/stable",
+  "intersection-observer"
+);
+
 if (isDebug) {
   const appConfigJSONContent = require(appConfigFileTarget);
 
@@ -83,11 +89,6 @@ if (isDebug) {
 
   fs.writeFileSync(appConfigFileTarget, context);
 
-  chunks.client.unshift(
-    "regenerator-runtime/runtime.js",
-    "core-js/stable",
-    "intersection-observer"
-  );
   chunks.client.push("webpack-hot-middleware/client");
 }
 
