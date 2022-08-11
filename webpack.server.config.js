@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const {merge} = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
@@ -18,6 +18,17 @@ const replaceString = require('./config/string.js');
 
 const distFolderPath = voltranConfig.distFolder;
 const isDebug = voltranConfig.dev;
+const isProd = process.env.BROWSER && process.env.VOLTRAN_ENV === 'prod';
+const hideCssPrefixOnTest = voltranConfig.hideCssPrefixOnTest;
+
+const suffix = appConfig.isCssClassNameObfuscationEnabled
+  ? '[name]-[hash:base64]'
+  : hideCssPrefixOnTest
+  ? '[name]-[local]'
+  : '[path][name]__[local]';
+
+const localIndentDefault = `${voltranConfig.prefix}-${suffix}`;
+const localIndentName = isProd || !hideCssPrefixOnTest ? localIndentDefault : suffix;
 
 let styles = '';
 
@@ -47,7 +58,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
   output: {
     path: voltranConfig.output.server.path,
     filename: voltranConfig.output.server.filename,
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'commonjs2'
   },
 
   module: {
@@ -58,15 +69,15 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
         include: [path.resolve(__dirname, 'src'), voltranConfig.inputFolder],
         options: {
           loader: 'jsx',
-          target: 'es2015',
-        },
+          target: 'es2015'
+        }
       },
       {
         test: /\.js$/,
         loader: 'string-replace-loader',
         options: {
-          multiple: [...replaceString()],
-        },
+          multiple: [...replaceString()]
+        }
       },
       {
         test: /\.scss$/,
@@ -75,14 +86,12 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
             loader: 'css-loader',
             options: {
               modules: {
-                localIdentName: appConfig.isCssClassNameObfuscationEnabled
-                  ? `${voltranConfig.prefix}-[name]-[hash:base64]`
-                  : `${voltranConfig.prefix}-[path][name]__[local]`,
+                localIdentName: localIndentName,
                 localIdentHashSalt: packageJson.name,
-                exportOnlyLocals: true,
+                exportOnlyLocals: true
               },
               importLoaders: 1,
-              sourceMap: isDebug,
+              sourceMap: isDebug
             }
           },
           {
@@ -90,38 +99,36 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
             options: postCssConfig
           },
           {
-            loader: 'sass-loader',
+            loader: 'sass-loader'
           },
           ...(voltranConfig.sassResources
             ? [
-              {
-                loader: 'sass-resources-loader',
-                options: {
-                  sourceMap: false,
-                  resources: voltranConfig.sassResources,
-                },
-              },
-            ]
+                {
+                  loader: 'sass-resources-loader',
+                  options: {
+                    sourceMap: false,
+                    resources: voltranConfig.sassResources
+                  }
+                }
+              ]
             : [])
         ]
       }
     ]
   },
 
-  externalsPresets: {node: true},
-  externals: [
-    nodeExternals(),
-  ],
+  externalsPresets: { node: true },
+  externals: [nodeExternals()],
 
   plugins: [
     new CleanWebpackPlugin({
-        verbose: false,
-      dangerouslyAllowCleanPatternsOutsideProject: true,
+      verbose: false,
+      dangerouslyAllowCleanPatternsOutsideProject: true
     }),
 
     new webpack.DefinePlugin({
       'process.env.BROWSER': false,
-      __DEV__: isDebug,
+      __DEV__: isDebug
     }),
 
     ...(isDebug ? [new webpack.HotModuleReplacementPlugin()] : [])
