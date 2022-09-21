@@ -4,19 +4,20 @@ import {
   JSON_CONTENT_TYPE,
   REQUEST_TYPES_WITH_BODY
 } from '../../../utils/constants';
-import voltranConfig from '../../../../../voltran.config';
 import CookieService from '../../../service/CookieService';
+import pickByIndexOf from '../../../utils/lodash/pickByIndexOf';
+import omitByIndexOf from '../../../utils/lodash/omitByIndexOf';
 
 function createBaseConfig() {
   return {};
 }
 
 class BaseApiManager {
-  constructor(customConfig) {
+  constructor(config) {
     const headers = {
       common: {
         ...createBaseConfig.headers,
-        ...(customConfig ? customConfig.headers : null)
+        ...(config ? config.headers : null)
       }
     };
 
@@ -24,25 +25,23 @@ class BaseApiManager {
       headers['Accept-Encoding'] = 'gzip, deflate';
     }
 
-    if (process.env.BROWSER && voltranConfig.setCookiesToHeader) {
-      const cookieMap = CookieService.getAllItems();
+    if (process.env.BROWSER && config?.addCookiesToHeader) {
+      let cookies = CookieService.getAllItems();
+      if (config?.includeCookies?.length > 0) {
+        cookies = pickByIndexOf(cookies, config?.includeCookies);
+      }
+      if (config?.excludeCookies?.length > 0) {
+        cookies = omitByIndexOf(cookies, config?.excludeCookies);
+      }
 
-      Object.keys(cookieMap).forEach(key => {
-        if (voltranConfig.setCookiesToHeaderKeys.length > 0) {
-          voltranConfig.setCookiesToHeaderKeys.map(item => {
-            if (key.indexOf(item) === 0) {
-              headers[key] = cookieMap[key];
-            }
-          });
-        } else {
-          headers[key] = cookieMap[key];
-        }
+      Object.keys(cookies).forEach(key => {
+        headers[key] = cookies[key];
       });
     }
 
     this.api = this.createInstance({
       ...createBaseConfig(),
-      ...customConfig,
+      ...config,
       headers
     });
   }

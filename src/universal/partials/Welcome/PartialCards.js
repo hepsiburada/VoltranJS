@@ -5,15 +5,6 @@ import { ServerStyleSheet } from 'styled-components';
 import partials from './partials';
 import groupBy from '../../utils/lodash/groupBy';
 
-const STATUS_COLOR = {
-  live: '#8dc63f',
-  dev: '#FF6000',
-  page: '#00abff',
-  1: '#9b59b6',
-  2: '#c0392b',
-  3: '#16a085'
-};
-
 const sheet = new ServerStyleSheet();
 
 const Welcome = () => {
@@ -26,10 +17,8 @@ const Welcome = () => {
       className="link"
     >
       <div className="card">
-        <div className="card-header">
-          <div className="badge" style={{ backgroundColor: STATUS_COLOR[status] }}>
-            {title}
-          </div>
+        <div className="ribbon-wrapper">
+          <div className={`ribbon color-${status}`}> {title}</div>
         </div>
         <div className="card-title">{item.name}</div>
         <div className="card-subtitle">

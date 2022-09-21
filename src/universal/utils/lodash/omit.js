@@ -14,7 +14,9 @@ const keyControl = (keys, key) => {
 };
 
 function omit(obj, ...keys) {
-  return Object.fromEntries(Object.entries(obj).filter(([k]) => keyControl(keys, k)));
+  return obj == null
+    ? {}
+    : Object?.fromEntries(Object.entries(obj).filter(([k]) => keyControl(keys, k)));
 }
 
 export default omit;

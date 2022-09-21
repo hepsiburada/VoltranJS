@@ -10,8 +10,8 @@ const welcomeStyle = () => {
             --theme-bg-color: #fafafb;
             --body-font: "Poppins", sans-serif;
             --body-color: #2f2f33;
-            --active-color: #0162ff;
-            --active-light-color: #e1ebfb;
+            --active-color: #4e4e4e;
+            --active-light-color: #f1f1f1;
             --header-bg-color: #fff;
             --border-color: #d8d8d8;
             --alert-bg-color: #e8f2ff;
@@ -157,7 +157,7 @@ const welcomeStyle = () => {
           }
           .group-title {
             font-size: 24px;
-            font-weight: 600;
+            font-weight: 700;
           }
           .link {
             color: inherit;
@@ -190,12 +190,13 @@ const welcomeStyle = () => {
           }
 
           .card {
-            padding: 20px 16px;
+            padding: 16px 16px;
             background-color: var(--header-bg-color);
             border-radius: 8px;
             cursor: pointer;
             transition: 0.2s;
             text-decoration: none;
+            position: relative;
           }
           .card:hover {
             transform: scale(1.02);
@@ -207,8 +208,7 @@ const welcomeStyle = () => {
           }
           .card-title {
             font-weight: 600;
-            margin-top: 16px;
-            font-size: 14px;
+            font-size: 16px;
           }
           .card-subtitle {
             color: var(--subtitle-color);
@@ -220,6 +220,54 @@ const welcomeStyle = () => {
             display: flex;
             align-items: flex-start;
           }
+
+          .ribbon-wrapper {
+            width: 85px;
+            height: 88px;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+
+          .ribbon {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--header-bg-color);;
+            text-align: center;
+            -webkit-transform: rotate(45deg);
+            -moz-transform:    rotate(45deg);
+            -ms-transform:     rotate(45deg);
+            -o-transform:      rotate(45deg);
+            position: relative;
+            padding: 0;
+            left: 26px;
+            top: 14px;
+            width: 80px;
+            -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+            -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
+            box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
+          }
+
+          .color-live{
+            background-color: #badc58;
+          }
+          .color-dev{
+            background-color: #f0932b;
+          }
+          .color-page{
+            background-color: #00abff;
+          }
+          .color-1{
+            background-color: #9b59b6;
+          }
+          .color-2{
+            background-color: #c0392b;
+          }
+          .color-3{
+            background-color: #16a085;
+          }
+
           .badge{
             display: flex;
             align-items: center;
@@ -227,7 +275,7 @@ const welcomeStyle = () => {
             background-color: #f50;
             font-weight: 600;
             margin-top: 16px;
-            font-size: 14px;
+            font-size: 10px;
             padding: 5px 10px;
             color: white;
             border-radius: 5px;

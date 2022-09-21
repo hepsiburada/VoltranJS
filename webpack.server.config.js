@@ -16,7 +16,6 @@ const postCssConfig = require('./postcss.config');
 const packageJson = require(path.resolve(process.cwd(), 'package.json'));
 const replaceString = require('./config/string.js');
 
-const distFolderPath = voltranConfig.distFolder;
 const isDebug = voltranConfig.dev;
 const isProd = process.env.BROWSER && process.env.VOLTRAN_ENV === 'prod';
 const hideCssPrefixOnTest = voltranConfig.hideCssPrefixOnTest;
@@ -122,7 +121,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
 
   plugins: [
     new CleanWebpackPlugin({
-      verbose: false,
+      verbose: true,
       dangerouslyAllowCleanPatternsOutsideProject: true
     }),
 

@@ -25,22 +25,19 @@ const appConfigFilePath = `${voltranConfig.appConfigFile.entry}/${env}.conf.js`;
 const appConfig = require(appConfigFilePath);
 const commonConfig = require('./webpack.common.config');
 const postCssConfig = require('./postcss.config');
-const babelConfig = require('./babel.server.config');
 
 const voltranClientConfigPath = voltranConfig.webpackConfiguration.client;
 const voltranClientConfig = voltranClientConfigPath
   ? require(voltranConfig.webpackConfiguration.client)
   : '';
 
-const normalizeUrl = require('./lib/os.js');
 const replaceString = require('./config/string.js');
 
 const fragmentManifest = require(voltranConfig.routing.dictionary);
 const fixFragmentManifest = require('./src/universal/core/route/dictionary');
 
-const isDebug = voltranConfig.dev;
+const isDebug = appConfig.dev;
 const reScript = /\.(js|jsx|mjs)$/;
-const distFolderPath = voltranConfig.distFolder;
 const isProd = process.env.BROWSER && process.env.VOLTRAN_ENV === 'prod';
 const hideCssPrefixOnTest = voltranConfig.hideCssPrefixOnTest;
 
@@ -73,27 +70,8 @@ const appConfigFileTarget = `${voltranConfig.appConfigFile.output.path}/${voltra
 
 fs.copyFileSync(appConfigFilePath, appConfigFileTarget);
 
-chunks.client.unshift('regenerator-runtime/runtime.js', 'core-js/stable', 'intersection-observer');
-
 if (isDebug) {
-  const appConfigJSONContent = require(appConfigFileTarget);
-
-  for (const service in appConfigJSONContent.services) {
-    appConfigJSONContent.services[service].clientUrl =
-      appConfigJSONContent.services[service].serverUrl;
-  }
-
-  const moduleExportsText = 'module.exports';
-  const appConfigFileContent = fs.readFileSync(appConfigFileTarget).toString();
-  const moduleExportsIndex = appConfigFileContent.indexOf(moduleExportsText);
-
-  let context = appConfigFileContent.substr(0, moduleExportsIndex + moduleExportsText.length);
-  context += '=';
-  context += JSON.stringify(appConfigJSONContent);
-  context += ';';
-
-  fs.writeFileSync(appConfigFileTarget, context);
-
+  chunks.client.unshift('regenerator-runtime/runtime.js');
   chunks.client.push('webpack-hot-middleware/client');
 }
 
@@ -234,7 +212,7 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
       ? []
       : [
           new CleanWebpackPlugin({
-            verbose: false,
+            verbose: true,
             dangerouslyAllowCleanPatternsOutsideProject: true
           })
         ]),

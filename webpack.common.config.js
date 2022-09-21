@@ -86,7 +86,7 @@ const commonConfig = merge(voltranCommonConfig, {
 
   // Choose a developer tool to enhance debugging
   // https://webpack.js.org/configuration/devtool/#devtool
-  devtool: isDebug ? 'inline-cheap-module-source-map' : 'source-map',
+  // devtool: isDebug ? 'inline-cheap-module-source-map' : 'source-map',
 
   plugins: [
     new webpack.DefinePlugin({
