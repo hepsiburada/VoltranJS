@@ -1,21 +1,30 @@
 # Changelog
 
-## [v1.1.3](https://github.com/hepsiburada/VoltranJS/compare/v1.1.2...v1.1.3)
+## [1.1.4](https://github.com/hepsiburada/VoltranJS/compare/1.1.3...1.1.4)
+
+### Merged
+
+- feat(newrelic): version upgrade [`#50`](https://github.com/hepsiburada/VoltranJS/pull/50)
+
+## [1.1.3](https://github.com/hepsiburada/VoltranJS/compare/1.1.2...1.1.3) - 2022-07-07
 
 ### Merged
 
 - fixed bundle analyze automatically open report in default browser [`#48`](https://github.com/hepsiburada/VoltranJS/pull/48)
+
+### Commits
+
+- chore: update changelog [`41856aa`](https://github.com/hepsiburada/VoltranJS/commit/41856aabc95630a2929482170e3a5e2e599c25fc)
+
+## [1.1.2](https://github.com/hepsiburada/VoltranJS/compare/1.1.1...1.1.2) - 2022-06-29
+
+### Merged
+
 - webpack budnle analyze static file added [`#47`](https://github.com/hepsiburada/VoltranJS/pull/47)
 
 ### Commits
 
 - chore: update changelog [`41300a5`](https://github.com/hepsiburada/VoltranJS/commit/41300a543d216914e9debe2148b205c5bebbd47f)
-
-## [v1.1.2](https://github.com/hepsiburada/VoltranJS/compare/1.1.1...v1.1.2) - 2022-06-29
-
-### Commits
-
-- webpack budnle analyze static file added [`398023b`](https://github.com/hepsiburada/VoltranJS/commit/398023b0a0b59aeea2b3536e1c4f8bcc1c634a3c)
 
 ## [1.1.1](https://github.com/hepsiburada/VoltranJS/compare/1.0.29...1.1.1) - 2022-06-28
 
