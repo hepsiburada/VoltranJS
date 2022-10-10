@@ -243,12 +243,14 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
       GO_PIPELINE_LABEL: JSON.stringify(GO_PIPELINE_LABEL)
     }),
 
-    new CopyWebpackPlugin([
-      {
-        from: voltranConfig.output.client.publicPath,
-        to: voltranConfig.publicDistFolder
-      }
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: voltranConfig.output.client.publicPath,
+          to: voltranConfig.publicDistFolder
+        }
+      ]
+    }),
 
     ...(isDebug
       ? [new webpack.HotModuleReplacementPlugin()]
