@@ -3,14 +3,13 @@ module.exports = api => {
 
   const basePlugins = [
     'babel-plugin-styled-components',
-    '@babel/plugin-syntax-dynamic-import',
+    '@babel/syntax-dynamic-import',
     '@babel/plugin-syntax-jsx',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-transform-runtime',
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-numeric-separator',
-    '@babel/plugin-proposal-throw-expressions',
-    'dynamic-import-webpack'
+    '@babel/plugin-proposal-throw-expressions'
   ];
 
   const basePresets = [];
