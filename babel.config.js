@@ -3,7 +3,7 @@ module.exports = api => {
 
   const basePlugins = [
     'babel-plugin-styled-components',
-    '@babel/syntax-dynamic-import',
+    '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-syntax-jsx',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-transform-runtime',
