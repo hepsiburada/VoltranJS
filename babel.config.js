@@ -10,7 +10,7 @@ module.exports = api => {
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-numeric-separator',
     '@babel/plugin-proposal-throw-expressions',
-    'dynamic-import-node'
+    'dynamic-import-webpack'
   ];
 
   const basePresets = [];
