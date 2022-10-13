@@ -1,6 +1,18 @@
 # Changelog
 
-## [1.1.4](https://github.com/hepsiburada/VoltranJS/compare/1.1.3...1.1.4)
+## [1.1.5](https://github.com/hepsiburada/VoltranJS/compare/1.1.4...1.1.5)
+
+### Merged
+
+- feat: some package version updates for vulnerabilities [`#51`](https://github.com/hepsiburada/VoltranJS/pull/51)
+
+## [1.1.4](https://github.com/hepsiburada/VoltranJS/compare/v1.1.4...1.1.4) - 2022-10-06
+
+### Commits
+
+- chore: update changelog [`ab5a7b0`](https://github.com/hepsiburada/VoltranJS/commit/ab5a7b0094231bb6a562f9a45e9bd71494d18581)
+
+## [v1.1.4](https://github.com/hepsiburada/VoltranJS/compare/1.1.3...v1.1.4) - 2022-10-06
 
 ### Merged
 
