@@ -9,11 +9,13 @@ export default class Renderer {
     this.servicesMap = null;
     this.initialState = null;
     this.winnerMap = null;
+    this.extraProps = null;
 
     if (
       this.isPredefinedInitialStateSupported() &&
       (process.env.BROWSER || (!process.env.BROWSER && !this.context.isWithoutState))
     ) {
+      this.extraProps = this.getExtraProps();
       this.servicesMap = this.getServicesWithMultiple();
       this.winnerMap = {};
     }
@@ -32,8 +34,15 @@ export default class Renderer {
     );
   }
 
+  getExtraProps() {
+    if (this.component.object?.setExtraProps) {
+      return this.component.object?.setExtraProps(this.context);
+    }
+    return null;
+  }
+
   getServicesWithMultiple() {
-    return this.component.object.getServicesWithMultiple(this.context);
+    return this.component.object?.getServicesWithMultiple(this.context, this.extraProps);
   }
 
   render() {

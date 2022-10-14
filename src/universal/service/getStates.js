@@ -38,7 +38,7 @@ const getStates = async (component, context, predefinedInitialState) => {
   }
 
   if (!predefinedInitialState && component?.getServerSideProps) {
-    initialState.data = await component.getServerSideProps(context);
+    initialState.data = await component.getServerSideProps(context, extraPropKeys);
   }
 
   if (initialState?.data?.subComponentFiles) {

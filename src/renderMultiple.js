@@ -38,7 +38,6 @@ function getRenderer(name, req) {
   if (routeInfo) {
     const urlWithPath = url.replace('/', path);
     const fullComponentPath = `/components/${req.params.components ?? ''}`;
-
     const context = {
       path,
       query,
@@ -157,17 +156,16 @@ async function setInitialStates(renderers) {
 
   renderers.forEach(renderer => {
     if (renderer.winnerMap) {
-      renderer.setInitialState(
-        reduceServicesMap(
-          renderer.winnerMap,
-          (serviceName, obj) => {
-            const request = renderer.winnerMap[serviceName];
-            obj[serviceName] = results[request.hash];
-            return obj;
-          },
-          {}
-        )
+      const result = reduceServicesMap(
+        renderer.winnerMap,
+        (serviceName, obj) => {
+          const request = renderer.winnerMap[serviceName];
+          obj[serviceName] = results[request.hash];
+          return obj;
+        },
+        {}
       );
+      renderer.setInitialState(result);
     }
   });
 
