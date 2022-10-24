@@ -44,13 +44,18 @@ function replaceString() {
       flags: 'g'
     },
     {
-      search: '@voltran/core',
-      replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
+      search: '@voltran/server',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
       flags: 'g'
     },
     {
-      search: '@voltran/server',
-      replace: normalizeUrl(path.resolve(__dirname, '../src/server')),
+      search: '@voltran/core',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/core')),
+      flags: 'g'
+    },
+    {
+      search: '@voltran',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'
     },
     {
