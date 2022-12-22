@@ -33,6 +33,7 @@ export default async (req, res) => {
       path: xss(path),
       query: JSON.parse(xss(JSON.stringify(req.query))),
       cookies: xss(JSON.stringify(req.cookies)),
+      headers: JSON.parse(xss(JSON.stringify(req.headers))),
       url: xss(req.url)
         .replace(componentPath, '/')
         .replace('//', '/'),
