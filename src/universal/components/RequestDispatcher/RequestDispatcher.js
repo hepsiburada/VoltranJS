@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+ import { useEffect } from 'react';
 
 import withBaseComponent from '../../partials/withBaseComponent';
 import { getEventBus } from '../../utils/helper';

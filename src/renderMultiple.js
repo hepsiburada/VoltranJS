@@ -124,7 +124,6 @@ async function setInitialStates(renderers) {
         const winner = getWinner(requests, hashes);
         incWinnerScore(winner, hashes);
         putWinnerMap(serviceName, renderer.winnerMap, winner);
-
         if (!promises[winner.hash]) {
           promises[winner.hash] = callback => {
             winner

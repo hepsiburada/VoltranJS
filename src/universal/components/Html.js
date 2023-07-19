@@ -31,7 +31,8 @@ function Html({
   isMobileFragment,
   context
 }) {
-  return `
+  if (children) {
+    return `
     <div>
       ${styleTags}
       <script type='text/javascript'>${generateInitialState(initialState, componentName)}</script>
@@ -39,8 +40,8 @@ function Html({
         id='${componentName.replace(/['"']+/g, '')}_${initialState.id}'
         style="pointer-events: none;"
         class="${voltranConfig.prefix}-voltran-body voltran-body ${
-    isMobileFragment ? 'mobile' : ''
-  }${fullWidth ? 'full' : ''} ${componentClassName(componentName, context)}">
+      isMobileFragment ? 'mobile' : ''
+    }${fullWidth ? 'full' : ''} ${componentClassName(componentName, context)}">
         ${children}
       </div>
       <div>REPLACE_WITH_LINKS</div>
@@ -55,6 +56,9 @@ function Html({
         `<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />`
       )}
     </div>`;
+  }
+
+  return '';
 }
 
 export default Html;

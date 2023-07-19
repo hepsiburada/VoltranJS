@@ -47,9 +47,7 @@ class App extends PureComponent {
     const { isHydratingCompleted } = this.state;
     return (
       <ReactRenderContext.Provider value={isHydratingCompleted}>
-        <div>
-          <Switch>{renderRoutes(this.generateRoutingProps())}</Switch>
-        </div>
+        <Switch>{renderRoutes(this.generateRoutingProps())}</Switch>
       </ReactRenderContext.Provider>
     );
   }
