@@ -1,7 +1,8 @@
+import { QUERY_PARAMS } from './constants';
+
 const appConfig = require('__APP_CONFIG__');
 const assets = require('__ASSETS_FILE_PATH__');
 const voltranConfig = require('../../../voltran.config');
-import { QUERY_PARAMS } from './constants';
 
 const assetsBaseUrl = !appConfig.mediaUrl ? appConfig.baseUrl : '';
 const assetsPrefix = appConfig.mediaUrl.length ? appConfig.mediaUrl : appConfig.baseUrl;
@@ -41,6 +42,20 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+const getSplitChunks = () => {
+  const chunks =
+    voltranConfig?.splitChunkNames?.filter(chunk => `${assetsBaseUrl}${assets?.[chunk]?.js}`) || [];
+
+  if (chunks?.length > 0) {
+    return chunks?.map(chunk => ({
+      src: `${assetsBaseUrl}${assets?.[chunk]?.js}`,
+      isAsync: false
+    }));
+  }
+
+  return [];
+};
+
 const getScripts = (name, subComponentFiles) => {
   const subComponentFilesScripts = subComponentFiles?.scripts;
   const scripts = [
@@ -51,7 +66,8 @@ const getScripts = (name, subComponentFiles) => {
     {
       src: `${assetsBaseUrl}${assets?.[name]?.js}`,
       isAsync: false
-    }
+    },
+    ...getSplitChunks()
   ];
   const mergedScripts =
     subComponentFilesScripts?.length > 0 ? scripts.concat(subComponentFiles.scripts) : scripts;
