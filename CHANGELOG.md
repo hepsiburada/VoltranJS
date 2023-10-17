@@ -1,22 +1,17 @@
 # Changelog
 
-## [1.1.5](https://github.com/hepsiburada/VoltranJS/compare/1.1.4...1.1.5)
+## [1.1.6](https://github.com/hepsiburada/VoltranJS/compare/1.1.3...1.1.6)
 
 ### Merged
 
+- feat: update node-sass version [`#53`](https://github.com/hepsiburada/VoltranJS/pull/53)
 - feat: some package version updates for vulnerabilities [`#51`](https://github.com/hepsiburada/VoltranJS/pull/51)
-
-## [1.1.4](https://github.com/hepsiburada/VoltranJS/compare/v1.1.4...1.1.4) - 2022-10-06
+- feat(newrelic): version upgrade [`#50`](https://github.com/hepsiburada/VoltranJS/pull/50)
 
 ### Commits
 
 - chore: update changelog [`ab5a7b0`](https://github.com/hepsiburada/VoltranJS/commit/ab5a7b0094231bb6a562f9a45e9bd71494d18581)
-
-## [v1.1.4](https://github.com/hepsiburada/VoltranJS/compare/1.1.3...v1.1.4) - 2022-10-06
-
-### Merged
-
-- feat(newrelic): version upgrade [`#50`](https://github.com/hepsiburada/VoltranJS/pull/50)
+- updated changelog [`b65ad82`](https://github.com/hepsiburada/VoltranJS/commit/b65ad827c15e8e88bc9a05f1c16b5f6cc86bc9ee)
 
 ## [1.1.3](https://github.com/hepsiburada/VoltranJS/compare/1.1.2...1.1.3) - 2022-07-07
 
