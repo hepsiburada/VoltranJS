@@ -54,21 +54,19 @@ function replaceString() {
       flags: 'g'
     },
     {
+      search: '@voltran/request',
+      replace: normalizeUrl(path.resolve(__dirname, '../src/request')),
+      flags: 'g'
+    },
+    {
       search: '@voltran',
       replace: normalizeUrl(path.resolve(__dirname, '../src/index')),
       flags: 'g'
     },
     {
-      search: '__V_MAIN__',
-      replace: normalizeUrl(
-        voltranConfig.entry.main || path.resolve(__dirname, './emptyModule.js')
-      ),
-      flags: 'g'
-    },
-    {
       search: '__V_SERVER__',
       replace: normalizeUrl(
-        voltranConfig.entry.server || path.resolve(__dirname, './emptyModule.js')
+        voltranConfig?.entry?.server || path.resolve(__dirname, './emptyModule.js')
       ),
       flags: 'g'
     },
@@ -77,7 +75,7 @@ function replaceString() {
 
   data.push({
     search: '__V_PROMETHEUS__',
-    replace: normalizeUrl(prometheusFile || '../lib/tools/prom.js'),
+    replace: normalizeUrl(prometheusFile || path.resolve(__dirname, './emptyModule.js')),
     flags: 'g'
   });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ReactDOMServer from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 
@@ -34,7 +34,7 @@ const Welcome = () => {
       <div className="group">
         <div className="group-content">
           <div className="group-title">
-            {title.toUpperCase()} ({data.length})
+            {title.toUpperCase()} <span>({data.length})</span>
           </div>
         </div>
         <div className="cards">{data.map(item => renderItem({ item, status, title }))}</div>

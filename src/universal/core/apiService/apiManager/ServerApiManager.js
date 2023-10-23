@@ -10,9 +10,18 @@ const BASE_HTTP_AGENT_CONFIG = {
 };
 
 export default (entity, serviceConfigs, func) => {
-  const apiManager = new BaseApiManager({
-    baseURL: entity.serverUrl || entity.url || entity.clientUrl || '/',
+  const baseURL =
+    entity?.server?.url || entity?.serverUrl || entity?.url || entity.clientUrl || '/';
+
+  const config = {
     ...serviceConfigs,
+    ...(entity?.server && entity?.server?.config && { ...entity?.server?.config }),
+    ...(entity?.config && { ...entity?.config })
+  };
+
+  const apiManager = new BaseApiManager({
+    baseURL,
+    ...config,
     httpAgent: new http.Agent(BASE_HTTP_AGENT_CONFIG),
     httpsAgent: new https.Agent(BASE_HTTP_AGENT_CONFIG)
   });

@@ -38,10 +38,6 @@ const voltranServerConfigPath = voltranConfig.webpackConfiguration.server;
 const voltranServerConfig = voltranServerConfigPath
   ? require(voltranConfig.webpackConfiguration.server)
   : '';
-const voltranCustomServer =
-  voltranConfig.entry.server && !isDebug ? voltranConfig.entry.server : 'src/server.js';
-
-const voltranServer = path.resolve(__dirname, isDebug ? voltranCustomServer : 'src/main.js');
 
 const serverConfig = merge(commonConfig, voltranServerConfig, {
   name: 'server',
@@ -51,7 +47,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
   mode: isDebug ? 'development' : 'production',
 
   entry: {
-    server: [voltranServer]
+    server: [path.resolve(__dirname, 'src/server.js')],
   },
 
   output: {

@@ -1,13 +1,13 @@
 const welcomeStyle = () => {
   return `<style>
-          @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+          @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;500;600;700;900&display=swap");
           * {
             outline: none;
             box-sizing: border-box;
           }
           :root {
             --body-bg-color: #e5ecef;
-            --theme-bg-color: #fafafb;
+            --theme-bg-color: #f6f6f6;
             --body-font: "Poppins", sans-serif;
             --body-color: #2f2f33;
             --active-color: #4e4e4e;
@@ -18,6 +18,7 @@ const welcomeStyle = () => {
             --subtitle-color: #83838e;
             --inactive-color: #f0f0f0;
             --button-color: #fff;
+            --logo-color: #000000;
           }
           .dark-mode {
             --body-bg-color: #1d1d1d;
@@ -27,6 +28,7 @@ const welcomeStyle = () => {
             --inactive-color: #292932;
             --active-light-color: #263d63;
             --border-color: #26262f;
+            --logo-color: #ffffff;
           }
 
           html {
@@ -77,13 +79,16 @@ const welcomeStyle = () => {
             display: flex;
             align-items: center;
             font-weight: 600;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
             justify-content: center;
           }
+
           .logo svg {
-            width: 24px;
-            margin-right: 12px;
+            width: 100%;
+            height: 40px;
+            margin-right: 20px;
+            fill: var(--logo-color);
           }
 
           .header {
@@ -116,11 +121,10 @@ const welcomeStyle = () => {
             flex-direction: column;
             flex-grow: 1;
             scroll-behavior: smooth;
-            padding: 30px 40px;
+            padding: 20px 40px;
             overflow: auto;
           }
           .main-container {
-            display: flex;
             flex-grow: 1;
           }
 
@@ -132,7 +136,7 @@ const welcomeStyle = () => {
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
-            margin-top: 14px;
+            margin-top: 8px;
           }
 
           @-webkit-keyframes slideY {
@@ -156,8 +160,11 @@ const welcomeStyle = () => {
                     animation: slideY 0.6s both;
           }
           .group-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
+            > span {
+              font-size: 14px;
+            }
           }
           .link {
             color: inherit;
@@ -165,9 +172,9 @@ const welcomeStyle = () => {
           }
 
           .cards {
-            padding-top: 20px;
+            padding-top: 10px;
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(7, 1fr);
             grid-column-gap: 25px;
             grid-row-gap: 25px;
             -webkit-animation: slideY 0.6s both;
@@ -197,6 +204,7 @@ const welcomeStyle = () => {
             transition: 0.2s;
             text-decoration: none;
             position: relative;
+
           }
           .card:hover {
             transform: scale(1.02);
@@ -208,12 +216,12 @@ const welcomeStyle = () => {
           }
           .card-title {
             font-weight: 600;
-            font-size: 16px;
+            font-size: 12px;
           }
           .card-subtitle {
             color: var(--subtitle-color);
-            font-size: 13px;
-            margin-top: 14px;
+            font-size: 10px;
+            margin-top: 8px;
             line-height: 1.6em;
           }
           .card-header {
@@ -288,6 +296,7 @@ const welcomeStyle = () => {
             padding: 6px 8px;
             border-radius: 4px;
             text-align: start;
+            word-break: break-all;
           }
           .detail-button + .detail-button {
             margin-left: 4px;
@@ -309,7 +318,9 @@ const welcomeStyle = () => {
             z-index: 1;
           }
           .group {
-            padding-top: 20px;
+              &:not(:first-child){
+                margin-top: 20px;
+              }
           }
           @-webkit-keyframes slide {
             0% {

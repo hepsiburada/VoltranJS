@@ -23,7 +23,8 @@ const render = async (req, res) => {
   const pathParts = xss(req.path)
     .split('/')
     .filter(part => part);
-  const componentPath = `/${pathParts?.[0]}`;
+  // const componentPath = `/${pathParts?.[0]}`;
+  const componentPath = `/${pathParts.join('/')}`;
   const isPreviewValue = isPreview(req.query);
 
   const routeInfo = matchUrlInRouteConfigs(componentPath);
