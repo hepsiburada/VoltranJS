@@ -42,13 +42,29 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-const getSplitChunks = () => {
+const filterSplitChunks = (chunk, partialName) => {
+  if (chunk?.excludeFrom?.some(partial => partial === partialName)) {
+    return false;
+  }
+
+  if (chunk?.includeIn?.length > 0) {
+    if (chunk?.includeIn?.some(partial => partial === partialName)) {
+      return `${assetsBaseUrl}${assets?.[chunk?.name]?.js}`;
+    }
+
+    return false;
+  }
+
+  return `${assetsBaseUrl}${assets?.[chunk?.name]?.js}`;
+};
+
+const getSplitChunks = partialName => {
   const chunks =
-    voltranConfig?.splitChunkNames?.filter(chunk => `${assetsBaseUrl}${assets?.[chunk]?.js}`) || [];
+    voltranConfig?.splitChunks?.filter(chunk => filterSplitChunks(chunk, partialName)) || [];
 
   if (chunks?.length > 0) {
     return chunks?.map(chunk => ({
-      src: `${assetsBaseUrl}${assets?.[chunk]?.js}`,
+      src: `${assetsBaseUrl}${assets?.[chunk?.name]?.js}`,
       isAsync: false
     }));
   }
@@ -67,7 +83,7 @@ const getScripts = (name, subComponentFiles) => {
       src: `${assetsBaseUrl}${assets?.[name]?.js}`,
       isAsync: false
     },
-    ...getSplitChunks()
+    ...getSplitChunks(name)
   ];
   const mergedScripts =
     subComponentFilesScripts?.length > 0 ? scripts.concat(subComponentFiles.scripts) : scripts;
