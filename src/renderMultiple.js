@@ -230,6 +230,15 @@ const getLayoutWithClass = (name, html, id = '', style = null) => {
   return `<div class="${name}"  ${idAttr} ${styleAttr}>${html}</div>`;
 };
 
+const getResponseHeaders = async components => {
+  return components?.reduce((result, current) => {
+    return {
+      ...result,
+      ...(current?.responseHeaders || {})
+    };
+  }, {});
+};
+
 const renderMultiple = async (req, res) => {
   const partials = getPartials(req);
 
@@ -257,6 +266,11 @@ const renderMultiple = async (req, res) => {
   }
 
   const responses = await getResponses(renderers);
+  const headers = await getResponseHeaders(renderers);
+
+  Object.keys(headers).forEach(key => {
+    res.setHeader(key, headers[key]);
+  });
 
   if (isPreview(req.query)) {
     const preview = await getPreview(responses, requestCount, req);

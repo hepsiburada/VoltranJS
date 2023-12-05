@@ -10,6 +10,7 @@ export default class Renderer {
     this.initialState = null;
     this.winnerMap = null;
     this.extraProps = null;
+    this.responseHeaders = null;
 
     if (
       this.isPredefinedInitialStateSupported() &&
@@ -24,6 +25,22 @@ export default class Renderer {
   setInitialState(prepareInitialStateArgs) {
     this.initialState = {
       data: this.component.object.getInitialStateWithMultiple(...prepareInitialStateArgs)
+    };
+    this.setResponseHeaders(prepareInitialStateArgs);
+  }
+
+  setResponseHeaders(prepareInitialStateArgs) {
+    const headers = prepareInitialStateArgs?.map(item => {
+      return Object.keys(item)?.reduce((result, key) => {
+        return {
+          ...result,
+          [key]: item?.[key]?.headers
+        };
+      }, {});
+    });
+
+    this.responseHeaders = {
+      ...(this?.component?.object?.setResponseHeaders?.(...headers) || {})
     };
   }
 
