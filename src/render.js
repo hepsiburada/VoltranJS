@@ -79,8 +79,9 @@ export default async (req, res) => {
         .observe(Date.now() - res.locals.startEpoch);
     } else {
       const voltranEnv = appConfig.voltranEnv || 'local';
+      const previewEnvControl = voltranEnv !== 'prod' && voltranEnv !== 'production';
 
-      if (voltranEnv !== 'prod' && isPreviewQuery) {
+      if (previewEnvControl && isPreviewQuery) {
         res.status(statusCode).html(Preview([fullHtml].join('\n')));
       } else {
         res
