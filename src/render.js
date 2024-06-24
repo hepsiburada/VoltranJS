@@ -84,8 +84,9 @@ const render = async (req, res) => {
         .observe(Date.now() - res.locals.startEpoch);
     } else {
       const voltranEnv = appConfig.voltranEnv || 'local';
+      const previewEnvControl = voltranEnv !== 'prod' && voltranEnv !== 'production';
 
-      if (voltranEnv !== 'prod' && isPreviewQuery) {
+      if (previewEnvControl && isPreviewQuery) {
         const requestDispatcherResponse = await renderComponent(
           new Component('/RequestDispatcher'),
           context

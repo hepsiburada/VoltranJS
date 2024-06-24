@@ -14,6 +14,8 @@ import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
 import { getPreviewFile } from './universal/utils/previewHelper';
 
+const appConfig = require('__APP_CONFIG__');
+
 const getRenderOptions = req => {
   const isPreviewValue = isPreview(req.query) || false;
   const isWithoutHTMLValue = isWithoutHTML(req.query) || false;
@@ -271,8 +273,10 @@ const renderMultiple = async (req, res) => {
   Object.keys(headers).forEach(key => {
     res.setHeader(key, headers[key]);
   });
+  const voltranEnv = appConfig.voltranEnv || 'local';
+  const previewEnvControl = voltranEnv !== 'prod' && voltranEnv !== 'production';
 
-  if (isPreview(req.query)) {
+  if (previewEnvControl && isPreview(req.query)) {
     const preview = await getPreview(responses, requestCount, req);
     res.html(preview);
   } else {
