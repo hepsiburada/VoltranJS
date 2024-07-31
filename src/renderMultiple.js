@@ -136,7 +136,13 @@ async function setInitialStates(renderers) {
                 if (renderer.component.object.byPassWhenFailed) {
                   callback(null, { data: { isFailed: true } });
                 } else {
-                  callback(new Error(`${winner.uri} : ${exception.message}`), null);
+                  callback(
+                    {
+                      error: new Error(`${winner.uri} : ${exception.message}`),
+                      statusCode: exception?.response?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
+                    },
+                     null
+                    );
                 }
               });
           };
@@ -261,9 +267,10 @@ const renderMultiple = async (req, res) => {
   try {
     requestCount = await setInitialStates(renderers);
   } catch (exception) {
-    logger.exception(exception);
-    return res.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
-      message: exception.message
+    logger.exception(exception.error);
+    return res.status(exception.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json({
+      message: exception.error.message,
+      statusCode: exception?.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
     });
   }
 
