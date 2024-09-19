@@ -35,7 +35,7 @@
     "assets-webpack-plugin": "7.1.1",
     "async": "^3.2.0",
     "autoprefixer": "9.3.1",
-    "axios": "0.21.2",
+    "axios": "1.6.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.1.0",
     "classnames": "2.2.6",
