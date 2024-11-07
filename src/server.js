@@ -105,7 +105,7 @@ const handleUrls = async (req, res, next) => {
 };
 
 const cors = async (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Origin', req.header('Origin'));
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS');
 
   if (req.method === 'OPTIONS') {
