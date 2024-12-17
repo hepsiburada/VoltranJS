@@ -174,7 +174,7 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
                   : `${voltranConfig.prefix}-[path][name]__[local]`,
                 localIdentHashSalt: packageJson.name
               },
-              importLoaders: 1,
+              importLoaders: 2,
               sourceMap: isDebug
             }
           },
@@ -183,7 +183,13 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
             options: postCssConfig
           },
           {
-            loader: "sass-loader"
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+              sassOptions: {
+                outputStyle: "compressed"
+              }
+            }
           },
           ...(voltranConfig.sassResources
             ? [
