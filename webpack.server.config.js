@@ -92,6 +92,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
               sassOptions: {
                 outputStyle: "compressed"
               }
+            }
           },
           ...(voltranConfig.sassResources
             ? [
