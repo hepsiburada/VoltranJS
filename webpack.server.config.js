@@ -77,7 +77,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
                 localIdentHashSalt: packageJson.name,
                 exportOnlyLocals: true,
               },
-              importLoaders: 1,
+              importLoaders: 2,
               sourceMap: isDebug,
             }
           },
@@ -87,6 +87,11 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
           },
           {
             loader: 'sass-loader',
+            options: {
+              implementation: require("sass"),
+              sassOptions: {
+                outputStyle: "compressed"
+              }
           },
           ...(voltranConfig.sassResources
             ? [
