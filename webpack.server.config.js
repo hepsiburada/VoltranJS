@@ -67,6 +67,31 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
         },
       },
       {
+        test: /\.css$/,
+        use: [
+          isDebug
+            ? {
+              loader: "style-loader",
+              options: {
+                injectType: "singletonStyleTag"
+              }
+            }
+            : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: false,
+              importLoaders: 1,
+              sourceMap: isDebug
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: postCssConfig
+          }
+        ]
+      },
+      {
         test: /\.scss$/,
         use: [
           {
@@ -132,7 +157,7 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
 
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[id].css',
+      chunkFilename: "[id]-[contenthash].css"
     }),
 
     ...(isDebug ? [new webpack.HotModuleReplacementPlugin()] : [])
