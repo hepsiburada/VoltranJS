@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const {merge} = require('webpack-merge');
 const nodeExternals = require('webpack-node-externals');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 const env = process.env.VOLTRAN_ENV || 'local';
 
@@ -65,8 +67,36 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
         },
       },
       {
+        test: /\.css$/,
+        use: [
+          isDebug
+            ? {
+              loader: "style-loader",
+              options: {
+                injectType: "singletonStyleTag"
+              }
+            }
+            : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              modules: false,
+              importLoaders: 1,
+              sourceMap: isDebug
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: postCssConfig
+          }
+        ]
+      },
+      {
         test: /\.scss$/,
         use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
           {
             loader: 'css-loader',
             options: {
@@ -75,31 +105,36 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
                   ? `${voltranConfig.prefix}-[name]-[hash:base64]`
                   : `${voltranConfig.prefix}-[path][name]__[local]`,
                 localIdentHashSalt: packageJson.name,
-                exportOnlyLocals: true,
               },
-              importLoaders: 1,
+              importLoaders: 2,
               sourceMap: isDebug,
-            }
+            },
           },
           {
             loader: 'postcss-loader',
-            options: postCssConfig
+            options: postCssConfig,
           },
           {
             loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+              sassOptions: {
+                outputStyle: 'compressed',
+              },
+            },
           },
           ...(voltranConfig.sassResources
             ? [
-              {
-                loader: 'sass-resources-loader',
-                options: {
-                  sourceMap: false,
-                  resources: voltranConfig.sassResources,
+                {
+                  loader: 'sass-resources-loader',
+                  options: {
+                    sourceMap: false,
+                    resources: voltranConfig.sassResources,
+                  },
                 },
-              },
-            ]
-            : [])
-        ]
+              ]
+            : []),
+        ],
       }
     ]
   },
@@ -118,6 +153,11 @@ const serverConfig = merge(commonConfig, voltranServerConfig, {
     new webpack.DefinePlugin({
       'process.env.BROWSER': false,
       __DEV__: isDebug,
+    }),
+
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: "[id]-[contenthash].css"
     }),
 
     ...(isDebug ? [new webpack.HotModuleReplacementPlugin()] : [])
