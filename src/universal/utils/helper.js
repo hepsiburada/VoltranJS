@@ -68,11 +68,18 @@ export function convertBase64(value, type) {
     }
 
     if (type === 'btoa') {
-      return Buffer.from(value, 'utf8').toString('base64');
+      if (!process.env.BROWSER) {
+        return Buffer.from(value, 'utf8').toString('base64');
+      }
+      return btoa(value);
     }
     if (type === 'atob') {
-      return Buffer.from(value, 'base64').toString('utf8');
+      if (!process.env.BROWSER) {
+        return Buffer.from(value, 'base64').toString('utf8');
+      }
+      return atob(value);
     }
+
     throw new Error("Type parameter must be 'atob' or 'btoa'.");
   } catch (error) {
     console.error('Error while converting:', error);
