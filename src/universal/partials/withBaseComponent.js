@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import ClientApp from '../components/ClientApp';
 import { WINDOW_GLOBAL_PARAMS } from '../utils/constants';
-import { createComponentName } from '../utils/helper';
+import { convertBase64, createComponentName } from '../utils/helper';
 import voltranConfig from '../../../voltran.config';
 import HistoryService from '../service/HistoryService';
 
@@ -42,7 +42,17 @@ const withBaseComponent = (PageComponent, pathName, wrapperEl) => {
       const initialState = fragments[id].STATE;
       const Wrapper = wrapperEl;
       const pageComponent = (
-        <PageComponent {...staticProps} initialState={initialState} history={history} />
+        <PageComponent
+          {...staticProps}
+          initialState={{
+            ...initialState,
+            location: {
+              ...initialState?.location,
+              url: convertBase64(initialState?.location?.url, 'atob')
+            }
+          }}
+          history={history}
+        />
       );
 
       ReactDOM.hydrate(

@@ -13,8 +13,8 @@ import {
 import Component from './universal/model/Component';
 import logger from './universal/utils/logger';
 import omit from './universal/utils/lodash/omit';
-
 import { getPreviewFile } from './universal/utils/previewHelper';
+import { convertBase64 } from './universal/utils/helper';
 
 const appConfig = require('__APP_CONFIG__');
 
@@ -35,9 +35,12 @@ const render = async (req, res) => {
       path: xss(path),
       query: JSON.parse(xss(JSON.stringify(req.query))),
       cookies: xss(JSON.stringify(req.cookies)),
-      url: xss(req.url)
-        .replace(componentPath, '/')
-        .replace('//', '/'),
+      url: convertBase64(
+        xss(req.url)
+          .replace(componentPath, '/')
+          .replace('//', '/'),
+        'btoa'
+      ),
       userAgent: Buffer.from(req.headers['user-agent'] || [], 'utf-8').toString('base64'),
       headers: JSON.parse(xss(JSON.stringify(req.headers))),
       isWithoutState: isWithoutStateValue,

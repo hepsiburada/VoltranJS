@@ -60,3 +60,22 @@ export function s4() {
     .toString(16)
     .substring(1);
 }
+
+export function convertBase64(value, type) {
+  try {
+    if (typeof value !== 'string') {
+      throw new Error('Value parameter must be string.');
+    }
+
+    if (type === 'btoa') {
+      return Buffer.from(value, 'utf8').toString('base64');
+    }
+    if (type === 'atob') {
+      return Buffer.from(value, 'base64').toString('utf8');
+    }
+    throw new Error("Type parameter must be 'atob' or 'btoa'.");
+  } catch (error) {
+    console.error('Error while converting:', error);
+    return null;
+  }
+}

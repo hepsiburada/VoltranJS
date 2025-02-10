@@ -13,6 +13,7 @@ import metrics from './metrics';
 import { HTTP_STATUS_CODES } from './universal/utils/constants';
 import logger from './universal/utils/logger';
 import { getPreviewFile } from './universal/utils/previewHelper';
+import { convertBase64 } from './universal/utils/helper';
 
 const appConfig = require('__APP_CONFIG__');
 
@@ -44,7 +45,7 @@ function getRenderer(name, req) {
       path,
       query,
       cookies,
-      url: urlWithPath,
+      url: convertBase64(urlWithPath, 'btoa'),
       userAgent,
       headers,
       componentPath: fullComponentPath,
@@ -139,10 +140,11 @@ async function setInitialStates(renderers) {
                   callback(
                     {
                       error: new Error(`${winner.uri} : ${exception.message}`),
-                      statusCode: exception?.response?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
+                      statusCode:
+                        exception?.response?.status || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR
                     },
-                     null
-                    );
+                    null
+                  );
                 }
               });
           };
