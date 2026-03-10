@@ -107,12 +107,17 @@ const handleUrls = async (req, res, next) => {
 const cors = async (req, res, next) => {
   const { corsWhiteListDomains } = voltranConfig;
   const { origin } = req.headers;
-  if (origin && corsWhiteListDomains?.map(domain => domain?.includes(origin))) {
+  const isAllowed = origin
+    && corsWhiteListDomains?.some(domain =>
+      origin === domain
+      || origin.endsWith('.' + domain)
+      || origin.endsWith('://' + domain)
+    );
+  if (isAllowed) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-  } else {
-    res.setHeader('Access-Control-Allow-Origin', '*');
   }
+
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, HEAD, OPTIONS');
 
   if (req.method === 'OPTIONS') {
