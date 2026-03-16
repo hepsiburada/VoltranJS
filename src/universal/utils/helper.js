@@ -18,3 +18,5 @@ export function s4() {
     .toString(16)
     .substring(1);
 }
+
+export const sanitizeId = id => String(id).replace(/[^a-zA-Z0-9-_]/g, '');
