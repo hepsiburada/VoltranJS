@@ -1,6 +1,6 @@
 {
   "name": "voltranjs",
-  "version": "1.1.13",
+  "version": "1.1.14-alpha.1",
   "main": "src/index.js",
   "author": "Hepsiburada Technology Team",
   "bin": {
@@ -109,7 +109,6 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
     "jest": "^26.6.3",
-
     "sass-resources-loader": "^2.2.5"
   },
   "scripts": {
