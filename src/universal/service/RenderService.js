@@ -46,9 +46,9 @@ const renderLinksAndScripts = (html, links, scripts) => {
 };
 
 const renderHtml = (component, initialState, context) => {
-  // eslint-disable-next-line no-param-reassign
   component.id = guid();
-  const initialStateWithLocation = { ...initialState, location: context, id: component.id };
+  const { cookies: _cookies, ...locationContext } = context;
+  const initialStateWithLocation = { ...initialState, location: locationContext, id: component.id };
   const sheet = new ServerStyleSheet();
 
   if (isWithoutHTML(context.query)) {

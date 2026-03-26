@@ -1,11 +1,25 @@
 # Changelog
 
-## [1.1.10](https://github.com/hepsiburada/VoltranJS/compare/1.1.6...1.1.10)
+## [v1.1.14-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.13...v1.1.14-alpha.1)
 
 ### Commits
 
+- fix: jwt reflection [`9d2ad4e`](https://github.com/hepsiburada/VoltranJS/commit/9d2ad4e34cff792de3976a6a3b21cef7ee03d7d9)
+
+## [v1.1.13](https://github.com/hepsiburada/VoltranJS/compare/1.1.6...v1.1.13) - 2026-03-25
+
+### Merged
+
+- fix: sanitize initialState id to prevent XSS [`#60`](https://github.com/hepsiburada/VoltranJS/pull/60)
+- feat: replaced node-sass with sass package [`#57`](https://github.com/hepsiburada/VoltranJS/pull/57)
+
+### Commits
+
+- chore: update changelog [`c3fba20`](https://github.com/hepsiburada/VoltranJS/commit/c3fba20bfe095dabd89ccbd13feab7aa8e2d64f4)
 - feat: cors policy added [`b00e710`](https://github.com/hepsiburada/VoltranJS/commit/b00e710a4dea603ccf017da0cf9c18910c6a9e9d)
 - feat: preview mode env control [`0999ad8`](https://github.com/hepsiburada/VoltranJS/commit/0999ad8d279f697a3ccf556ad5fe255ec89fadb7)
+- feat: version upgrade 1.1.12 to 1.1.13 [`a5725a2`](https://github.com/hepsiburada/VoltranJS/commit/a5725a2a62a3ac797c5739b649602d3643e7b128)
+- fix: update package version [`4234b33`](https://github.com/hepsiburada/VoltranJS/commit/4234b33c6e67e9d55283e32f9410be7786564ed2)
 - feat: update version [`d631a88`](https://github.com/hepsiburada/VoltranJS/commit/d631a885957fb5e0b481b53e42e3a878316be717)
 - feat: change cors policy [`216a339`](https://github.com/hepsiburada/VoltranJS/commit/216a339308b05ab25df70f62e6f12c1295c457ca)
 
