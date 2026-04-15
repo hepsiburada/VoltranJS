@@ -1,6 +1,8 @@
 # Changelog
 
-## [v1.1.15-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.14...v1.1.15-alpha.1)
+## [v1.1.15-alpha.2](https://github.com/hepsiburada/VoltranJS/compare/v1.1.15-alpha.1...v1.1.15-alpha.2)
+
+## [v1.1.15-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.14...v1.1.15-alpha.1) - 2026-04-15
 
 ### Commits
 
