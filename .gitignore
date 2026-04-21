@@ -29,6 +29,5 @@ src/universal/assets.json
 src/universal/appConfig.js
 
 package-lock.json
-yarn.lock
 demo
 voltran.config.js

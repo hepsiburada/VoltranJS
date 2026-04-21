@@ -127,7 +127,7 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
             loader: 'css-loader',
             options: {
               modules: false,
-              importLoaders: 1,
+              importLoaders: 2,
               sourceMap: isDebug
             }
           },
@@ -164,7 +164,13 @@ const clientConfig = merge(commonConfig, voltranClientConfig, {
             options: postCssConfig
           },
           {
-            loader: 'sass-loader'
+            loader: "sass-loader",
+            options: {
+              implementation: require("sass"),
+              sassOptions: {
+                outputStyle: "compressed"
+              }
+            }
           },
           ...(voltranConfig.sassResources
             ? [
