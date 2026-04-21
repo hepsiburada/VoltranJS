@@ -86,3 +86,5 @@ export function convertBase64(value, type) {
     return null;
   }
 }
+
+export const sanitizeId = id => String(id).replace(/[^a-zA-Z0-9-_]/g, '');

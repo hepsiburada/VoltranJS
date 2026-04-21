@@ -19,9 +19,10 @@ const renderLinksAndScripts = (html, links, scripts) => {
 const renderHtml = ({ component, initialState, context, extraPropKeys }) => {
   // eslint-disable-next-line no-param-reassign
   component.id = guid();
+  const { cookies: _cookies, ...locationContext } = context;
   const initialStateWithLocation = {
     ...initialState,
-    location: context,
+    location: locationContext,
     id: component.id,
     ...extraPropKeys
   };

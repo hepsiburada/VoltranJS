@@ -1,4 +1,5 @@
 import voltranConfig from '../../../voltran.config';
+import { sanitizeId } from '../utils/helper';
 
 function generateInitialState(initialState, componentName) {
   const prefix = voltranConfig.prefix.toUpperCase();
@@ -8,7 +9,7 @@ function generateInitialState(initialState, componentName) {
   window.${prefix} = window.${prefix} || {};
 
   ${include} = Object.assign(${include} || {}, {
-    '${initialState.id}': {
+    '${sanitizeId(initialState.id)}': {
       'STATE': ${JSON.stringify(initialState).replace(new RegExp('</script>', 'g'), '<\\/script>')}
     }
   })`;
@@ -19,7 +20,9 @@ function cr(condition, ok, cancel) {
 }
 
 function componentClassName(componentName, context) {
-  return context.query && context.query.id ? `${componentName}_${context.query.id}` : componentName;
+  return context.query && context.query.id
+    ? `${componentName}_${sanitizeId(context.query.id)}`
+    : componentName;
 }
 
 function Html({
@@ -36,7 +39,7 @@ function Html({
       ${styleTags}
       <script type='text/javascript'>${generateInitialState(initialState, componentName)}</script>
       <div
-        id='${componentName.replace(/['"']+/g, '')}_${initialState.id}'
+        id='${componentName.replace(/['"']+/g, '')}_${sanitizeId(initialState.id)}'
         style="pointer-events: none;"
         class="${voltranConfig.prefix}-voltran-body voltran-body ${
     isMobileFragment ? 'mobile' : ''

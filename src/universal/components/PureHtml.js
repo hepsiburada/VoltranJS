@@ -1,4 +1,5 @@
 import voltranConfig from '../../../voltran.config';
+import { sanitizeId } from '../utils/helper';
 
 function generateInitialState(initialState, componentName) {
   const prefix = voltranConfig.prefix.toUpperCase();
@@ -8,7 +9,7 @@ function generateInitialState(initialState, componentName) {
     window.${prefix} = window.${prefix} || {};
     ${include} = {
       ...(${include} || {}),
-      '${initialState.id}': {
+      '${sanitizeId(initialState.id)}': {
         'STATE': ${JSON.stringify(initialState).replace(
           new RegExp('</script>', 'g'),
           '<\\/script>'
@@ -35,9 +36,7 @@ export default (resultPath, componentName, initialState) => {
   return `
     <div>
       <script type="text/javascript">${generateInitialState(initialState, componentName)}</script>
-      <div id='${componentName.replace(/['"']+/g, '')}_${
-    initialState.id
-  }' style="pointer-events: none;"></div>
+      <div id='${componentName.replace(/['"']+/g, '')}_${sanitizeId(initialState.id)}' style="pointer-events: none;"></div>
       <div>REPLACE_WITH_LINKS</div>
       <div>REPLACE_WITH_SCRIPTS</div>
     </div>
