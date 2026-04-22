@@ -1,6 +1,6 @@
 {
   "name": "voltranjs",
-  "version": "1.1.15-alpha.2",
+  "version": "1.1.15-alpha.4",
   "main": "src/index.js",
   "author": "Hepsiburada Technology Team",
   "bin": {
@@ -127,5 +127,11 @@
     "commitLimit": false,
     "template": "changelog-template.hbs",
     "package": true
+  },
+  "resolutions": {
+    "undici": "5.28.4",
+    "parse5-parser-stream": "6.0.1",
+    "cheerio": "1.0.0-rc.10",
+    "minimatch": "9.0.1"
   }
 }

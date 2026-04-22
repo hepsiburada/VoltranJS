@@ -20,3 +20,23 @@ export function s4() {
 }
 
 export const sanitizeId = id => String(id).replace(/[^a-zA-Z0-9-_]/g, '');
+
+export const sanitizeValues = (obj, keys = []) => {
+  if (!keys.length) return obj;
+
+  const traverse = node => {
+    if (Array.isArray(node)) return node.map(traverse);
+    if (node !== null && typeof node === 'object') {
+      return Object.entries(node).reduce((acc, [key, value]) => {
+        if (!keys.includes(key)) {
+          acc[key] = traverse(value);
+        }
+        return acc;
+      }, {});
+    }
+    return node;
+  };
+
+  return traverse(obj);
+};
+

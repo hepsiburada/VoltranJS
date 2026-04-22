@@ -7,7 +7,7 @@ import Html from '../components/Html';
 import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
-import { guid } from '../utils/helper';
+import { guid, sanitizeValues } from '../utils/helper';
 
 const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
@@ -48,7 +48,14 @@ const renderLinksAndScripts = (html, links, scripts) => {
 const renderHtml = (component, initialState, context) => {
   component.id = guid();
   const { cookies: _cookies, ...locationContext } = context;
-  const initialStateWithLocation = { ...initialState, location: locationContext, id: component.id };
+  const initialStateWithLocation = sanitizeValues(
+    {
+      ...initialState,
+      location: locationContext,
+      id: component.id
+    },
+    ['jwt']
+  );
   const sheet = new ServerStyleSheet();
 
   if (isWithoutHTML(context.query)) {
