@@ -7,7 +7,7 @@ import ConnectedApp from '../components/App';
 import Html from '../components/Html';
 import PureHtml, { generateLinks, generateScripts } from '../components/PureHtml';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
-import { guid } from '../utils/helper';
+import { guid, sanitizeValues } from '../utils/helper';
 import getStates from './getStates';
 
 const renderLinksAndScripts = (html, links, scripts) => {
@@ -20,12 +20,15 @@ const renderHtml = ({ component, initialState, context, extraPropKeys }) => {
   // eslint-disable-next-line no-param-reassign
   component.id = guid();
   const { cookies: _cookies, ...locationContext } = context;
-  const initialStateWithLocation = {
-    ...initialState,
-    location: locationContext,
-    id: component.id,
-    ...extraPropKeys
-  };
+  const initialStateWithLocation = sanitizeValues(
+    {
+      ...initialState,
+      location: locationContext,
+      id: component.id,
+      ...extraPropKeys
+    },
+    ['jwt']
+  );
   const sheet = new ServerStyleSheet();
 
   if (isWithoutHTML(context.query)) {
