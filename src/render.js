@@ -37,7 +37,8 @@ export default async (req, res) => {
         .replace(componentPath, '/')
         .replace('//', '/'),
       userAgent: Buffer.from(req.headers['user-agent'], 'utf-8').toString('base64'),
-      isWithoutState: isWithoutStateValue
+      isWithoutState: isWithoutStateValue,
+      headers: JSON.parse(xss(JSON.stringify(req.headers)))
     };
 
     const component = new Component(routeInfo.path);

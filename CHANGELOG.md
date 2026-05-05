@@ -1,6 +1,20 @@
 # Changelog
 
-## [v1.1.14-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.13...v1.1.14-alpha.1)
+## [v1.1.15-alpha.2](https://github.com/hepsiburada/VoltranJS/compare/v1.1.15-alpha.1...v1.1.15-alpha.2)
+
+## [v1.1.15-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.14...v1.1.15-alpha.1) - 2026-04-15
+
+### Commits
+
+- feat: add headers [`6b624a3`](https://github.com/hepsiburada/VoltranJS/commit/6b624a3fb547ad14f491c90a350ac1b6dac46c1d)
+
+## [v1.1.14](https://github.com/hepsiburada/VoltranJS/compare/v1.1.14-alpha.1...v1.1.14) - 2026-03-26
+
+### Merged
+
+- Fix/jwt reflection [`#61`](https://github.com/hepsiburada/VoltranJS/pull/61)
+
+## [v1.1.14-alpha.1](https://github.com/hepsiburada/VoltranJS/compare/v1.1.13...v1.1.14-alpha.1) - 2026-03-25
 
 ### Commits
 
