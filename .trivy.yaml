@@ -1,0 +1,12 @@
+scan:
+  skip-dirs:
+    - node_modules
+    - coverage
+    - dist
+    - .next
+
+vulnerability:
+  ignore-unfixed: false
+
+misconfiguration:
+  include-non-failures: false
