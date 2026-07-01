@@ -24,7 +24,19 @@ export const sanitizeId = id => String(id).replace(/[^a-zA-Z0-9-_]/g, '');
 export const sanitizeValues = (obj, keys = []) => {
   if (!keys.length) return obj;
 
+  const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // Removes `key=value` cookie pairs (e.g. `jwt=eyJ...`) embedded in string values.
+  const cookieRegexes = keys.map(key => new RegExp(`(^|;\\s*)${escapeRegExp(key)}=[^;]*`, 'gi'));
+
+  const sanitizeString = value => {
+    return cookieRegexes
+      .reduce((str, regex) => str.replace(regex, ''), value)
+      .replace(/^;\s*/, '')
+      .trim();
+  };
+
   const traverse = node => {
+    if (typeof node === 'string') return sanitizeString(node);
     if (Array.isArray(node)) return node.map(traverse);
     if (node !== null && typeof node === 'object') {
       return Object.entries(node).reduce((acc, [key, value]) => {
