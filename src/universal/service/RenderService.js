@@ -9,6 +9,8 @@ import ServerApiManagerCache from '../core/api/ServerApiManagerCache';
 import createBaseRenderHtmlProps from '../utils/baseRenderHtml';
 import { guid, sanitizeValues } from '../utils/helper';
 
+const appConfig = require('__APP_CONFIG__');
+
 const getStates = async (component, context, predefinedInitialState) => {
   const initialState = predefinedInitialState || { data: {} };
   let subComponentFiles = [];
@@ -48,13 +50,14 @@ const renderLinksAndScripts = (html, links, scripts) => {
 const renderHtml = (component, initialState, context) => {
   component.id = guid();
   const { cookies: _cookies, ...locationContext } = context;
+  const extraKeys = Array.isArray(appConfig.sanitizeKeys) ? appConfig.sanitizeKeys : [];
   const initialStateWithLocation = sanitizeValues(
     {
       ...initialState,
       location: locationContext,
       id: component.id
     },
-    ['jwt']
+    ['jwt', 'hpJwtToken'].concat(extraKeys)
   );
   const sheet = new ServerStyleSheet();
 
