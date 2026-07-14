@@ -1,6 +1,6 @@
 {
   "name": "voltranjs",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "main": "src/index.js",
   "author": "Hepsiburada Technology Team",
   "bin": {
@@ -82,6 +82,8 @@
     "react-router-dom": "5.1.2",
     "regenerator-runtime": "^0.13.9",
     "rimraf": "3.0.2",
+    "sass": "^1.82.0",
+    "sass-loader": "^16.0.4",
     "serve-static": "1.14.1",
     "source-map-support": "0.5.21",
     "string-replace-loader": "3.1.0",
@@ -98,8 +100,6 @@
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0",
     "whatwg-fetch": "2.0.4",
-    "sass": "^1.82.0",
-    "sass-loader": "^16.0.4",
     "xss": "^1.0.8"
   },
   "devDependencies": {
