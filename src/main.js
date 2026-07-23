@@ -1,4 +1,11 @@
 import os from 'os';
+
+// 2 thread per core. 8 core = 8 * 2 = 16 thread. 
+// This pool will be used by queue system (epoll, kqueue and iocp)
+// we need to check under load.
+// cluster?
+process.env.UV_THREADPOOL_SIZE = os.cpus().length
+
 import cluster from 'cluster';
 
 import logger from './universal/utils/logger';
